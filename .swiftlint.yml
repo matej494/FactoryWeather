@@ -1,0 +1,10 @@
+force_cast: warning
+line_length: 200
+
+disabled_rules:
+  - trailing_whitespace
+  - identifier_name
+  - unused_closure_parameter
+
+excluded:
+  - Pods
