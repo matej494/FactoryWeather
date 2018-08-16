@@ -9,8 +9,20 @@
 /* Begin PBXBuildFile section */
 		F3AC08DD490A5F4262B58C69 /* Pods_FactoryWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327CDBAB4C564A2B8C96DB0E /* Pods_FactoryWeather.framework */; };
 		F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54694D3212194ED00919F64 /* AppDelegate.swift */; };
-		F54694D6212194ED00919F64 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54694D5212194ED00919F64 /* ViewController.swift */; };
 		F54694DB212194EE00919F64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F54694DA212194EE00919F64 /* Assets.xcassets */; };
+		F55C5E662121A710001714FF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E652121A710001714FF /* HomeViewController.swift */; };
+		F55C5E6B2121A843001714FF /* UIView-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */; };
+		F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6C2121A8CC001714FF /* HomeView.swift */; };
+		F55C5E6F2121AAE8001714FF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6E2121AAE8001714FF /* HeaderView.swift */; };
+		F55C5E712121AFE3001714FF /* BodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E702121AFE3001714FF /* BodyView.swift */; };
+		F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E732121C17D001714FF /* TitleAndBodyView.swift */; };
+		F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */; };
+		F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E792122D415001714FF /* SearchTextField.swift */; };
+		F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */; };
+		F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */; };
+		F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8021255B7D001714FF /* HomeViewModel.swift */; };
+		F55C5E8321256495001714FF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8221256495001714FF /* Weather.swift */; };
+		F55C5E8621256700001714FF /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8521256700001714FF /* Unit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,9 +31,21 @@
 		CFA1E443EBB6665D81F7015A /* Pods-FactoryWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FactoryWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather.release.xcconfig"; sourceTree = "<group>"; };
 		F54694D0212194ED00919F64 /* FactoryWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FactoryWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54694D3212194ED00919F64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F54694D5212194ED00919F64 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F54694DA212194EE00919F64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F54694DF212194EE00919F64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F55C5E652121A710001714FF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView-FactoryWeather.swift"; sourceTree = "<group>"; };
+		F55C5E6C2121A8CC001714FF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F55C5E6E2121AAE8001714FF /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		F55C5E702121AFE3001714FF /* BodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyView.swift; sourceTree = "<group>"; };
+		F55C5E732121C17D001714FF /* TitleAndBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndBodyView.swift; sourceTree = "<group>"; };
+		F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionIconAndValueView.swift; sourceTree = "<group>"; };
+		F55C5E792122D415001714FF /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor-FactoryWeather.swift"; sourceTree = "<group>"; };
+		F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyWeatherCondition.swift; sourceTree = "<group>"; };
+		F55C5E8021255B7D001714FF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F55C5E8221256495001714FF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		F55C5E8521256700001714FF /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,12 +98,96 @@
 		F54694D2212194ED00919F64 /* FactoryWeather */ = {
 			isa = PBXGroup;
 			children = (
-				F54694D3212194ED00919F64 /* AppDelegate.swift */,
-				F54694D5212194ED00919F64 /* ViewController.swift */,
+				F55C5E672121A7DF001714FF /* App */,
+				F55C5E682121A7EA001714FF /* Common */,
 				F54694DA212194EE00919F64 /* Assets.xcassets */,
 				F54694DF212194EE00919F64 /* Info.plist */,
 			);
 			path = FactoryWeather;
+			sourceTree = "<group>";
+		};
+		F55C5E642121A6F9001714FF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E652121A710001714FF /* HomeViewController.swift */,
+				F55C5E6C2121A8CC001714FF /* HomeView.swift */,
+				F55C5E8821259C4C001714FF /* Accessory Views */,
+				F55C5E8721259C17001714FF /* ViewModels */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		F55C5E672121A7DF001714FF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F54694D3212194ED00919F64 /* AppDelegate.swift */,
+				F55C5E642121A6F9001714FF /* Home */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F55C5E682121A7EA001714FF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E722121C0E1001714FF /* UI */,
+				F55C5E692121A814001714FF /* Extensions */,
+				F55C5E7D21231C93001714FF /* Utilities */,
+				F55C5E842125649A001714FF /* Models */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		F55C5E692121A814001714FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */,
+				F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F55C5E722121C0E1001714FF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E792122D415001714FF /* SearchTextField.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F55C5E7D21231C93001714FF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */,
+				F55C5E8521256700001714FF /* Unit.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F55C5E842125649A001714FF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E8221256495001714FF /* Weather.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F55C5E8721259C17001714FF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E8021255B7D001714FF /* HomeViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F55C5E8821259C4C001714FF /* Accessory Views */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E6E2121AAE8001714FF /* HeaderView.swift */,
+				F55C5E702121AFE3001714FF /* BodyView.swift */,
+				F55C5E732121C17D001714FF /* TitleAndBodyView.swift */,
+				F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */,
+			);
+			path = "Accessory Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +314,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F54694D6212194ED00919F64 /* ViewController.swift in Sources */,
+				F55C5E6F2121AAE8001714FF /* HeaderView.swift in Sources */,
 				F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */,
+				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
+				F55C5E8621256700001714FF /* Unit.swift in Sources */,
+				F55C5E712121AFE3001714FF /* BodyView.swift in Sources */,
+				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
+				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
+				F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */,
+				F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */,
+				F55C5E8321256495001714FF /* Weather.swift in Sources */,
+				F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */,
+				F55C5E6B2121A843001714FF /* UIView-FactoryWeather.swift in Sources */,
+				F55C5E662121A710001714FF /* HomeViewController.swift in Sources */,
+				F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
