@@ -36,7 +36,7 @@ struct HomeViewModel {
         humidity = unit.humidity(value: data.humidity)
         windSpeed = unit.windSpeed(imperialValue: data.windSpeed)
         pressure = unit.pressure(value: data.pressure)
-        cityName = data.location
+        cityName = data.locationName
         summary = data.summary
         skyGradient = SkyWeatherCondition.forIcon(data.icon).gradient
         headerImage = UIImage(named: "header_image-\(data.icon)") ?? #imageLiteral(resourceName: "header_image-clear-day")

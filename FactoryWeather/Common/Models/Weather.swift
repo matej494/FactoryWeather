@@ -9,7 +9,7 @@
 import Foundation
 
 struct Weather {
-    var location: String
+    var locationName: String
     var temperature: Float
     var summary: String
     var icon: String
@@ -18,4 +18,16 @@ struct Weather {
     var pressure: Float
     var temperatureLow: Float
     var temperatureHigh: Float
+    
+    init(forecast: Forecast) {
+        locationName = "Osijek" // NOTE: Dummy data. Will be replaced when searching is implemented.
+        temperature = forecast.currently.temperature
+        summary = forecast.currently.summary
+        icon = forecast.currently.icon
+        humidity = forecast.currently.humidity
+        windSpeed = forecast.currently.windSpeed
+        pressure = forecast.currently.pressure
+        temperatureLow = forecast.daily.data[0].temperatureLow
+        temperatureHigh = forecast.daily.data[0].temperatureHigh
+    }
 }

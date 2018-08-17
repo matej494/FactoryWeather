@@ -14,20 +14,14 @@ class HomeViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         setupView()
-        // NOTE: Dummy data. Will be replaced when network is implemented.
-        homeView.updateProperties(withData: HomeViewModel(weatherData: Weather(location: "London",
-                                                                               temperature: 66.1,
-                                                                               summary: "Drizzle",
-                                                                               icon: "rain",
-                                                                               humidity: 0.83,
-                                                                               windSpeed: 5.59,
-                                                                               pressure: 1010.34,
-                                                                               temperatureLow: 41.28,
-                                                                               temperatureHigh: 66.35),
-                                                          unit: .metric,
-                                                          visibleConditions: HomeViewModel.VisibleConditions(humidity: true,
-                                                                                                             windSpeed: true,
-                                                                                                             pressure: false)))
+        // NOTE: Fixed location data. Will be replaced when searching is implemented.
+        DarkSkyApiManager.getForecast(forLocation: Location(latitude: 45.5550, longitude: 18.6955),
+                                      success: { [weak self] weather in
+                                        self?.homeView.updateProperties(withData: HomeViewModel(weatherData: weather,
+                                                                                                unit: .metric,
+                                                                                                visibleConditions: HomeViewModel.VisibleConditions(humidity: true, windSpeed: true, pressure: true))) },
+                                      failure: { error in
+                                        print(error.localizedDescription) })
     }
     
     required init?(coder aDecoder: NSCoder) {
