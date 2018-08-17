@@ -42,7 +42,7 @@ private extension TitleAndBodyView {
     }
     
     func setupTitleLabel() {
-        titleLabel.font = .systemFont(ofSize: titleFontSize)  // TODO: Implement Gotham Rounded Style
+        titleLabel.font = .gothamRounded(type: .light, ofSize: titleFontSize)
         titleLabel.textColor = .white
         titleLabel.textAlignment = .center
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
@@ -54,7 +54,7 @@ private extension TitleAndBodyView {
     }
     
     func setupBodyLabel() {
-        bodyLabel.font = .systemFont(ofSize: bodyFontSize)    // TODO: Implement Gotham Rounded Style
+        bodyLabel.font = .gothamRounded(type: .light, ofSize: bodyFontSize)
         bodyLabel.textColor = .white
         bodyLabel.textAlignment = .center
         bodyLabel.setContentHuggingPriority(.required, for: .vertical)

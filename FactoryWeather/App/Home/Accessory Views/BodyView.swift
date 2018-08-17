@@ -99,7 +99,7 @@ private extension BodyView {
     }
     
     func setupCityLabel() {
-        cityLabel.font = .systemFont(ofSize: 36)    // TODO: Implement Gotham Rounded Style
+        cityLabel.font = .gothamRounded(type: .book, ofSize: 36)
         cityLabel.textColor = .white
         cityLabel.textAlignment = .center
         mainStackView.addArrangedSubview(cityLabel)

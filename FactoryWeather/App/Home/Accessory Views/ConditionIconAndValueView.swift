@@ -39,7 +39,7 @@ private extension ConditionIconAndValueView {
     }
 
     func setupValueLabel() {
-        valueLabel.font = .systemFont(ofSize: valueFontSize) // TODO: Implement Gotham Rounded Style
+        valueLabel.font = .gothamRounded(type: .light, ofSize: valueFontSize)
         valueLabel.textColor = .white
         valueLabel.textAlignment = .center
         addSubview(valueLabel)
