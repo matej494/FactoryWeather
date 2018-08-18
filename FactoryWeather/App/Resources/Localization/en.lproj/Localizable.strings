@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  FactoryWeather
+
+  Created by Matej Korman on 18/08/2018.
+  Copyright © 2018 Matej Korman. All rights reserved.
+*/
+
+/* Home */
+"home_low_temperature_description_label" = "Low";
+"home_high_temperature_description_label" = "High";
+
+/* Common */
+"search_text_field_placeholder" = "Search";
+
+/* DarkSkyApiManagerError */
+"network_manager_url_creation_failure" = "Error creating URL.";
+"network_manager_data_unwrapping_failure" = "Error unwrapping data.";
+"network_manager_parsing_data_failure" = "Error parsing data.";

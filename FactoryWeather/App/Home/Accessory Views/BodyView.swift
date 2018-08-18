@@ -128,7 +128,7 @@ private extension BodyView {
     func setupLowTemperatureView() {
         lowTemperatureView.titleFontSize = 24
         lowTemperatureView.bodyFontSize = 20
-        lowTemperatureView.bodyText = "Low" // TODO: Localize
+        lowTemperatureView.bodyText = LocalizationKey.Home.lowTemperatureDescriptionLabel.localized()
         temperaturesView.addSubview(lowTemperatureView)
         lowTemperatureView.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
@@ -139,7 +139,7 @@ private extension BodyView {
     func setupHighTemperatureView() {
         highTemperatureView.titleFontSize = 24
         highTemperatureView.bodyFontSize = 20
-        highTemperatureView.bodyText = "High"   // TODO: Localize
+        highTemperatureView.bodyText = LocalizationKey.Home.highTemperatureDescriptionLabel.localized()
         temperaturesView.addSubview(highTemperatureView)
         highTemperatureView.snp.makeConstraints {
             $0.top.trailing.bottom.equalToSuperview()

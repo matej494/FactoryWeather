@@ -33,6 +33,9 @@
 		F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */; };
 		F5C9FF6321281FC7000956FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF6121281FC7000956FB /* Location.swift */; };
 		F5C9FF6421281FC7000956FB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF6221281FC7000956FB /* Forecast.swift */; };
+		F5C9FF74212826F2000956FB /* LocalizationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF73212826F2000956FB /* LocalizationKey.swift */; };
+		F5C9FF7A21282754000956FB /* String-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF7921282754000956FB /* String-FactoryWeather.swift */; };
+		F5C9FF7B21282798000956FB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF7D21282798000956FB /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +69,9 @@
 		F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApi.swift; sourceTree = "<group>"; };
 		F5C9FF6121281FC7000956FB /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		F5C9FF6221281FC7000956FB /* Forecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		F5C9FF73212826F2000956FB /* LocalizationKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationKey.swift; sourceTree = "<group>"; };
+		F5C9FF7921282754000956FB /* String-FactoryWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String-FactoryWeather.swift"; sourceTree = "<group>"; };
+		F5C9FF7C21282798000956FB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +126,7 @@
 			children = (
 				F55C5E672121A7DF001714FF /* App */,
 				F55C5E682121A7EA001714FF /* Common */,
+				F5C9FF7821282717000956FB /* Resources */,
 				F54694DA212194EE00919F64 /* Assets.xcassets */,
 				F54694DF212194EE00919F64 /* Info.plist */,
 			);
@@ -149,6 +156,7 @@
 		F55C5E682121A7EA001714FF /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				F5C9FF72212826F2000956FB /* Localization */,
 				F55C5E722121C0E1001714FF /* UI */,
 				F55C5E692121A814001714FF /* Extensions */,
 				F55C5E7D21231C93001714FF /* Utilities */,
@@ -162,6 +170,7 @@
 		F55C5E692121A814001714FF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F5C9FF7921282754000956FB /* String-FactoryWeather.swift */,
 				F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */,
 				F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */,
 				F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */,
@@ -236,6 +245,33 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		F5C9FF72212826F2000956FB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				F5C9FF73212826F2000956FB /* LocalizationKey.swift */,
+			);
+			name = Localization;
+			path = FactoryWeather/Common/Localization;
+			sourceTree = SOURCE_ROOT;
+		};
+		F5C9FF752128270F000956FB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				F5C9FF7D21282798000956FB /* Localizable.strings */,
+			);
+			name = Localization;
+			path = FactoryWeather/App/Resources/Localization;
+			sourceTree = SOURCE_ROOT;
+		};
+		F5C9FF7821282717000956FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F5C9FF752128270F000956FB /* Localization */,
+			);
+			name = Resources;
+			path = App/Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -298,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5C9FF5321270530000956FB /* gothamrounded-light.otf in Resources */,
+				F5C9FF7B21282798000956FB /* Localizable.strings in Resources */,
 				F5C9FF522127052D000956FB /* gothamrounded-book.otf in Resources */,
 				F54694DB212194EE00919F64 /* Assets.xcassets in Resources */,
 			);
@@ -362,7 +399,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5C9FF74212826F2000956FB /* LocalizationKey.swift in Sources */,
 				F55C5E6F2121AAE8001714FF /* HeaderView.swift in Sources */,
+				F5C9FF7A21282754000956FB /* String-FactoryWeather.swift in Sources */,
 				F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */,
 				F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */,
 				F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */,
@@ -388,6 +427,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F5C9FF7D21282798000956FB /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F5C9FF7C21282798000956FB /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F54694E0212194EE00919F64 /* Debug */ = {
