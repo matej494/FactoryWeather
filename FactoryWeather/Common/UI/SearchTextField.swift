@@ -35,7 +35,7 @@ class SearchTextField: UITextField {
 
 private extension SearchTextField {
     func setupProperties() {
-        placeholder = "Search" // TODO: Localize
+        placeholder = LocalizationKey.Common.searchTextFieldPlaceholder.localized()
         backgroundColor = .white
         rightViewMode = .always
         rightView = UIImageView(image: #imageLiteral(resourceName: "search_icon"))

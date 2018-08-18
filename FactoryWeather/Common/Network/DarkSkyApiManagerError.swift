@@ -10,18 +10,18 @@ import Foundation
 
 enum DarkSkyApiManagerError: LocalizedError {
     case urlCreationFailure
-    case dataUnwrapingFailure
+    case dataUnwrappingFailure
     case parsingDataFailure
     case generic(Error)
     
     var errorDescription: String? {
         switch self {
         case .urlCreationFailure:
-            return "Url creation failure."   // TODO: Localize
-        case .dataUnwrapingFailure:
-            return "Data unwraping failure."    // TODO: Localize
+            return LocalizationKey.DarkSkyApiManagerError.urlCreationFailure.localized()
+        case .dataUnwrappingFailure:
+            return LocalizationKey.DarkSkyApiManagerError.dataUnwrappingFailure.localized()
         case .parsingDataFailure:
-            return "Parsing data failure."  // TODO: Localize
+            return LocalizationKey.DarkSkyApiManagerError.parsingDataFailure.localized()
         case .generic(let error):
             return error.localizedDescription
         }
