@@ -27,6 +27,12 @@
 		F5C9FF5321270530000956FB /* gothamrounded-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF5021270375000956FB /* gothamrounded-light.otf */; };
 		F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */; };
 		F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF56212706C0000956FB /* GothamFont.swift */; };
+		F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */; };
+		F5C9FF5E21281FB2000956FB /* DarkSkyApiManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */; };
+		F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */; };
+		F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */; };
+		F5C9FF6321281FC7000956FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF6121281FC7000956FB /* Location.swift */; };
+		F5C9FF6421281FC7000956FB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF6221281FC7000956FB /* Forecast.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +60,12 @@
 		F5C9FF5121270375000956FB /* gothamrounded-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gothamrounded-book.otf"; sourceTree = "<group>"; };
 		F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont-FactoryWeather.swift"; sourceTree = "<group>"; };
 		F5C9FF56212706C0000956FB /* GothamFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GothamFont.swift; sourceTree = "<group>"; };
+		F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
+		F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApiManagerError.swift; sourceTree = "<group>"; };
+		F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApiManager.swift; sourceTree = "<group>"; };
+		F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApi.swift; sourceTree = "<group>"; };
+		F5C9FF6121281FC7000956FB /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		F5C9FF6221281FC7000956FB /* Forecast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +152,7 @@
 				F55C5E722121C0E1001714FF /* UI */,
 				F55C5E692121A814001714FF /* Extensions */,
 				F55C5E7D21231C93001714FF /* Utilities */,
+				F5C9FF5821281FB2000956FB /* Network */,
 				F55C5E842125649A001714FF /* Models */,
 				F5C9FF4F2127032D000956FB /* Fonts */,
 			);
@@ -177,6 +190,8 @@
 		F55C5E842125649A001714FF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F5C9FF6221281FC7000956FB /* Forecast.swift */,
+				F5C9FF6121281FC7000956FB /* Location.swift */,
 				F55C5E8221256495001714FF /* Weather.swift */,
 			);
 			path = Models;
@@ -208,6 +223,17 @@
 				F5C9FF5021270375000956FB /* gothamrounded-light.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F5C9FF5821281FB2000956FB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */,
+				F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */,
+				F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */,
+				F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -338,19 +364,25 @@
 			files = (
 				F55C5E6F2121AAE8001714FF /* HeaderView.swift in Sources */,
 				F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */,
+				F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */,
 				F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */,
 				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
 				F55C5E8621256700001714FF /* Unit.swift in Sources */,
 				F55C5E712121AFE3001714FF /* BodyView.swift in Sources */,
+				F5C9FF5E21281FB2000956FB /* DarkSkyApiManagerError.swift in Sources */,
 				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
+				F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */,
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
+				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,
+				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */,
 				F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */,
 				F55C5E8321256495001714FF /* Weather.swift in Sources */,
 				F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */,
 				F55C5E6B2121A843001714FF /* UIView-FactoryWeather.swift in Sources */,
 				F55C5E662121A710001714FF /* HomeViewController.swift in Sources */,
+				F5C9FF6421281FC7000956FB /* Forecast.swift in Sources */,
 				F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
