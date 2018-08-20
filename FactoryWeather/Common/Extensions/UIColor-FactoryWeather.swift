@@ -52,4 +52,28 @@ extension UIColor {
     static var fogSkyBottom: UIColor {
         return daySkyBottom
     }
+    
+    static var factoryGreen: UIColor {
+        return UIColor(red: 109, green: 161, blue: 51)
+    }
+    
+    static var factoryYellow: UIColor {
+        return UIColor(red: 248, green: 231, blue: 28)
+    }
+    
+    static var factoryGray: UIColor {
+        return UIColor(red: 216, green: 216, blue: 216)
+    }
+    
+    static var factoryDeepGreen: UIColor {
+        return UIColor(red: 65, green: 117, blue: 5)
+    }
+    
+    static var factoryLightBlue: UIColor {
+        return UIColor(red: 208, green: 223, blue: 239)
+    }
+    
+    static var factoryPaleCyan: UIColor {
+        return UIColor(red: 171, green: 177, blue: 208)
+    }
 }

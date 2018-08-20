@@ -9,6 +9,12 @@
 import Foundation
 
 struct Location {
+    let name: String
+    let country: String
     let latitude: Double
     let longitude: Double
+    
+    var fullName: String {
+        return name + ", " + country
+    }
 }
