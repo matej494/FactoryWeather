@@ -11,22 +11,22 @@ import Foundation
 struct DarkSkyApiManager {
     static func getForecast(forLocation location: Location, success: @escaping (Weather) -> Void, failure: @escaping (LocalizedError) -> Void) {
         guard let url = createUrl(forLocation: location)
-            else { return DispatchQueue.main.async { failure(NetworkManagerError.urlCreationFailure) } }
+            else { return DispatchQueue.main.async { failure(DarkSkyApiManagerError.urlCreationFailure) } }
         var request = URLRequest(url: url)
         request.httpMethod = HTTPRequestMethod.get.rawValue
         let session = URLSession.shared
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
-                return DispatchQueue.main.async { failure(NetworkManagerError.generic(error)) }
+                return DispatchQueue.main.async { failure(DarkSkyApiManagerError.generic(error)) }
             }
             do {
                 guard let unwrappedData = data
-                    else { return DispatchQueue.main.async { failure(NetworkManagerError.dataUnwrappingFailure) } }
+                    else { return DispatchQueue.main.async { failure(DarkSkyApiManagerError.dataUnwrappingFailure) } }
                 let forecast = try JSONDecoder().decode(Forecast.self, from: unwrappedData)
                 let weather = Weather(forecast: forecast, locationName: location.name)
                 return DispatchQueue.main.async { success(weather) }
             } catch {
-                return DispatchQueue.main.async { failure(NetworkManagerError.parsingDataFailure) }
+                return DispatchQueue.main.async { failure(DarkSkyApiManagerError.parsingDataFailure) }
             }
         }
         task.resume()

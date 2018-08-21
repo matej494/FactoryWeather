@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         setupView()
-        // NOTE: Fixed location data.
+        // NOTE: Fixed location data. Will be replaced when searching is implemented.
         DarkSkyApiManager.getForecast(forLocation: Location(name: "Osijek", country: "CRO", latitude: 45.5550, longitude: 18.6955),
                                       success: { [weak self] weather in
                                         self?.homeView.updateProperties(withData: HomeViewModel(weatherData: weather,

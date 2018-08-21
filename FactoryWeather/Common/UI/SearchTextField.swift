@@ -9,13 +9,9 @@
 import UIKit
 
 class SearchTextField: UITextField {
-    var searchButtonTapped: ((String) -> Void)?
-    private let searchButton = UIButton.autolayoutView()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupProperties()
-        setupSearchButton()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,16 +38,7 @@ private extension SearchTextField {
         placeholder = LocalizationKey.Common.searchTextFieldPlaceholder.localized()
         backgroundColor = .white
         rightViewMode = .always
+        rightView = UIImageView(image: #imageLiteral(resourceName: "search_icon"))
         layer.cornerRadius = 17
-    }
-    
-    func setupSearchButton() {
-        searchButton.addTarget(self, action: #selector(searchButtonTouchDown), for: .touchDown)
-        searchButton.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
-        rightView = searchButton
-    }
-    
-    @objc func searchButtonTouchDown() {
-        searchButtonTapped?(text ?? "")
     }
 }
