@@ -109,6 +109,7 @@ private extension BodyView {
     
     func setupCityLabel() {
         cityLabel.font = .gothamRounded(type: .book, ofSize: 36)
+        cityLabel.numberOfLines = 3
         cityLabel.textColor = .white
         cityLabel.textAlignment = .center
         mainStackView.addArrangedSubview(cityLabel)
