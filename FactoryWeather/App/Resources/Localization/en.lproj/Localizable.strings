@@ -17,3 +17,7 @@
 "network_manager_url_creation_failure" = "Error creating URL.";
 "network_manager_data_unwrapping_failure" = "Error unwrapping data.";
 "network_manager_parsing_data_failure" = "Error parsing data.";
+
+/* Alerts */
+"error_alert_title" = "Something went wrong.";
+"ok_action_title" = "Ok";

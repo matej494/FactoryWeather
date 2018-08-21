@@ -19,8 +19,8 @@ struct Weather {
     var temperatureLow: Float
     var temperatureHigh: Float
     
-    init(forecast: Forecast) {
-        locationName = "Osijek" // NOTE: Dummy data. Will be replaced when searching is implemented.
+    init(forecast: Forecast, locationName: String) {
+        self.locationName = locationName
         temperature = forecast.currently.temperature
         summary = forecast.currently.summary
         icon = forecast.currently.icon
