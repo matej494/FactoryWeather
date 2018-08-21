@@ -23,13 +23,12 @@
 		F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8021255B7D001714FF /* HomeViewModel.swift */; };
 		F55C5E8321256495001714FF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8221256495001714FF /* Weather.swift */; };
 		F55C5E8621256700001714FF /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8521256700001714FF /* Unit.swift */; };
-		F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F1A212B0F89007AD67C /* GeoName.swift */; };
 		F5C9FF522127052D000956FB /* gothamrounded-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF5121270375000956FB /* gothamrounded-book.otf */; };
 		F5C9FF5321270530000956FB /* gothamrounded-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF5021270375000956FB /* gothamrounded-light.otf */; };
 		F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */; };
 		F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF56212706C0000956FB /* GothamFont.swift */; };
 		F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */; };
-		F5C9FF5E21281FB2000956FB /* NetworkManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5A21281FB2000956FB /* NetworkManagerError.swift */; };
+		F5C9FF5E21281FB2000956FB /* DarkSkyApiManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */; };
 		F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */; };
 		F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */; };
 		F5C9FF6321281FC7000956FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF6121281FC7000956FB /* Location.swift */; };
@@ -40,8 +39,6 @@
 		F5C9FF8021282D51000956FB /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF7F21282D51000956FB /* SearchViewController.swift */; };
 		F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF8121282D6E000956FB /* SearchView.swift */; };
 		F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */; };
-		F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E5541E212AF44E00A42490 /* GeoNamesApiManager.swift */; };
-		F5E55423212AF7B500A42490 /* GeoNamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E55422212AF7B500A42490 /* GeoNamesApi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,13 +62,12 @@
 		F55C5E8021255B7D001714FF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F55C5E8221256495001714FF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F55C5E8521256700001714FF /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
-		F5AF0F1A212B0F89007AD67C /* GeoName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoName.swift; sourceTree = "<group>"; };
 		F5C9FF5021270375000956FB /* gothamrounded-light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gothamrounded-light.otf"; sourceTree = "<group>"; };
 		F5C9FF5121270375000956FB /* gothamrounded-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gothamrounded-book.otf"; sourceTree = "<group>"; };
 		F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont-FactoryWeather.swift"; sourceTree = "<group>"; };
 		F5C9FF56212706C0000956FB /* GothamFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GothamFont.swift; sourceTree = "<group>"; };
 		F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestMethod.swift; sourceTree = "<group>"; };
-		F5C9FF5A21281FB2000956FB /* NetworkManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerError.swift; sourceTree = "<group>"; };
+		F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApiManagerError.swift; sourceTree = "<group>"; };
 		F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApiManager.swift; sourceTree = "<group>"; };
 		F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkSkyApi.swift; sourceTree = "<group>"; };
 		F5C9FF6121281FC7000956FB /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
@@ -82,8 +78,6 @@
 		F5C9FF7F21282D51000956FB /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F5C9FF8121282D6E000956FB /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
-		F5E5541E212AF44E00A42490 /* GeoNamesApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesApiManager.swift; sourceTree = "<group>"; };
-		F5E55422212AF7B500A42490 /* GeoNamesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesApi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,7 +209,6 @@
 				F5C9FF6221281FC7000956FB /* Forecast.swift */,
 				F5C9FF6121281FC7000956FB /* Location.swift */,
 				F55C5E8221256495001714FF /* Weather.swift */,
-				F5AF0F1A212B0F89007AD67C /* GeoName.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -251,10 +244,10 @@
 		F5C9FF5821281FB2000956FB /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				F5E55420212AF47200A42490 /* Dark Sky */,
-				F5E55421212AF48200A42490 /* Geo Names */,
 				F5C9FF5921281FB2000956FB /* HTTPRequestMethod.swift */,
-				F5C9FF5A21281FB2000956FB /* NetworkManagerError.swift */,
+				F5C9FF5A21281FB2000956FB /* DarkSkyApiManagerError.swift */,
+				F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */,
+				F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -302,24 +295,6 @@
 				F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */,
 			);
 			path = "Accessory Views";
-			sourceTree = "<group>";
-		};
-		F5E55420212AF47200A42490 /* Dark Sky */ = {
-			isa = PBXGroup;
-			children = (
-				F5C9FF5B21281FB2000956FB /* DarkSkyApiManager.swift */,
-				F5C9FF5C21281FB2000956FB /* DarkSkyApi.swift */,
-			);
-			path = "Dark Sky";
-			sourceTree = "<group>";
-		};
-		F5E55421212AF48200A42490 /* Geo Names */ = {
-			isa = PBXGroup;
-			children = (
-				F5E5541E212AF44E00A42490 /* GeoNamesApiManager.swift */,
-				F5E55422212AF7B500A42490 /* GeoNamesApi.swift */,
-			);
-			path = "Geo Names";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -456,16 +431,13 @@
 				F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */,
 				F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */,
 				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
-				F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */,
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
 				F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */,
 				F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */,
 				F55C5E8621256700001714FF /* Unit.swift in Sources */,
 				F55C5E712121AFE3001714FF /* BodyView.swift in Sources */,
-				F5C9FF5E21281FB2000956FB /* NetworkManagerError.swift in Sources */,
-				F5E55423212AF7B500A42490 /* GeoNamesApi.swift in Sources */,
+				F5C9FF5E21281FB2000956FB /* DarkSkyApiManagerError.swift in Sources */,
 				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
-				F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */,
 				F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */,
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
 				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,

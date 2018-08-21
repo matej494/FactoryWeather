@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NetworkManagerError: LocalizedError {
+enum DarkSkyApiManagerError: LocalizedError {
     case urlCreationFailure
     case dataUnwrappingFailure
     case parsingDataFailure

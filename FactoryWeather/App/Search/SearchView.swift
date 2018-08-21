@@ -9,13 +9,9 @@
 import SnapKit
 
 class SearchView: UIView {
-    var textFieldTextChanged: ((String) -> Void)?
+    var didChangeTextInTextField: ((String?) -> Void)?
     let dismissButton = UIButton(type: .roundedRect).autolayoutView()
     let tableView = UITableView.autolayoutView()
-    var searchButtonTapped: ((String) -> Void)? {
-        didSet { searchTextField.searchButtonTapped = searchButtonTapped }
-    }
-
     private var blurredView = UIVisualEffectView().autolayoutView()
     private let searchTextField = SearchTextField.autolayoutView()
     private let keyboardSizedView = UIView.autolayoutView()
@@ -68,7 +64,7 @@ private extension SearchView {
     }
     
     @objc func textFieldTextDidChange(notification: NSNotification) {
-        textFieldTextChanged?(searchTextField.text ?? "")
+        didChangeTextInTextField?(searchTextField.text)
     }
 }
 
