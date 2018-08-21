@@ -10,14 +10,10 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     var didSelectLocation: ((Weather) -> Void)?
-    // NOTE: Dummy data. Will be raplaced when network is implemented
-    private let locations = [Location(name: "London", country: "GB", latitude: 51.5074, longitude: 0.1278),
-                             Location(name: "Osijek", country: "CRO", latitude: 45.5550, longitude: 18.6955),
-                             Location(name: "East London", country: "SA", latitude: 33.0292, longitude: 27.8546),
-                             Location(name: "New London", country: "US", latitude: 41.3557, longitude: 72.0995),
-                             Location(name: "New York", country: "US", latitude: 40.7128, longitude: 74.0060)]
-    private lazy var filteredLocations = [Location]()
+    private var locations = [Location]()
+    private var filteredLocations = [Location]()
     private let searchView = SearchView.autolayoutView()
+    private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -48,13 +44,16 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        activityIndicatorView.startAnimating()
         DarkSkyApiManager.getForecast(forLocation: filteredLocations[indexPath.row],
                                       success: { [weak self] weather in
                                         self?.didSelectLocation?(weather)
+                                        self?.activityIndicatorView.stopAnimating()
                                         self?.dismiss(animated: true, completion: nil) },
                                       failure: { [weak self] error in
                                         let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle, message: error.localizedDescription, preferredStyle: .alert)
                                         alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle, style: .cancel, handler: nil))
+                                        self?.activityIndicatorView.stopAnimating()
                                         self?.present(alert, animated: true, completion: nil) })
     }
 }
@@ -71,14 +70,46 @@ private extension SearchViewController {
         searchView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
         searchView.tableView.dataSource = self
         searchView.tableView.delegate = self
-        searchView.didChangeTextInTextField = { [weak self] text in
-            guard let strongSelf = self,
-                let text = text
-                else { return }
-            strongSelf.filteredLocations = strongSelf.locations.filter({ $0.fullName.lowercased().contains(text.lowercased()) })
-            strongSelf.searchView.tableView.reloadData()
-        }
+        setupTextFieldTextChanged()
+        setupSearchButtonTapped()
         view.addSubview(searchView)
         searchView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
-    }    
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
+    }
+    
+    func setupTextFieldTextChanged() {
+        searchView.textFieldTextChanged = { [weak self] text in
+            self?.filterLocations(forText: text)
+        }
+    }
+    
+    func setupSearchButtonTapped() {
+        searchView.searchButtonTapped = { [weak self] text in
+            self?.activityIndicatorView.startAnimating()
+            GeoNamesApiManager.getLocations(forText: text,
+                                            success: { [weak self] locations in
+                                                self?.insertNewLocations(locations)
+                                                self?.filterLocations(forText: text)
+                                                self?.activityIndicatorView.stopAnimating() },
+                                            failure: { [weak self] error in
+                                                print(error.localizedDescription)
+                                                self?.activityIndicatorView.stopAnimating() })
+        }
+    }
+    
+    func insertNewLocations(_ newLocations: [Location]) {
+        var tempLocations = [Location]()
+        newLocations.forEach { location in
+            if !locations.contains(where: { $0.latitude == location.latitude && $0.longitude == location.longitude }) {
+                tempLocations.append(location)
+            }
+        }
+        locations.insert(contentsOf: tempLocations, at: 0)
+    }
+    
+    func filterLocations(forText text: String) {
+        filteredLocations = locations.filter({ $0.fullName.lowercased().contains(text.lowercased()) })
+        searchView.tableView.reloadData()
+    }
 }
