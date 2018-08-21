@@ -23,7 +23,7 @@ struct DarkSkyApiManager {
                 guard let unwrappedData = data
                     else { return DispatchQueue.main.async { failure(DarkSkyApiManagerError.dataUnwrappingFailure) } }
                 let forecast = try JSONDecoder().decode(Forecast.self, from: unwrappedData)
-                let weather = Weather(forecast: forecast)
+                let weather = Weather(forecast: forecast, locationName: location.name)
                 return DispatchQueue.main.async { success(weather) }
             } catch {
                 return DispatchQueue.main.async { failure(DarkSkyApiManagerError.parsingDataFailure) }

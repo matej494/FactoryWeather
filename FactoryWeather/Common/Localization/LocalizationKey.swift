@@ -23,4 +23,9 @@ struct LocalizationKey {
         static let dataUnwrappingFailure = "network_manager_data_unwrapping_failure"
         static let parsingDataFailure = "network_manager_parsing_data_failure"
     }
+
+    struct Alert {
+        static let errorAlertTitle = "error_alert_title"
+        static let okActionTitle = "ok_action_title"
+    }
 }

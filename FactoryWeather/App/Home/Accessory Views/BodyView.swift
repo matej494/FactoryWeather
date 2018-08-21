@@ -9,6 +9,8 @@
 import SnapKit
 
 class BodyView: UIView {
+    var didSelectSearchTextField: (() -> Void)?
+    
     private let mainStackView = UIStackView.autolayoutView()
     private let temperaturesView = UIView.autolayoutView()
     private let conditionsStackView = UIStackView.autolayoutView()
@@ -44,6 +46,13 @@ extension BodyView {
         windView.value = data.windSpeed
         pressureView.value = data.pressure
         updateConditions(visibleConditions: data.visibleConditions)
+    }
+}
+
+extension BodyView: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        didSelectSearchTextField?()
+        return false
     }
 }
 
@@ -183,6 +192,7 @@ private extension BodyView {
     }
     
     func setupSearchLabel() {
+        searchTextField.delegate = self
         searchTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         searchView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints {
