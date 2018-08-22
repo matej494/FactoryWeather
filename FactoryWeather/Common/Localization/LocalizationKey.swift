@@ -28,4 +28,13 @@ struct LocalizationKey {
         static let errorAlertTitle = "error_alert_title"
         static let okActionTitle = "ok_action_title"
     }
+    
+    struct Settings {
+        static let locationTableViewHeader = "settings_location_table_view_header"
+        static let unitTableViewHeader = "settings_unit_table_view_header"
+        static let conditionsTableViewHeader = "settings_conditions_table_view_header"
+        static let metricLabel = "settings_metric_label"
+        static let imperialLabel = "settings_imperial_label"
+        static let doneButtonTitle = "settings_done_button_title"
+    }
 }

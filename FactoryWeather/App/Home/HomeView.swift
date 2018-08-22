@@ -9,10 +9,12 @@
 import SnapKit
 
 class HomeView: UIView {
+    var didTapOnSettingsButton: (() -> Void)? {
+        didSet { bodyView.didTapOnSettingsButton = didTapOnSettingsButton }
+    }
+    
     var didSelectSearchTextField: (() -> Void)? {
-        didSet {
-            bodyView.didSelectSearchTextField = didSelectSearchTextField
-        }
+        didSet { bodyView.didSelectSearchTextField = didSelectSearchTextField }
     }
     
     private let skyView = UIView.autolayoutView()
