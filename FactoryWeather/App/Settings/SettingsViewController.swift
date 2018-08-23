@@ -9,12 +9,16 @@
 import SnapKit
 
 class SettingsViewController: UIViewController {
-    // NOTE: Dummy data.
-    let locations = ["London, GB", "London, CA", "East Lonodn, SA"]
-    let selectedUnit = [true, false]
+    var settingsChanged: ((Location, Weather) -> Void)?
+    private var selectedLocation: Location?
+    private let oldLocation: Location
+    private var locations = DataManager.getLocations()
+    private var settings = DataManager.getSettings()
     private let settingsView = SettingsView.autolayoutView()
+    private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     
-    init() {
+    init(location: Location) {
+        self.oldLocation = location
         super.init(nibName: nil, bundle: nil)
         setupView()
     }
@@ -30,6 +34,9 @@ extension SettingsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == SettingsSection.locations.rawValue {
+            return min(SettingsSection.locations.count, locations.count)
+        }
         guard let count = SettingsSection(rawValue: section)?.count
             else { return 0 }
         return count
@@ -39,23 +46,44 @@ extension SettingsViewController: UITableViewDataSource {
         if indexPath.section == SettingsSection.locations.rawValue {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell", for: indexPath) as? LocationTableViewCell
                 else { return UITableViewCell() }
-            cell.updateProperties(text: locations[indexPath.row])
+            cell.updateProperties(text: locations[indexPath.row].fullName)
+            cell.didTapOnButton = { [weak self] in
+                guard let strongSelf = self
+                    else { return }
+                DataManager.deleteLocation(strongSelf.locations[indexPath.row])
+                strongSelf.locations = DataManager.getLocations()
+                tableView.reloadSections([indexPath.section], with: .none)
+            }
             return cell
         } else if indexPath.section == SettingsSection.units.rawValue {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "UnitTableViewCell", for: indexPath) as? UnitTableViewCell
                 else { return UITableViewCell() }
-            cell.updateProperties(unitName: Unit.allNames[indexPath.row], isSelected: selectedUnit[indexPath.row])
+            cell.updateProperties(unitName: Unit(rawValue: indexPath.row)?.localizedName, isSelected: settings.unit == Unit(rawValue: indexPath.row))
+            cell.didTapOnButton = { [weak self] in
+                self?.settings.unit = Unit(rawValue: indexPath.row) ?? .metric
+                tableView.reloadSections([indexPath.section], with: .none)
+            }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConditionsTableViewCell", for: indexPath) as? ConditionsTableViewCell
                 else { return UITableViewCell() }
-            cell.updateProperties(humidityIsSelected: true, windIsSelected: true, pressureIsSelected: true)
+            cell.updateProperties(conditions: settings.conditions)
+            cell.didTapOnButton = { [weak self] condition in
+                self?.settings.conditions.toggle(condition: condition)
+                tableView.reloadSections([indexPath.section], with: .none)
+            }
             return cell
         }
     }
 }
 
 extension SettingsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == SettingsSection.locations.rawValue {
+            selectedLocation = locations[indexPath.row]
+        }
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let label = UILabel()
         label.textColor = .white
@@ -78,9 +106,31 @@ private extension SettingsViewController {
         settingsView.doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchDown)
         view.addSubview(settingsView)
         settingsView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }
     
     @objc func doneButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        activityIndicatorView.startAnimating()
+        guard selectedLocation != nil || settings != DataManager.getSettings()
+            else { return dismiss(animated: true, completion: nil) }
+        let location = selectedLocation ?? oldLocation
+        DarkSkyApiManager.getForecast(forLocation: location,
+                                      success: { [weak self] weather in
+                                        guard let strongSelf = self
+                                            else { return }
+                                        DataManager.saveSettings(strongSelf.settings)
+                                        strongSelf.settingsChanged?(location, weather)
+                                        strongSelf.activityIndicatorView.stopAnimating()
+                                        strongSelf.dismiss(animated: true, completion: nil) },
+                                      failure: { [weak self] error in
+                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.stayHereActionTitle.localized(), style: .cancel, handler: nil))
+                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.goBackActionTitle.localized(), style: .default) { [weak self] action in
+                                            self?.dismiss(animated: true, completion: nil)
+                                        })
+                                        self?.activityIndicatorView.stopAnimating()
+                                        self?.present(alert, animated: true, completion: nil)
+        })
     }
 }

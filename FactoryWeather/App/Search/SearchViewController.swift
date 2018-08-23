@@ -9,7 +9,7 @@
 import SnapKit
 
 class SearchViewController: UIViewController {
-    var didSelectLocation: ((Weather) -> Void)?
+    var didSelectLocation: ((Weather, Location) -> Void)?
     private var locations = [Location]()
     private var filteredLocations = [Location]()
     private let searchView = SearchView.autolayoutView()
@@ -45,16 +45,19 @@ extension SearchViewController: UITableViewDataSource {
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         activityIndicatorView.startAnimating()
-        DarkSkyApiManager.getForecast(forLocation: filteredLocations[indexPath.row],
+        let location = filteredLocations[indexPath.row]
+        DataManager.saveLocation(location)
+        DarkSkyApiManager.getForecast(forLocation: location,
                                       success: { [weak self] weather in
-                                        self?.didSelectLocation?(weather)
+                                        self?.didSelectLocation?(weather, location)
                                         self?.activityIndicatorView.stopAnimating()
                                         self?.dismiss(animated: true, completion: nil) },
                                       failure: { [weak self] error in
-                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle, message: error.localizedDescription, preferredStyle: .alert)
-                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle, style: .cancel, handler: nil))
+                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
+                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
                                         self?.activityIndicatorView.stopAnimating()
-                                        self?.present(alert, animated: true, completion: nil) })
+                                        self?.present(alert, animated: true, completion: nil)
+        })
     }
 }
 
@@ -94,7 +97,8 @@ private extension SearchViewController {
                                                 self?.activityIndicatorView.stopAnimating() },
                                             failure: { [weak self] error in
                                                 print(error.localizedDescription)
-                                                self?.activityIndicatorView.stopAnimating() })
+                                                self?.activityIndicatorView.stopAnimating()
+            })
         }
     }
     

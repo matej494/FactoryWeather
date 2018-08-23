@@ -9,6 +9,8 @@
 import SnapKit
 
 class ConditionsTableViewCell: UITableViewCell {
+    var didTapOnButton: ((Conditions) -> Void)?
+
     private let stackView = UIStackView.autolayoutView()
     private let humidityView = ConditionIconAndCheckBoxView.autolayoutView()
     private let windView = ConditionIconAndCheckBoxView.autolayoutView()
@@ -25,16 +27,31 @@ class ConditionsTableViewCell: UITableViewCell {
 }
 
 extension ConditionsTableViewCell {
-    func updateProperties(humidityIsSelected: Bool, windIsSelected: Bool, pressureIsSelected: Bool) {
-        humidityView.isSelected = humidityIsSelected
-        windView.isSelected = windIsSelected
-        pressureView.isSelected = pressureIsSelected
+    func updateProperties(conditions: Conditions) {
+        humidityView.isSelected = conditions.contains(.humidity)
+        windView.isSelected = conditions.contains(.windSpeed)
+        pressureView.isSelected = conditions.contains(.pressure)
+    }
+}
+
+private extension ConditionsTableViewCell {
+    @objc func tappedOnHumidityButton() {
+        didTapOnButton?(Conditions.humidity)
+    }
+    
+    @objc func tappedOnWindButton() {
+        didTapOnButton?(Conditions.windSpeed)
+    }
+    
+    @objc func tappedOnPressureButton() {
+        didTapOnButton?(Conditions.pressure)
     }
 }
 
 private extension ConditionsTableViewCell {
     func setupViews() {
         backgroundColor = .none
+        selectionStyle = .none
         setupStackView()
         setupHumidityView()
         setupWindView()
@@ -50,16 +67,19 @@ private extension ConditionsTableViewCell {
     
     func setupHumidityView() {
         humidityView.iconImage = #imageLiteral(resourceName: "humidity_icon")
+        humidityView.didTapOnButton = tappedOnHumidityButton
         stackView.addArrangedSubview(humidityView)
     }
     
     func setupWindView() {
         windView.iconImage = #imageLiteral(resourceName: "wind_icon")
+        windView.didTapOnButton = tappedOnWindButton
         stackView.addArrangedSubview(windView)
     }
     
     func setupPressureView() {
         pressureView.iconImage = #imageLiteral(resourceName: "pressure_icon")
+        pressureView.didTapOnButton = tappedOnPressureButton
         stackView.addArrangedSubview(pressureView)
     }
 }

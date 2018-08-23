@@ -9,6 +9,8 @@
 import SnapKit
 
 class LocationTableViewCell: UITableViewCell {
+    var didTapOnButton: (() -> Void)?
+    
     // NOTE: "buttonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
     private let buttonTitleLabel = UILabel.autolayoutView()
     private let button = UIButton.autolayoutView()
@@ -31,6 +33,12 @@ extension LocationTableViewCell {
 }
 
 private extension LocationTableViewCell {
+    @objc func tappedOnButton() {
+        didTapOnButton?()
+    }
+}
+
+private extension LocationTableViewCell {
     func setupViews() {
         backgroundColor = .none
         setupButton()
@@ -40,6 +48,7 @@ private extension LocationTableViewCell {
     
     func setupButton() {
         button.setImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
+        button.addTarget(self, action: #selector(tappedOnButton), for: .touchDown)
         button.setContentHuggingPriority(.required, for: .horizontal)
         contentView.addSubview(button)
         button.snp.makeConstraints {

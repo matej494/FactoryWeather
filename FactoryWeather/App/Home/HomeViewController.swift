@@ -9,19 +9,20 @@
 import SnapKit
 
 class HomeViewController: UIViewController {
+    // NOTE: Fixed location. Will be replaced with device location.
+    private var location = Location(name: "Osijek", country: "HR", latitude: 45.55111, longitude: 18.69389)
+    private var settings = DataManager.getSettings()
     private let homeView = HomeView.autolayoutView()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         setupView()
-        // NOTE: Fixed location data.
-        DarkSkyApiManager.getForecast(forLocation: Location(name: "Osijek", country: "CRO", latitude: 45.5550, longitude: 18.6955),
+        DarkSkyApiManager.getForecast(forLocation: location,
                                       success: { [weak self] weather in
-                                        self?.homeView.updateProperties(withData: HomeViewModel(weatherData: weather,
-                                                                                                unit: .metric,
-                                                                                                visibleConditions: HomeViewModel.VisibleConditions(humidity: true, windSpeed: true, pressure: true))) },
+                                        self?.updateHomeViewProperties(withWeatherData: weather) },
                                       failure: { error in
-                                        print(error.localizedDescription) })
+                                        print(error.localizedDescription)
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,23 +32,38 @@ class HomeViewController: UIViewController {
 
 private extension HomeViewController {
     func setupView() {
+        setupCallbacks()
         view.backgroundColor = .white
+        view.addSubview(homeView)
+        homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+    }
+    
+    func setupCallbacks() {
         homeView.didSelectSearchTextField = { [weak self] in
             let searchViewController = SearchViewController()
-            searchViewController.didSelectLocation = { [weak self] weather in
-                self?.homeView.updateProperties(withData: HomeViewModel(weatherData: weather,
-                                                                        unit: .metric,
-                                                                        visibleConditions: HomeViewModel.VisibleConditions(humidity: true, windSpeed: true, pressure: true)))
+            searchViewController.didSelectLocation = { [weak self] weather, location in
+                self?.location = location
+                self?.updateHomeViewProperties(withWeatherData: weather)
             }
             searchViewController.modalPresentationStyle = .overCurrentContext
             self?.present(searchViewController, animated: true, completion: nil)
         }
         homeView.didTapOnSettingsButton = { [weak self] in
-            let settingsViewController = SettingsViewController()
+            guard let strongSelf = self
+                else { return }
+            let settingsViewController = SettingsViewController(location: strongSelf.location)
+            settingsViewController.settingsChanged = { [weak self] newLocation, weather in
+                self?.settings = DataManager.getSettings()
+                self?.location = newLocation
+                self?.updateHomeViewProperties(withWeatherData: weather)
+            }
             settingsViewController.modalPresentationStyle = .overCurrentContext
-            self?.present(settingsViewController, animated: true, completion: nil)
+            strongSelf.present(settingsViewController, animated: true, completion: nil)
         }
-        view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+    }
+    
+    func updateHomeViewProperties(withWeatherData weather: Weather) {
+        let homeViewModel = HomeViewModel(weatherData: weather, settings: settings)
+        homeView.updateProperties(withData: homeViewModel)
     }
 }

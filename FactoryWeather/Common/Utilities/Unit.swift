@@ -27,16 +27,6 @@ enum Unit: Int {
         return counter
     }
     
-    static var allNames: [String] {
-        var counter = 0
-        var names = [String]()
-        while let name = Unit(rawValue: counter) {
-            names.append(name.localizedName)
-            counter += 1
-        }
-        return names
-    }
-    
     func temperature(imperialValue value: Int) -> String {
         switch self {
         case .metric:

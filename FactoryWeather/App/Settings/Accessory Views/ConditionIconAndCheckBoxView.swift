@@ -9,6 +9,7 @@
 import SnapKit
 
 class ConditionIconAndCheckBoxView: UIView {
+    var didTapOnButton: (() -> Void)?
     var isSelected = false {
         didSet { button.isSelected = isSelected }
     }
@@ -31,6 +32,12 @@ class ConditionIconAndCheckBoxView: UIView {
 }
 
 private extension ConditionIconAndCheckBoxView {
+    @objc func tappedOnButton() {
+        didTapOnButton?()
+    }
+}
+
+private extension ConditionIconAndCheckBoxView {
     func setupViews() {
         setupIconView()
         setupCheckBoxButton()
@@ -49,6 +56,7 @@ private extension ConditionIconAndCheckBoxView {
     func setupCheckBoxButton() {
         button.setImage(#imageLiteral(resourceName: "checkmark_check"), for: .selected)
         button.setImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
+        button.addTarget(self, action: #selector(tappedOnButton), for: .touchDown)
         addSubview(button)
         button.snp.makeConstraints {
             $0.leading.trailing.bottom.centerX.equalToSuperview()

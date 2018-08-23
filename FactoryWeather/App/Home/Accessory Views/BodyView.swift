@@ -58,15 +58,15 @@ extension BodyView: UITextFieldDelegate {
 }
 
 private extension BodyView {
-    func updateConditions(visibleConditions: HomeViewModel.VisibleConditions) {
+    func updateConditions(visibleConditions: Conditions) {
         conditionsStackView.subviews.forEach({ $0.removeFromSuperview() })
-        if visibleConditions.humidity {
+        if visibleConditions.contains(.humidity) {
             conditionsStackView.addArrangedSubview(humidityView)
         }
-        if visibleConditions.windSpeed {
+        if visibleConditions.contains(.windSpeed) {
             conditionsStackView.addArrangedSubview(windView)
         }
-        if visibleConditions.pressure {
+        if visibleConditions.contains(.pressure) {
             conditionsStackView.addArrangedSubview(pressureView)
         }
     }
