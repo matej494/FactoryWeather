@@ -8,5 +8,6 @@ target 'FactoryWeather' do
   # Pods for FactoryWeather
   pod 'SnapKit', '~> 4.0.0'
   pod 'SwiftLint'
+  pod 'RealmSwift'
 
 end

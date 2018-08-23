@@ -9,6 +9,8 @@
 import SnapKit
 
 class UnitTableViewCell: UITableViewCell {
+    var didTapOnButton: (() -> Void)?
+
     private let button = UIButton.autolayoutView()
     private let label = UILabel.autolayoutView()
 
@@ -23,15 +25,22 @@ class UnitTableViewCell: UITableViewCell {
 }
 
 extension UnitTableViewCell {
-    func updateProperties(unitName: String, isSelected: Bool) {
+    func updateProperties(unitName: String?, isSelected: Bool) {
         label.text = unitName
         button.isSelected = isSelected
     }
 }
 
 private extension UnitTableViewCell {
+    @objc func tappedOnButton() {
+        didTapOnButton?()
+    }
+}
+
+private extension UnitTableViewCell {
     func setupViews() {
         backgroundColor = .none
+        selectionStyle = .none
         setupButton()
         setupLabel()
     }
@@ -39,6 +48,7 @@ private extension UnitTableViewCell {
     func setupButton() {
         button.setImage(#imageLiteral(resourceName: "square_checkmark_check"), for: .selected)
         button.setImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
+        button.addTarget(self, action: #selector(tappedOnButton), for: .touchDown)
         button.setContentHuggingPriority(.required, for: .horizontal)
         contentView.addSubview(button)
         button.snp.makeConstraints {

@@ -27,6 +27,8 @@ struct LocalizationKey {
     struct Alert {
         static let errorAlertTitle = "error_alert_title"
         static let okActionTitle = "ok_action_title"
+        static let stayHereActionTitle = "stay_here_action_title"
+        static let goBackActionTitle = "go_back_action_title"
     }
     
     struct Settings {

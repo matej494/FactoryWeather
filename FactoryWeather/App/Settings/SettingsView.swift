@@ -43,7 +43,6 @@ private extension SettingsView {
         tableView.backgroundColor = .none
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.allowsSelection = false
         tableView.register(LocationTableViewCell.self, forCellReuseIdentifier: "LocationTableViewCell")
         tableView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitTableViewCell")
         tableView.register(ConditionsTableViewCell.self, forCellReuseIdentifier: "ConditionsTableViewCell")

@@ -21,26 +21,20 @@ struct HomeViewModel {
     let skyGradient: CAGradientLayer
     let headerImage: UIImage
     let bodyImage: UIImage
-    let visibleConditions: VisibleConditions
+    let visibleConditions: Conditions
     
-    struct VisibleConditions {
-        let humidity: Bool
-        let windSpeed: Bool
-        let pressure: Bool
-    }
-    
-    init(weatherData data: Weather, unit: Unit, visibleConditions: VisibleConditions) {
-        currentTemperature = unit.temperature(imperialValue: Int(data.temperature))
-        lowTemperature = unit.temperature(imperialValue: data.temperatureLow)
-        highTemperature = unit.temperature(imperialValue: data.temperatureHigh)
-        humidity = unit.humidity(value: data.humidity)
-        windSpeed = unit.windSpeed(imperialValue: data.windSpeed)
-        pressure = unit.pressure(value: data.pressure)
+    init(weatherData data: Weather, settings: Settings) {
+        currentTemperature = settings.unit.temperature(imperialValue: Int(data.temperature))
+        lowTemperature = settings.unit.temperature(imperialValue: data.temperatureLow)
+        highTemperature = settings.unit.temperature(imperialValue: data.temperatureHigh)
+        humidity = settings.unit.humidity(value: data.humidity)
+        windSpeed = settings.unit.windSpeed(imperialValue: data.windSpeed)
+        pressure = settings.unit.pressure(value: data.pressure)
         cityName = data.locationName
         summary = data.summary
         skyGradient = SkyWeatherCondition.forIcon(data.icon).gradient
         headerImage = UIImage(named: "header_image-\(data.icon)") ?? #imageLiteral(resourceName: "header_image-clear-day")
         bodyImage = UIImage(named: "body_image-\(data.icon)") ?? #imageLiteral(resourceName: "body_image-clear-day")
-        self.visibleConditions = visibleConditions
+        visibleConditions = settings.conditions
     }
 }

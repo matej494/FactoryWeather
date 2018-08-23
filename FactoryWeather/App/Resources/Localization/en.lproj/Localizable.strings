@@ -21,6 +21,8 @@
 /* Alerts */
 "error_alert_title" = "Something went wrong.";
 "ok_action_title" = "Ok";
+"stay_here_action_title" = "Stay here";
+"go_back_action_title" = "Go back";
 
 /* Settings */
 "settings_location_table_view_header" = "Location";
