@@ -10,12 +10,14 @@ import SnapKit
 
 class SearchView: UIView {
     var textFieldTextChanged: ((String) -> Void)?
-    let dismissButton = UIButton(type: .roundedRect).autolayoutView()
+    let dismissButton = UIButton.autolayoutView()
     let tableView = UITableView.autolayoutView()
     var searchButtonTapped: ((String) -> Void)? {
         didSet { searchTextField.searchButtonTapped = searchButtonTapped }
     }
 
+    // NOTE: "dismissButtonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
+    private let dismissButtonTitleLabel = UILabel.autolayoutView()
     private var blurredView = UIVisualEffectView().autolayoutView()
     private let searchTextField = SearchTextField.autolayoutView()
     private let keyboardSizedView = UIView.autolayoutView()
@@ -78,6 +80,7 @@ private extension SearchView {
         setupBluredView()
         setupTableView()
         setupDismissButton()
+        setupDismissButtonTitleLabel()
         setupSearchTextField()
         setupKeyboardSizedView()
     }
@@ -101,12 +104,16 @@ private extension SearchView {
     }
     
     func setupDismissButton() {
-        dismissButton.backgroundColor = .factoryLightBlue
-        dismissButton.layer.cornerRadius = 15
-        dismissButton.setTitle("X", for: .normal)
-        dismissButton.setTitleColor(.factoryPaleCyan, for: .normal)
+        dismissButton.setImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         addSubview(dismissButton)
         dismissButton.snp.makeConstraints { $0.top.trailing.equalToSuperview().inset(10) }
+    }
+    
+    func setupDismissButtonTitleLabel() {
+        dismissButtonTitleLabel.text = "X"
+        dismissButtonTitleLabel.textColor = .factoryPaleCyan
+        addSubview(dismissButtonTitleLabel)
+        dismissButtonTitleLabel.snp.makeConstraints { $0.center.equalTo(dismissButton.snp.center) }
     }
     
     func setupSearchTextField() {
