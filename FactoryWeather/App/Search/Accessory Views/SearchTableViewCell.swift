@@ -18,7 +18,7 @@ class SearchTableViewCell: UITableViewCell {
         }
     }
     
-    private let firstLetterView = UIView.autolayoutView()
+    private let firstLetterView = UIImageView.autolayoutView()
     private let firstLetterLabel = UILabel.autolayoutView()
     private let nameLabel = UILabel.autolayoutView()
     
@@ -48,7 +48,7 @@ private extension SearchTableViewCell {
     }
     
     func setupFirstLetterView() {
-        firstLetterView.backgroundColor = .factoryLightBlue
+        firstLetterView.image = #imageLiteral(resourceName: "square_checkmark_uncheck")
         firstLetterView.setContentHuggingPriority(.required, for: .horizontal)
         contentView.addSubview(firstLetterView)
         firstLetterView.snp.makeConstraints {
