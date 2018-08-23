@@ -21,3 +21,13 @@
 /* Alerts */
 "error_alert_title" = "Something went wrong.";
 "ok_action_title" = "Ok";
+"stay_here_action_title" = "Stay here";
+"go_back_action_title" = "Go back";
+
+/* Settings */
+"settings_location_table_view_header" = "Location";
+"settings_unit_table_view_header" = "Unit";
+"settings_conditions_table_view_header" = "Conditions";
+"settings_metric_label" = "Metric";
+"settings_imperial_label" = "Imperial";
+"settings_done_button_title" = "Done";

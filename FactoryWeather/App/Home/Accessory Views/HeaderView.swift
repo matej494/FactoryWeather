@@ -10,7 +10,7 @@ import SnapKit
 
 class HeaderView: UIView {
     private let backgroundImageView = UIImageView.autolayoutView()
-    private let temperatureAndDescriptionView = TitleAndBodyView().autolayoutView()
+    private let temperatureAndDescriptionView = TitleAndBodyView.autolayoutView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -10,17 +10,18 @@ import SnapKit
 
 class BodyView: UIView {
     var didSelectSearchTextField: (() -> Void)?
+    var didTapOnSettingsButton: (() -> Void)?
     
     private let mainStackView = UIStackView.autolayoutView()
     private let temperaturesView = UIView.autolayoutView()
     private let conditionsStackView = UIStackView.autolayoutView()
     private let cityLabel = UILabel.autolayoutView()
     private let temperatureSeparatorView = UIView.autolayoutView()
-    private let lowTemperatureView = TitleAndBodyView().autolayoutView()
-    private let highTemperatureView = TitleAndBodyView().autolayoutView()
-    private let humidityView = ConditionIconAndValueView().autolayoutView()
-    private let windView = ConditionIconAndValueView().autolayoutView()
-    private let pressureView = ConditionIconAndValueView().autolayoutView()
+    private let lowTemperatureView = TitleAndBodyView.autolayoutView()
+    private let highTemperatureView = TitleAndBodyView.autolayoutView()
+    private let humidityView = ConditionIconAndValueView.autolayoutView()
+    private let windView = ConditionIconAndValueView.autolayoutView()
+    private let pressureView = ConditionIconAndValueView.autolayoutView()
     private let searchView = UIView.autolayoutView()
     private let settingsButton = UIButton.autolayoutView()
     private let searchTextField = SearchTextField.autolayoutView()
@@ -57,17 +58,21 @@ extension BodyView: UITextFieldDelegate {
 }
 
 private extension BodyView {
-    func updateConditions(visibleConditions: HomeViewModel.VisibleConditions) {
+    func updateConditions(visibleConditions: Conditions) {
         conditionsStackView.subviews.forEach({ $0.removeFromSuperview() })
-        if visibleConditions.humidity {
+        if visibleConditions.contains(.humidity) {
             conditionsStackView.addArrangedSubview(humidityView)
         }
-        if visibleConditions.windSpeed {
+        if visibleConditions.contains(.windSpeed) {
             conditionsStackView.addArrangedSubview(windView)
         }
-        if visibleConditions.pressure {
+        if visibleConditions.contains(.pressure) {
             conditionsStackView.addArrangedSubview(pressureView)
         }
+    }
+    
+    @objc func settingsButtonTapped() {
+        didTapOnSettingsButton?()
     }
 }
 
@@ -185,6 +190,7 @@ private extension BodyView {
     
     func setupSettingsButton() {
         settingsButton.setImage(#imageLiteral(resourceName: "settings_icon"), for: .normal)
+        settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchDown)
         searchView.addSubview(settingsButton)
         settingsButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
@@ -202,5 +208,4 @@ private extension BodyView {
             $0.height.equalTo(35)
         }
     }
-
 }
