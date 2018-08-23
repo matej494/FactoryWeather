@@ -42,6 +42,11 @@ private extension HomeViewController {
             searchViewController.modalPresentationStyle = .overCurrentContext
             self?.present(searchViewController, animated: true, completion: nil)
         }
+        homeView.didTapOnSettingsButton = { [weak self] in
+            let settingsViewController = SettingsViewController()
+            settingsViewController.modalPresentationStyle = .overCurrentContext
+            self?.present(settingsViewController, animated: true, completion: nil)
+        }
         view.addSubview(homeView)
         homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
     }

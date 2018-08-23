@@ -8,9 +8,34 @@
 
 import Foundation
 
-enum Unit {
+enum Unit: Int {
     case metric
     case imperial
+    
+    var localizedName: String {
+        switch self {
+        case .metric:
+            return LocalizationKey.Settings.metricLabel.localized()
+        case .imperial:
+            return LocalizationKey.Settings.imperialLabel.localized()
+        }
+    }
+    
+    static var allValuesCount: Int {
+        var counter = 0
+        while let _ = Unit(rawValue: counter) { counter += 1 }
+        return counter
+    }
+    
+    static var allNames: [String] {
+        var counter = 0
+        var names = [String]()
+        while let name = Unit(rawValue: counter) {
+            names.append(name.localizedName)
+            counter += 1
+        }
+        return names
+    }
     
     func temperature(imperialValue value: Int) -> String {
         switch self {

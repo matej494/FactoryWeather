@@ -52,6 +52,9 @@ private extension SearchTextField {
     }
     
     @objc func searchButtonTouchDown() {
-        searchButtonTapped?(text ?? "")
+        guard let text = text,
+            !text.isEmpty
+            else { return }
+        searchButtonTapped?(text)
     }
 }
