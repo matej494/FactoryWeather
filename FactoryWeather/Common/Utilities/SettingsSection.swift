@@ -16,7 +16,7 @@ enum SettingsSection: Int {
     var count: Int {
         switch self {
         case .locations:
-            return 3 
+            return 3
         case .units:
             return Unit.allValuesCount
         case .conditions:
