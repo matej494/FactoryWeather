@@ -12,6 +12,7 @@ struct LocalizationKey {
     struct Home {
         static let lowTemperatureDescriptionLabel = "home_low_temperature_description_label"
         static let highTemperatureDescriptionLabel = "home_high_temperature_description_label"
+        static let deviceLocationUnknown = "home_device_location_unknown"
     }
     
     struct Common {

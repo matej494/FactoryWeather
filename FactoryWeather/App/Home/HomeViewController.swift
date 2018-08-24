@@ -7,26 +7,55 @@
 //
 
 import SnapKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
-    // NOTE: Fixed location. Will be replaced with device location.
-    private var location = Location(name: "Osijek", country: "HR", latitude: 45.55111, longitude: 18.69389)
+    // NOTE: Fixed location. Will be used if device location isn't authorised or fails.
+    private var location = Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819)
     private var settings = DataManager.getSettings()
     private let homeView = HomeView.autolayoutView()
+    private let locationManager = CLLocationManager()
+    private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         setupView()
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { [weak self] weather in
-                                        self?.updateHomeViewProperties(withWeatherData: weather) },
-                                      failure: { error in
-                                        print(error.localizedDescription)
-        })
+        setupLocationManager()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension HomeViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location
+            else { return getWeatherAndUpdateView() }
+        locationManager.stopUpdatingLocation()
+        CLGeocoder().reverseGeocodeLocation(location, completionHandler: { [weak self] placemarks, error in
+            if let error = error {
+                self?.getWeatherAndUpdateView()
+                return print("Reverse geocoder failed with error" + error.localizedDescription)
+            }
+            let newLocation = Location(name: placemarks?.first?.locality ?? LocalizationKey.Home.deviceLocationUnknown.localized(),
+                                       country: "",
+                                       latitude: location.coordinate.latitude,
+                                       longitude: location.coordinate.longitude)
+            if newLocation != self?.location {
+                self?.location = newLocation
+            }
+            self?.getWeatherAndUpdateView()
+        })
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .denied {
+            getWeatherAndUpdateView()
+        } else {
+            locationManager.startUpdatingLocation()
+        }
     }
 }
 
@@ -36,6 +65,9 @@ private extension HomeViewController {
         view.backgroundColor = .white
         view.addSubview(homeView)
         homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
+        activityIndicatorView.startAnimating()
     }
     
     func setupCallbacks() {
@@ -62,8 +94,24 @@ private extension HomeViewController {
         }
     }
     
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    }
+    
     func updateHomeViewProperties(withWeatherData weather: Weather) {
         let homeViewModel = HomeViewModel(weatherData: weather, settings: settings)
         homeView.updateProperties(withData: homeViewModel)
+    }
+    
+    func getWeatherAndUpdateView() {
+        DarkSkyApiManager.getForecast(forLocation: location,
+                                      success: { [weak self] weather in
+                                        self?.activityIndicatorView.stopAnimating()
+                                        self?.updateHomeViewProperties(withWeatherData: weather) },
+                                      failure: { [weak self] error in
+                                        self?.activityIndicatorView.stopAnimating()
+                                        print(error.localizedDescription)
+        })
     }
 }

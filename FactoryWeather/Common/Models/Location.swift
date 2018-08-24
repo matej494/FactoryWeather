@@ -42,3 +42,9 @@ extension Location {
         self.latitude = try Double(container.decode(String.self, forKey: .latitude)) ?? -1
     }
 }
+
+extension Location: Equatable {
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+    }
+}

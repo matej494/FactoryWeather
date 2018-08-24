@@ -9,6 +9,7 @@
 /* Home */
 "home_low_temperature_description_label" = "Low";
 "home_high_temperature_description_label" = "High";
+"home_device_location_unknown" = "Unknown";
 
 /* Common */
 "search_text_field_placeholder" = "Search";
