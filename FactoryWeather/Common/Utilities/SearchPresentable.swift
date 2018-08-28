@@ -9,6 +9,5 @@
 import UIKit
 
 protocol SearchPresentable {
-    var safeAreaLayoutGuideFrame: CGRect { get }
     func searchTextFieldIsHidden(_ isHidden: Bool)
 }

@@ -27,7 +27,6 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: SearchDismissible {
-    var safeAreaLayoutGuideFrame: CGRect { return view.safeAreaLayoutGuide.layoutFrame }
     var mainView: UIView { return view }
     
     func dismissKeyboard() -> CGFloat {
@@ -84,7 +83,7 @@ private extension SearchViewController {
         setupTextFieldTextChanged()
         setupSearchButtonTapped()
         view.addSubview(searchView)
-        searchView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        searchView.snp.makeConstraints { $0.edges.equalToSuperview() }
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }

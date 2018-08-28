@@ -30,8 +30,6 @@ class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: SearchPresentable {
-    var safeAreaLayoutGuideFrame: CGRect { return view.safeAreaLayoutGuide.layoutFrame }
-
     func searchTextFieldIsHidden(_ isHidden: Bool) {
         homeView.searchTextFieldIsHidden(isHidden)
     }
@@ -82,7 +80,7 @@ private extension HomeViewController {
         setupCallbacks()
         view.backgroundColor = .white
         view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
         activityIndicatorView.startAnimating()

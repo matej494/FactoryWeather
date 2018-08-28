@@ -32,8 +32,8 @@ extension SearchDismissAnimationController: UIViewControllerAnimatedTransitionin
         self.containerView = containerView
         let duration = transitionDuration(using: transitionContext)
         
-        setupBlurredView(withFrame: fromVC.safeAreaLayoutGuideFrame)
-        setupColoredBackgroundView(withFrame: fromVC.safeAreaLayoutGuideFrame)
+        setupBlurredView(withFrame: containerView.frame)
+        setupColoredBackgroundView(withFrame: containerView.frame)
         containerView.addSubview(coloredBackgroundView)
         containerView.addSubview(blurredView)
         containerView.addSubview(searchTextField)

@@ -33,8 +33,8 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
         let containerView = transitionContext.containerView
         self.containerView = containerView
         
-        setupBlurredView(withFrame: fromVC.safeAreaLayoutGuideFrame)
-        setupColoredBackgroundView(withFrame: fromVC.safeAreaLayoutGuideFrame)
+        setupBlurredView(withFrame: containerView.frame)
+        setupColoredBackgroundView(withFrame: containerView.frame)
         containerView.addSubview(coloredBackgroundView)
         containerView.addSubview(blurredView)
         containerView.addSubview(searchTextField)

@@ -9,7 +9,6 @@
 import UIKit
 
 protocol SearchDismissible {
-    var safeAreaLayoutGuideFrame: CGRect { get }
     var mainView: UIView { get }
     func dismissKeyboard() -> CGFloat
     func searchTextFieldIsHidden(_ isHidden: Bool)

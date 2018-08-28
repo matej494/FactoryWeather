@@ -112,7 +112,7 @@ private extension SearchView {
         addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(30)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }
     
@@ -120,7 +120,10 @@ private extension SearchView {
         dismissButton.setImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
         addSubview(dismissButton)
-        dismissButton.snp.makeConstraints { $0.top.trailing.equalToSuperview().inset(10) }
+        dismissButton.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.trailing.equalToSuperview().inset(10)
+        }
     }
     
     func setupDismissButtonTitleLabel() {
