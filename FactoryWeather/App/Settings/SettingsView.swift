@@ -53,6 +53,7 @@ private extension SettingsView {
     func setupDoneButton() {
         doneButton.backgroundColor = .white
         doneButton.setTitle(LocalizationKey.Settings.doneButtonTitle.localized(), for: .normal)
+        doneButton.setTitleColor(.factoryGreen, for: .normal)
         doneButton.layer.cornerRadius = 20
         addSubview(doneButton)
         doneButton.snp.makeConstraints {

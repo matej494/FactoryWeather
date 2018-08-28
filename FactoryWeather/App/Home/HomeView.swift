@@ -55,7 +55,7 @@ private extension HomeView {
         addSubview(skyView)
         skyView.snp.makeConstraints {
             $0.leading.top.trailing.equalToSuperview()
-            $0.height.equalTo(UIScreen.main.bounds.height * 0.4)
+            $0.height.equalTo(UIScreen.main.bounds.height * 0.5)
         }
     }
     
@@ -63,7 +63,7 @@ private extension HomeView {
         addSubview(bodyView)
         bodyView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(skyView.snp.bottom)
+            $0.height.equalTo(UIScreen.main.bounds.height * 0.6)
         }
     }
 

@@ -100,11 +100,10 @@ private extension BodyView {
     
     func setupBackgroundImageView() {
         backgroundImageView.contentMode = .scaleAspectFill
-        let imageHeight = #imageLiteral(resourceName: "body_image-clear-day").size.height
         addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(snp.top).inset(-(imageHeight * 0.22))
+            $0.height.equalTo(UIScreen.main.bounds.height * 0.75)
         }
     }
     
@@ -195,6 +194,7 @@ private extension BodyView {
     func setupSettingsButton() {
         settingsButton.setImage(#imageLiteral(resourceName: "settings_icon"), for: .normal)
         settingsButton.addTarget(self, action: #selector(settingsButtonTapped), for: .touchDown)
+        settingsButton.setContentHuggingPriority(.required, for: .horizontal)
         searchView.addSubview(settingsButton)
         settingsButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)

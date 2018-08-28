@@ -37,9 +37,7 @@ extension SettingsViewController: UITableViewDataSource {
         if section == SettingsSection.locations.rawValue {
             return min(SettingsSection.locations.count, locations.count)
         }
-        guard let count = SettingsSection(rawValue: section)?.count
-            else { return 0 }
-        return count
+        return SettingsSection(rawValue: section)?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
