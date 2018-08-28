@@ -10,6 +10,7 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     var didSelectLocation: ((Weather, Location) -> Void)?
+    var searchTextFieldIsHidden: ((Bool) -> Void)?
     private var locations = [Location]()
     private var filteredLocations = [Location]()
     private let searchView = SearchView.autolayoutView()
@@ -23,6 +24,18 @@ class SearchViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension SearchViewController: SearchDismissible {
+    var mainView: UIView { return view }
+    
+    func dismissKeyboard() -> CGFloat {
+        return searchView.dismissKeyboard()
+    }
+    
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        searchTextFieldIsHidden?(isHidden)
     }
 }
 
@@ -63,21 +76,15 @@ extension SearchViewController: UITableViewDelegate {
 }
 
 private extension SearchViewController {
-    @objc func dismissButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-private extension SearchViewController {
     func setupView() {
         view.backgroundColor = .none
-        searchView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
+        searchView.didTapOnDismissButton = { [weak self] in self?.dismiss(animated: true, completion: nil) }
         searchView.tableView.dataSource = self
         searchView.tableView.delegate = self
         setupTextFieldTextChanged()
         setupSearchButtonTapped()
         view.addSubview(searchView)
-        searchView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        searchView.snp.makeConstraints { $0.edges.equalToSuperview() }
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }
@@ -98,9 +105,17 @@ private extension SearchViewController {
     }
     
     func setupSearchButtonTapped() {
-        searchView.searchButtonTapped = { [weak self] text in
-            self?.searchLocationsWorkItem.cancel()
-            self?.getLocations(forText: text)
+        searchView.didTapOnSearchButton = { [weak self] text in
+            self?.activityIndicatorView.startAnimating()
+            GeoNamesApiManager.getLocations(forText: text,
+                                            success: { [weak self] locations in
+                                                self?.insertNewLocations(locations)
+                                                self?.filterLocations(forText: text)
+                                                self?.activityIndicatorView.stopAnimating() },
+                                            failure: { [weak self] error in
+                                                print(error.localizedDescription)
+                                                self?.activityIndicatorView.stopAnimating()
+            })
         }
     }
     

@@ -29,6 +29,12 @@ class HomeViewController: UIViewController {
     }
 }
 
+extension HomeViewController: SearchPresentable {
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        homeView.searchTextFieldIsHidden(isHidden)
+    }
+}
+
 extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = manager.location
@@ -59,12 +65,22 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
 }
 
+extension HomeViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return presented is SearchViewController ? SearchPresentAnimationController() : nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissed is SearchViewController ? SearchDismissAnimationController() : nil
+    }
+}
+
 private extension HomeViewController {
     func setupView() {
         setupCallbacks()
         view.backgroundColor = .white
         view.addSubview(homeView)
-        homeView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        homeView.snp.makeConstraints { $0.edges.equalToSuperview() }
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
         activityIndicatorView.startAnimating()
@@ -77,7 +93,11 @@ private extension HomeViewController {
                 self?.location = location
                 self?.updateHomeViewProperties(withWeatherData: weather)
             }
-            searchViewController.modalPresentationStyle = .overCurrentContext
+            searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
+                self?.searchTextFieldIsHidden(isHidden)
+            }
+            searchViewController.transitioningDelegate = self
+            searchViewController.modalPresentationStyle = .custom
             self?.present(searchViewController, animated: true, completion: nil)
         }
         homeView.didTapOnSettingsButton = { [weak self] in

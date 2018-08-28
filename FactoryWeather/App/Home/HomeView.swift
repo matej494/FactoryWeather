@@ -38,6 +38,10 @@ extension HomeView {
         headerView.updateProperties(withData: data)
         bodyView.updateProperties(withData: data)
     }
+    
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        bodyView.searchTextFieldIsHidden(isHidden)
+    }
 }
 
 private extension HomeView {

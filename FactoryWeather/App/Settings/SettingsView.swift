@@ -47,7 +47,7 @@ private extension SettingsView {
         tableView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitTableViewCell")
         tableView.register(ConditionsTableViewCell.self, forCellReuseIdentifier: "ConditionsTableViewCell")
         addSubview(tableView)
-        tableView.snp.makeConstraints { $0.leading.top.trailing.equalToSuperview().inset(10) }
+        tableView.snp.makeConstraints { $0.leading.trailing.top.equalTo(safeAreaLayoutGuide).inset(10) }
     }
     
     func setupDoneButton() {

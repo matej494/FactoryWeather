@@ -9,7 +9,7 @@
 import UIKit
 
 class SearchTextField: UITextField {
-    var searchButtonTapped: ((String) -> Void)?
+    var didTapOnSearchButton: ((String) -> Void)?
     private let searchButton = UIButton.autolayoutView()
     
     override init(frame: CGRect) {
@@ -46,15 +46,16 @@ private extension SearchTextField {
     }
     
     func setupSearchButton() {
-        searchButton.addTarget(self, action: #selector(searchButtonTouchDown), for: .touchDown)
+        searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchDown)
         searchButton.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
         rightView = searchButton
+        searchButton.snp.makeConstraints { $0.width.height.equalTo(25) }
     }
     
-    @objc func searchButtonTouchDown() {
+    @objc func searchButtonTapped() {
         guard let text = text,
             !text.isEmpty
             else { return }
-        searchButtonTapped?(text)
+        didTapOnSearchButton?(text)
     }
 }

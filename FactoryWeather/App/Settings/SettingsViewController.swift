@@ -105,7 +105,7 @@ private extension SettingsViewController {
         settingsView.tableView.delegate = self
         settingsView.doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchDown)
         view.addSubview(settingsView)
-        settingsView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        settingsView.snp.makeConstraints { $0.edges.equalToSuperview() }
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }

@@ -9,15 +9,16 @@
 import SnapKit
 
 class SearchView: UIView {
-    var textFieldTextChanged: ((String) -> Void)?
-    let dismissButton = UIButton.autolayoutView()
     let tableView = UITableView.autolayoutView()
-    var searchButtonTapped: ((String) -> Void)? {
-        didSet { searchTextField.searchButtonTapped = searchButtonTapped }
+    var textFieldTextChanged: ((String) -> Void)?
+    var didTapOnDismissButton: (() -> Void)?
+    var didTapOnSearchButton: ((String) -> Void)? {
+        didSet { searchTextField.didTapOnSearchButton = didTapOnSearchButton }
     }
 
     // NOTE: "dismissButtonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
     private let dismissButtonTitleLabel = UILabel.autolayoutView()
+    private let dismissButton = UIButton.autolayoutView()
     private var blurredView = UIVisualEffectView().autolayoutView()
     private let searchTextField = SearchTextField.autolayoutView()
     private let keyboardSizedView = UIView.autolayoutView()
@@ -30,6 +31,14 @@ class SearchView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension SearchView {
+    func dismissKeyboard() -> CGFloat {
+        let keyboardHeight = keyboardSizedView.frame.size.height
+        searchTextField.resignFirstResponder()
+        return keyboardHeight
     }
 }
 
@@ -72,6 +81,10 @@ private extension SearchView {
     @objc func textFieldTextDidChange(notification: NSNotification) {
         textFieldTextChanged?(searchTextField.text ?? "")
     }
+    
+    @objc func dismissButtonTapped() {
+        didTapOnDismissButton?()
+    }
 }
 
 private extension SearchView {
@@ -99,14 +112,18 @@ private extension SearchView {
         addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview().inset(30)
+            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }
     
     func setupDismissButton() {
         dismissButton.setImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
+        dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
         addSubview(dismissButton)
-        dismissButton.snp.makeConstraints { $0.top.trailing.equalToSuperview().inset(10) }
+        dismissButton.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.trailing.equalToSuperview().inset(10)
+        }
     }
     
     func setupDismissButtonTitleLabel() {

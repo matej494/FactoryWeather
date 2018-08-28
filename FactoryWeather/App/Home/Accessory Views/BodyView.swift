@@ -48,6 +48,10 @@ extension BodyView {
         pressureView.value = data.pressure
         updateConditions(visibleConditions: data.visibleConditions)
     }
+    
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        searchView.isHidden = isHidden
+    }
 }
 
 extension BodyView: UITextFieldDelegate {
