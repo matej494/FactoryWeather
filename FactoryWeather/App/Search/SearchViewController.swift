@@ -15,6 +15,7 @@ class SearchViewController: UIViewController {
     private var filteredLocations = [Location]()
     private let searchView = SearchView.autolayoutView()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
+    private var searchLocationsWorkItem = DispatchWorkItem(block: {})
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -90,7 +91,16 @@ private extension SearchViewController {
     
     func setupTextFieldTextChanged() {
         searchView.textFieldTextChanged = { [weak self] text in
-            self?.filterLocations(forText: text)
+            guard let strongSelf = self
+                else { return }
+            strongSelf.searchLocationsWorkItem.cancel()
+            if !text.isEmpty {
+                strongSelf.searchLocationsWorkItem = DispatchWorkItem(block: { [weak self] in
+                    self?.getLocations(forText: text)
+                })
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: strongSelf.searchLocationsWorkItem)
+            }
+            strongSelf.filterLocations(forText: text)
         }
     }
     
@@ -122,5 +132,18 @@ private extension SearchViewController {
     func filterLocations(forText text: String) {
         filteredLocations = locations.filter({ $0.fullName.lowercased().contains(text.lowercased()) })
         searchView.tableView.reloadData()
+    }
+    
+    func getLocations(forText text: String) {
+        activityIndicatorView.startAnimating()
+        GeoNamesApiManager.getLocations(forText: text,
+                                        success: { [weak self] locations in
+                                            self?.insertNewLocations(locations)
+                                            self?.filterLocations(forText: text)
+                                            self?.activityIndicatorView.stopAnimating() },
+                                        failure: { [weak self] error in
+                                            print(error.localizedDescription)
+                                            self?.activityIndicatorView.stopAnimating()
+        })
     }
 }
