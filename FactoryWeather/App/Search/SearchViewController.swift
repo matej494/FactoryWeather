@@ -98,7 +98,7 @@ private extension SearchViewController {
                 strongSelf.searchLocationsWorkItem = DispatchWorkItem(block: { [weak self] in
                     self?.getLocations(forText: text)
                 })
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: strongSelf.searchLocationsWorkItem)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: strongSelf.searchLocationsWorkItem)
             }
             strongSelf.filterLocations(forText: text)
         }
