@@ -36,6 +36,8 @@
 		F5AF0F25212C1BA7007AD67C /* UnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F24212C1BA7007AD67C /* UnitTableViewCell.swift */; };
 		F5AF0F27212C1BB8007AD67C /* ConditionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F26212C1BB8007AD67C /* ConditionsTableViewCell.swift */; };
 		F5AF0F2B212C2784007AD67C /* ConditionIconAndCheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F2A212C2784007AD67C /* ConditionIconAndCheckBoxView.swift */; };
+		F5B54A8F213025C100D1F573 /* SearchPresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B54A8E213025C100D1F573 /* SearchPresentAnimationController.swift */; };
+		F5B7009021352ABC00D5CE43 /* SearchDismissible.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B7008F21352ABB00D5CE43 /* SearchDismissible.swift */; };
 		F5C9FF522127052D000956FB /* gothamrounded-book.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF5121270375000956FB /* gothamrounded-book.otf */; };
 		F5C9FF5321270530000956FB /* gothamrounded-light.otf in Resources */ = {isa = PBXBuildFile; fileRef = F5C9FF5021270375000956FB /* gothamrounded-light.otf */; };
 		F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */; };
@@ -54,6 +56,8 @@
 		F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */; };
 		F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E5541E212AF44E00A42490 /* GeoNamesApiManager.swift */; };
 		F5E55423212AF7B500A42490 /* GeoNamesApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E55422212AF7B500A42490 /* GeoNamesApi.swift */; };
+		F5ECA0FB21340A9600432A07 /* SearchPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ECA0FA21340A9600432A07 /* SearchPresentable.swift */; };
+		F5ECA0FD2134258A00432A07 /* SearchDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ECA0FC2134258A00432A07 /* SearchDismissAnimationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +94,8 @@
 		F5AF0F24212C1BA7007AD67C /* UnitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTableViewCell.swift; sourceTree = "<group>"; };
 		F5AF0F26212C1BB8007AD67C /* ConditionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsTableViewCell.swift; sourceTree = "<group>"; };
 		F5AF0F2A212C2784007AD67C /* ConditionIconAndCheckBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionIconAndCheckBoxView.swift; sourceTree = "<group>"; };
+		F5B54A8E213025C100D1F573 /* SearchPresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresentAnimationController.swift; sourceTree = "<group>"; };
+		F5B7008F21352ABB00D5CE43 /* SearchDismissible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDismissible.swift; sourceTree = "<group>"; };
 		F5C9FF5021270375000956FB /* gothamrounded-light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gothamrounded-light.otf"; sourceTree = "<group>"; };
 		F5C9FF5121270375000956FB /* gothamrounded-book.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "gothamrounded-book.otf"; sourceTree = "<group>"; };
 		F5C9FF5421270598000956FB /* UIFont-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont-FactoryWeather.swift"; sourceTree = "<group>"; };
@@ -108,6 +114,8 @@
 		F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		F5E5541E212AF44E00A42490 /* GeoNamesApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesApiManager.swift; sourceTree = "<group>"; };
 		F5E55422212AF7B500A42490 /* GeoNamesApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoNamesApi.swift; sourceTree = "<group>"; };
+		F5ECA0FA21340A9600432A07 /* SearchPresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPresentable.swift; sourceTree = "<group>"; };
+		F5ECA0FC2134258A00432A07 /* SearchDismissAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDismissAnimationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				F55C5E792122D415001714FF /* SearchTextField.swift */,
+				F5B54A8D2130258A00D1F573 /* Animation Controllers */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -233,6 +242,8 @@
 				F5C9FF56212706C0000956FB /* GothamFont.swift */,
 				F58FAAA8212D33600001EDE4 /* SettingsSection.swift */,
 				F58FAAAE212D4E720001EDE4 /* Conditions.swift */,
+				F5ECA0FA21340A9600432A07 /* SearchPresentable.swift */,
+				F5B7008F21352ABB00D5CE43 /* SearchDismissible.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -297,6 +308,15 @@
 				F5AF0F2A212C2784007AD67C /* ConditionIconAndCheckBoxView.swift */,
 			);
 			path = "Accessory Views";
+			sourceTree = "<group>";
+		};
+		F5B54A8D2130258A00D1F573 /* Animation Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F5B54A8E213025C100D1F573 /* SearchPresentAnimationController.swift */,
+				F5ECA0FC2134258A00432A07 /* SearchDismissAnimationController.swift */,
+			);
+			path = "Animation Controllers";
 			sourceTree = "<group>";
 		};
 		F5C9FF4F2127032D000956FB /* Fonts */ = {
@@ -527,6 +547,7 @@
 				F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */,
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
 				F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */,
+				F5B54A8F213025C100D1F573 /* SearchPresentAnimationController.swift in Sources */,
 				F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */,
 				F58FAAAF212D4E720001EDE4 /* Conditions.swift in Sources */,
 				F55C5E8621256700001714FF /* Unit.swift in Sources */,
@@ -534,6 +555,7 @@
 				F55C5E712121AFE3001714FF /* BodyView.swift in Sources */,
 				F5C9FF5E21281FB2000956FB /* NetworkManagerError.swift in Sources */,
 				F5E55423212AF7B500A42490 /* GeoNamesApi.swift in Sources */,
+				F5ECA0FD2134258A00432A07 /* SearchDismissAnimationController.swift in Sources */,
 				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
 				F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */,
 				F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */,
@@ -545,8 +567,10 @@
 				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F50C3A94212D7FBC00EFFBEA /* RealmSettings.swift in Sources */,
 				F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */,
+				F5B7009021352ABC00D5CE43 /* SearchDismissible.swift in Sources */,
 				F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */,
 				F5AF0F27212C1BB8007AD67C /* ConditionsTableViewCell.swift in Sources */,
+				F5ECA0FB21340A9600432A07 /* SearchPresentable.swift in Sources */,
 				F5AF0F20212C10A4007AD67C /* SettingsView.swift in Sources */,
 				F55C5E8321256495001714FF /* Weather.swift in Sources */,
 				F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */,

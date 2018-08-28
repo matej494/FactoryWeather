@@ -10,6 +10,7 @@ import SnapKit
 
 class SearchViewController: UIViewController {
     var didSelectLocation: ((Weather, Location) -> Void)?
+    var searchTextFieldIsHidden: ((Bool) -> Void)?
     private var locations = [Location]()
     private var filteredLocations = [Location]()
     private let searchView = SearchView.autolayoutView()
@@ -22,6 +23,19 @@ class SearchViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension SearchViewController: SearchDismissible {
+    var safeAreaLayoutGuideFrame: CGRect { return view.safeAreaLayoutGuide.layoutFrame }
+    var mainView: UIView { return view }
+    
+    func dismissKeyboard() -> CGFloat {
+        return searchView.dismissKeyboard()
+    }
+    
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        searchTextFieldIsHidden?(isHidden)
     }
 }
 
@@ -62,15 +76,9 @@ extension SearchViewController: UITableViewDelegate {
 }
 
 private extension SearchViewController {
-    @objc func dismissButtonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-private extension SearchViewController {
     func setupView() {
         view.backgroundColor = .none
-        searchView.dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
+        searchView.didTapOnDismissButton = { [weak self] in self?.dismiss(animated: true, completion: nil) }
         searchView.tableView.dataSource = self
         searchView.tableView.delegate = self
         setupTextFieldTextChanged()
@@ -88,7 +96,7 @@ private extension SearchViewController {
     }
     
     func setupSearchButtonTapped() {
-        searchView.searchButtonTapped = { [weak self] text in
+        searchView.didTapOnSearchButton = { [weak self] text in
             self?.activityIndicatorView.startAnimating()
             GeoNamesApiManager.getLocations(forText: text,
                                             success: { [weak self] locations in
