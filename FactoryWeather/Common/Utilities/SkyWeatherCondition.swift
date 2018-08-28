@@ -17,7 +17,7 @@ enum SkyWeatherCondition {
     
     var gradient: CAGradientLayer {
         let layer = CAGradientLayer()
-        layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.4)
+        layer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
         switch self {
         case .day:
             layer.colors = [UIColor.daySkyTop.cgColor, UIColor.daySkyBottom.cgColor]

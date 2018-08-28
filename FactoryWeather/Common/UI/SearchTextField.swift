@@ -24,7 +24,7 @@ class SearchTextField: UITextField {
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         let superRect = super.textRect(forBounds: bounds)
-        return CGRect(x: superRect.origin.x + 10, y: superRect.origin.y, width: superRect.size.width - 20, height: superRect.size.height)
+        return CGRect(x: superRect.origin.x + 15, y: superRect.origin.y, width: superRect.size.width - 30, height: superRect.size.height)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
@@ -33,7 +33,7 @@ class SearchTextField: UITextField {
     
     override func rightViewRect(forBounds bounds: CGRect) -> CGRect {
         let superRect = super.rightViewRect(forBounds: bounds)
-        return CGRect(x: superRect.origin.x - 10, y: superRect.origin.y, width: superRect.size.width, height: superRect.size.height)
+        return CGRect(x: superRect.origin.x - 15, y: superRect.origin.y, width: superRect.size.width, height: superRect.size.height)
     }
 }
 
@@ -46,8 +46,10 @@ private extension SearchTextField {
     }
     
     func setupSearchButton() {
+        let tintedImage = #imageLiteral(resourceName: "search_icon").withRenderingMode(.alwaysTemplate)
         searchButton.addTarget(self, action: #selector(searchButtonTapped), for: .touchDown)
-        searchButton.setImage(#imageLiteral(resourceName: "search_icon"), for: .normal)
+        searchButton.setImage(tintedImage, for: .normal)
+        searchButton.tintColor = .factoryGreen
         rightView = searchButton
         searchButton.snp.makeConstraints { $0.width.height.equalTo(25) }
     }

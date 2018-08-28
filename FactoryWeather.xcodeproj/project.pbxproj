@@ -182,7 +182,7 @@
 			children = (
 				F55C5E652121A710001714FF /* HomeViewController.swift */,
 				F55C5E6C2121A8CC001714FF /* HomeView.swift */,
-				F55C5E8821259C4C001714FF /* Accessory Views */,
+				F55C5E8821259C4C001714FF /* Views */,
 				F55C5E8721259C17001714FF /* ViewModels */,
 			);
 			path = Home;
@@ -270,7 +270,7 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		F55C5E8821259C4C001714FF /* Accessory Views */ = {
+		F55C5E8821259C4C001714FF /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F55C5E6E2121AAE8001714FF /* HeaderView.swift */,
@@ -278,7 +278,7 @@
 				F55C5E732121C17D001714FF /* TitleAndBodyView.swift */,
 				F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */,
 			);
-			path = "Accessory Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F58FAAB5212D64800001EDE4 /* Persistence */ = {
@@ -294,12 +294,12 @@
 			children = (
 				F5AF0F1D212C108F007AD67C /* SettingsViewController.swift */,
 				F5AF0F1F212C10A4007AD67C /* SettingsView.swift */,
-				F5AF0F21212C1392007AD67C /* Accessory Views */,
+				F5AF0F21212C1392007AD67C /* Views */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		F5AF0F21212C1392007AD67C /* Accessory Views */ = {
+		F5AF0F21212C1392007AD67C /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F5AF0F22212C1B9B007AD67C /* LocationTableViewCell.swift */,
@@ -307,7 +307,7 @@
 				F5AF0F26212C1BB8007AD67C /* ConditionsTableViewCell.swift */,
 				F5AF0F2A212C2784007AD67C /* ConditionIconAndCheckBoxView.swift */,
 			);
-			path = "Accessory Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F5B54A8D2130258A00D1F573 /* Animation Controllers */ = {
@@ -371,17 +371,17 @@
 			children = (
 				F5C9FF7F21282D51000956FB /* SearchViewController.swift */,
 				F5C9FF8121282D6E000956FB /* SearchView.swift */,
-				F5C9FF832129508F000956FB /* Accessory Views */,
+				F5C9FF832129508F000956FB /* Views */,
 			);
 			path = Search;
 			sourceTree = "<group>";
 		};
-		F5C9FF832129508F000956FB /* Accessory Views */ = {
+		F5C9FF832129508F000956FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F5C9FF84212950AE000956FB /* SearchTableViewCell.swift */,
 			);
-			path = "Accessory Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		F5E55420212AF47200A42490 /* Dark Sky */ = {
