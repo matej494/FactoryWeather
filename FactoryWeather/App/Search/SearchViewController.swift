@@ -13,11 +13,12 @@ class SearchViewController: UIViewController {
     var searchTextFieldIsHidden: ((Bool) -> Void)?
     private var locations = [Location]()
     private var filteredLocations = [Location]()
-    private let searchView = SearchView.autolayoutView()
+    private let searchView: SearchView
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     private var searchLocationsWorkItem = DispatchWorkItem(block: {})
     
-    init() {
+    init(safeAreaInsets: UIEdgeInsets) {
+        searchView = SearchView(bottomSafeAreaInset: safeAreaInsets.bottom).autolayoutView()
         super.init(nibName: nil, bundle: nil)
         setupView()
     }
@@ -27,15 +28,17 @@ class SearchViewController: UIViewController {
     }
 }
 
-extension SearchViewController: SearchDismissible {
-    var mainView: UIView { return view }
-    
+extension SearchViewController: SearchTransitionable {
     func dismissKeyboard() -> CGFloat {
         return searchView.dismissKeyboard()
     }
     
     func searchTextFieldIsHidden(_ isHidden: Bool) {
         searchTextFieldIsHidden?(isHidden)
+    }
+    
+    func presentKeyboard() {
+        searchView.presentKeyboard()
     }
 }
 

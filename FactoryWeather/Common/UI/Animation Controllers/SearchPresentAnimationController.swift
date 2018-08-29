@@ -27,7 +27,7 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toVC = transitionContext.viewController(forKey: .to),
-            let fromVC = transitionContext.viewController(forKey: .from) as? SearchPresentable
+            let searchTransitionable = transitionContext.viewController(forKey: .to) as? SearchTransitionable
             else { return }
         let duration = transitionDuration(using: transitionContext)
         let containerView = transitionContext.containerView
@@ -38,14 +38,15 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
         containerView.addSubview(coloredBackgroundView)
         containerView.addSubview(blurredView)
         containerView.addSubview(searchTextField)
-        setupSearchTextFieldConstraints()
+        setupSearchTextFieldConstraints(view: containerView)
         containerView.layoutIfNeeded()
         containerView.addSubview(toVC.view)
         toVC.view.isHidden = true
-        searchTextField.snp.updateConstraints { $0.leading.trailing.equalToSuperview().inset(10) }
+        searchTextField.snp.updateConstraints { $0.leading.trailing.equalTo(containerView.safeAreaLayoutGuide).inset(10) }
         UIView.animate(withDuration: duration,
                        animations: { [weak self] in
-                        fromVC.searchTextFieldIsHidden(true)
+                        searchTransitionable.presentKeyboard()
+                        searchTransitionable.searchTextFieldIsHidden(true)
                         self?.blurredView.alpha = 1
                         self?.coloredBackgroundView.alpha = 1
                         containerView.layoutIfNeeded() },
@@ -54,7 +55,7 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
                         self?.coloredBackgroundView.removeFromSuperview()
                         self?.blurredView.removeFromSuperview()
                         self?.searchTextField.removeFromSuperview()
-                        fromVC.searchTextFieldIsHidden(false)
+                        searchTransitionable.searchTextFieldIsHidden(false)
                         transitionContext.completeTransition(finished)
         })
     }
@@ -73,10 +74,10 @@ private extension SearchPresentAnimationController {
         blurredView.alpha = 0
     }
     
-    func setupSearchTextFieldConstraints() {
+    func setupSearchTextFieldConstraints(view: UIView) {
         searchTextField.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(60)
-            $0.trailing.bottom.equalToSuperview().inset(20)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).inset(60)
+            $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
             $0.height.equalTo(35)
         }
     }
@@ -90,10 +91,11 @@ private extension SearchPresentAnimationController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo,
-            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            let endFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let containerView = containerView
             else { return }
         let keyboardHeight = endFrame.size.height
-        searchTextField.snp.updateConstraints { $0.bottom.equalToSuperview().inset(keyboardHeight + 10) }
-        containerView?.layoutIfNeeded()
+        searchTextField.snp.updateConstraints { $0.bottom.equalTo(containerView.safeAreaLayoutGuide).inset(keyboardHeight + 10 - containerView.safeAreaInsets.bottom) }
+        containerView.layoutIfNeeded()
     }
 }

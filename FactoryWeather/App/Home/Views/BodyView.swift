@@ -12,6 +12,7 @@ class BodyView: UIView {
     var didSelectSearchTextField: (() -> Void)?
     var didTapOnSettingsButton: (() -> Void)?
     
+    private let safeAreaLayoutView = UIView.autolayoutView()
     private let mainStackView = UIStackView.autolayoutView()
     private let temperaturesView = UIView.autolayoutView()
     private let conditionsStackView = UIStackView.autolayoutView()
@@ -83,6 +84,7 @@ private extension BodyView {
 private extension BodyView {
     func setupViews() {
         setupBackgroundImageView()
+        setupSafeAreaLayoutView()
         setupMainStackView()
         setupCityLabel()
         setupTemperaturesView()
@@ -107,11 +109,16 @@ private extension BodyView {
         }
     }
     
+    func setupSafeAreaLayoutView() {
+        addSubview(safeAreaLayoutView)
+        safeAreaLayoutView.snp.makeConstraints { $0.edges.equalTo(safeAreaLayoutGuide) }
+    }
+    
     func setupMainStackView() {
         mainStackView.distribution = .equalSpacing
         mainStackView.spacing = 20
         mainStackView.axis = .vertical
-        addSubview(mainStackView)
+        safeAreaLayoutView.addSubview(mainStackView)
         mainStackView.snp.makeConstraints { $0.leading.top.trailing.equalToSuperview() }
     }
     
@@ -184,7 +191,7 @@ private extension BodyView {
     }
     
     func setupSearchView() {
-        addSubview(searchView)
+        safeAreaLayoutView.addSubview(searchView)
         searchView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.top.equalTo(mainStackView.snp.bottom).inset(-20)
@@ -204,6 +211,7 @@ private extension BodyView {
     
     func setupSearchLabel() {
         searchTextField.delegate = self
+        searchTextField.rightView?.isUserInteractionEnabled = false
         searchTextField.setContentCompressionResistancePriority(.required, for: .vertical)
         searchView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints {
