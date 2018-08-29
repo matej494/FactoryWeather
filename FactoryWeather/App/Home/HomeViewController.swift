@@ -29,12 +29,6 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: SearchPresentable {
-    func searchTextFieldIsHidden(_ isHidden: Bool) {
-        homeView.searchTextFieldIsHidden(isHidden)
-    }
-}
-
 extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = manager.location
@@ -88,7 +82,9 @@ private extension HomeViewController {
     
     func setupCallbacks() {
         homeView.didSelectSearchTextField = { [weak self] in
-            let searchViewController = SearchViewController()
+            guard let strongSelf = self
+                else { return }
+            let searchViewController = SearchViewController(safeAreaInsets: strongSelf.view.safeAreaInsets)
             searchViewController.didSelectLocation = { [weak self] weather, location in
                 self?.location = location
                 self?.updateHomeViewProperties(withWeatherData: weather)
@@ -98,7 +94,7 @@ private extension HomeViewController {
             }
             searchViewController.transitioningDelegate = self
             searchViewController.modalPresentationStyle = .custom
-            self?.present(searchViewController, animated: true, completion: nil)
+            strongSelf.present(searchViewController, animated: true, completion: nil)
         }
         homeView.didTapOnSettingsButton = { [weak self] in
             guard let strongSelf = self
@@ -133,5 +129,9 @@ private extension HomeViewController {
                                         self?.activityIndicatorView.stopAnimating()
                                         print(error.localizedDescription)
         })
+    }
+    
+    func searchTextFieldIsHidden(_ isHidden: Bool) {
+        homeView.searchTextFieldIsHidden(isHidden)
     }
 }

@@ -16,15 +16,18 @@ class SearchView: UIView {
         didSet { searchTextField.didTapOnSearchButton = didTapOnSearchButton }
     }
 
+    private let safeAreaLayoutView = UIView.autolayoutView()
     // NOTE: "dismissButtonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
     private let dismissButtonTitleLabel = UILabel.autolayoutView()
     private let dismissButton = UIButton.autolayoutView()
     private var blurredView = UIVisualEffectView().autolayoutView()
     private let searchTextField = SearchTextField.autolayoutView()
     private let keyboardSizedView = UIView.autolayoutView()
+    private let bottomSafeAreaInset: CGFloat
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(bottomSafeAreaInset: CGFloat) {
+        self.bottomSafeAreaInset = bottomSafeAreaInset
+        super.init(frame: CGRect.zero)
         setupViews()
         setupObservers()
     }
@@ -39,6 +42,10 @@ extension SearchView {
         let keyboardHeight = keyboardSizedView.frame.size.height
         searchTextField.resignFirstResponder()
         return keyboardHeight
+    }
+    
+    func presentKeyboard() {
+        searchTextField.becomeFirstResponder()
     }
 }
 
@@ -64,7 +71,7 @@ private extension SearchView {
             else { return }
         let keyboardHeight = endFrame.size.height
         keyboardSizedView.snp.updateConstraints {
-            $0.height.equalTo(keyboardHeight)
+            $0.height.equalTo(keyboardHeight - bottomSafeAreaInset)
             $0.top.equalTo(searchTextField.snp.bottom).inset(-10)
         }
         layoutIfNeeded()
@@ -91,6 +98,7 @@ private extension SearchView {
     func setupViews() {
         backgroundColor = UIColor(red: 80, green: 80, blue: 80, alpha: 0.5)
         setupBluredView()
+        setupSafeAreaLayoutView()
         setupTableView()
         setupDismissButton()
         setupDismissButtonTitleLabel()
@@ -105,23 +113,28 @@ private extension SearchView {
         blurredView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
+    func setupSafeAreaLayoutView() {
+        addSubview(safeAreaLayoutView)
+        safeAreaLayoutView.snp.makeConstraints { $0.edges.equalTo(safeAreaLayoutGuide) }
+    }
+    
     func setupTableView() {
         tableView.backgroundColor = .none
         tableView.separatorStyle = .none
         tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
-        addSubview(tableView)
+        safeAreaLayoutView.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(safeAreaLayoutGuide).inset(20)
+            $0.top.equalToSuperview().inset(20)
         }
     }
     
     func setupDismissButton() {
         dismissButton.setImage(#imageLiteral(resourceName: "checkmark_uncheck"), for: .normal)
         dismissButton.addTarget(self, action: #selector(dismissButtonTapped), for: .touchDown)
-        addSubview(dismissButton)
+        safeAreaLayoutView.addSubview(dismissButton)
         dismissButton.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).inset(5)
+            $0.top.equalToSuperview().inset(5)
             $0.trailing.equalToSuperview().inset(10)
         }
     }
@@ -129,13 +142,12 @@ private extension SearchView {
     func setupDismissButtonTitleLabel() {
         dismissButtonTitleLabel.text = "X"
         dismissButtonTitleLabel.textColor = .factoryPaleCyan
-        addSubview(dismissButtonTitleLabel)
+        safeAreaLayoutView.addSubview(dismissButtonTitleLabel)
         dismissButtonTitleLabel.snp.makeConstraints { $0.center.equalTo(dismissButton.snp.center) }
     }
     
     func setupSearchTextField() {
-        searchTextField.becomeFirstResponder()
-        addSubview(searchTextField)
+        safeAreaLayoutView.addSubview(searchTextField)
         searchTextField.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(10)
             $0.top.equalTo(tableView.snp.bottom).inset(-20)
@@ -144,7 +156,7 @@ private extension SearchView {
     }
     
     func setupKeyboardSizedView() {
-        addSubview(keyboardSizedView)
+        safeAreaLayoutView.addSubview(keyboardSizedView)
         keyboardSizedView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
             $0.top.equalTo(searchTextField.snp.bottom).inset(-20)

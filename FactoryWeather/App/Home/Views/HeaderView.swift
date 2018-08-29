@@ -9,6 +9,7 @@
 import SnapKit
 
 class HeaderView: UIView {
+    private let safeAreaLayoutView = UIView.autolayoutView()
     private let backgroundImageView = UIImageView.autolayoutView()
     private let temperatureAndDescriptionView = TitleAndBodyView.autolayoutView()
     
@@ -32,20 +33,26 @@ extension HeaderView {
 
 private extension HeaderView {
     func setupViews() {
+        setupSafeAreaLayoutView()
         setupTemperatureAndDescriptionView()
         setupBackgorundImageView()
     }
     
+    func setupSafeAreaLayoutView() {
+        addSubview(safeAreaLayoutView)
+        safeAreaLayoutView.snp.makeConstraints { $0.edges.equalTo(safeAreaLayoutGuide) }
+    }
+    
     func setupBackgorundImageView() {
         backgroundImageView.contentMode = .scaleAspectFill
-        addSubview(backgroundImageView)
+        safeAreaLayoutView.addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     func setupTemperatureAndDescriptionView() {
         temperatureAndDescriptionView.titleFontSize = 72
         temperatureAndDescriptionView.bodyFontSize = 24
-        addSubview(temperatureAndDescriptionView)
+        safeAreaLayoutView.addSubview(temperatureAndDescriptionView)
         temperatureAndDescriptionView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalToSuperview()
