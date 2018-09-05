@@ -84,7 +84,7 @@ private extension HomeViewController {
         homeView.didSelectSearchTextField = { [weak self] in
             guard let strongSelf = self
                 else { return }
-            let searchViewController = SearchViewController(safeAreaInsets: strongSelf.view.safeAreaInsets)
+            let searchViewController = SearchViewController(viewModel: SearchViewModelImpl(), safeAreaInsets: strongSelf.view.safeAreaInsets)
             searchViewController.didSelectLocation = { [weak self] weather, location in
                 self?.location = location
                 self?.updateHomeViewProperties(withWeatherData: weather)

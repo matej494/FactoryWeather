@@ -11,16 +11,17 @@ import SnapKit
 class SearchViewController: UIViewController {
     var didSelectLocation: ((Weather, Location) -> Void)?
     var searchTextFieldIsHidden: ((Bool) -> Void)?
-    private var locations = [Location]()
-    private var filteredLocations = [Location]()
+    
+    private let viewModel: SearchViewModel
     private let searchView: SearchView
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
-    private var searchLocationsWorkItem = DispatchWorkItem(block: {})
     
-    init(safeAreaInsets: UIEdgeInsets) {
+    init(viewModel: SearchViewModel, safeAreaInsets: UIEdgeInsets) {
+        self.viewModel = viewModel
         searchView = SearchView(bottomSafeAreaInset: safeAreaInsets.bottom).autolayoutView()
         super.init(nibName: nil, bundle: nil)
         setupView()
+        setupCallbacks()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,33 +49,20 @@ extension SearchViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredLocations.count
+        return viewModel.filteredLocations.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell
             else { return UITableViewCell() }
-        cell.nameLabelText = filteredLocations[indexPath.row].fullName
+        cell.nameLabelText = viewModel.filteredLocations.value[indexPath.row].fullName
         return cell
     }
 }
 
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        activityIndicatorView.startAnimating()
-        let location = filteredLocations[indexPath.row]
-        DataManager.saveLocation(location)
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { [weak self] weather in
-                                        self?.didSelectLocation?(weather, location)
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.dismiss(animated: true, completion: nil) },
-                                      failure: { [weak self] error in
-                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
-                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.present(alert, animated: true, completion: nil)
-        })
+        viewModel.didSelectRow(withIndexPath: indexPath)
     }
 }
 
@@ -92,61 +80,36 @@ private extension SearchViewController {
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }
     
+    func setupCallbacks() {
+        viewModel.filteredLocations.bind { [weak self] _ in
+            self?.searchView.tableView.reloadData()
+        }
+        viewModel.weather.bind { [weak self] weather in
+            guard let strongSelf = self,
+                let weather = weather,
+                let location = self?.viewModel.selectedLocation
+                else { return }
+            strongSelf.didSelectLocation?(weather, location)
+            strongSelf.dismiss(animated: true, completion: nil)
+        }
+        viewModel.waitingResponse.bind { [weak self] isWaiting in
+            if isWaiting {
+                self?.activityIndicatorView.startAnimating()
+            } else {
+                self?.activityIndicatorView.stopAnimating()
+            }
+        }
+    }
+    
     func setupTextFieldTextChanged() {
         searchView.textFieldTextChanged = { [weak self] text in
-            guard let strongSelf = self
-                else { return }
-            strongSelf.searchLocationsWorkItem.cancel()
-            if !text.isEmpty {
-                strongSelf.searchLocationsWorkItem = DispatchWorkItem(block: { [weak self] in
-                    self?.getLocations(forText: text)
-                })
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: strongSelf.searchLocationsWorkItem)
-            }
-            strongSelf.filterLocations(forText: text)
+            self?.viewModel.textFieldTextChanged(newValue: text)
         }
     }
     
     func setupSearchButtonTapped() {
         searchView.didTapOnSearchButton = { [weak self] text in
-            self?.activityIndicatorView.startAnimating()
-            GeoNamesApiManager.getLocations(forText: text,
-                                            success: { [weak self] locations in
-                                                self?.insertNewLocations(locations)
-                                                self?.filterLocations(forText: text)
-                                                self?.activityIndicatorView.stopAnimating() },
-                                            failure: { [weak self] error in
-                                                print(error.localizedDescription)
-                                                self?.activityIndicatorView.stopAnimating()
-            })
+            self?.viewModel.getLocations(forText: text)
         }
-    }
-    
-    func insertNewLocations(_ newLocations: [Location]) {
-        var tempLocations = [Location]()
-        newLocations.forEach { location in
-            if !locations.contains(where: { $0.latitude == location.latitude && $0.longitude == location.longitude }) {
-                tempLocations.append(location)
-            }
-        }
-        locations.insert(contentsOf: tempLocations, at: 0)
-    }
-    
-    func filterLocations(forText text: String) {
-        filteredLocations = locations.filter({ $0.fullName.lowercased().contains(text.lowercased()) })
-        searchView.tableView.reloadData()
-    }
-    
-    func getLocations(forText text: String) {
-        activityIndicatorView.startAnimating()
-        GeoNamesApiManager.getLocations(forText: text,
-                                        success: { [weak self] locations in
-                                            self?.insertNewLocations(locations)
-                                            self?.filterLocations(forText: text)
-                                            self?.activityIndicatorView.stopAnimating() },
-                                        failure: { [weak self] error in
-                                            print(error.localizedDescription)
-                                            self?.activityIndicatorView.stopAnimating()
-        })
     }
 }
