@@ -9,8 +9,11 @@
 import SnapKit
 
 class LocationTableViewCell: UITableViewCell {
-    var didTapOnButton: (() -> Void)?
+    static let identifier = "LocationTableViewCell"
+
+    typealias ViewModel = (text: String, didTapOnButton: (() -> Void))
     
+    private var didTapOnButton: (() -> Void)?
     // NOTE: "buttonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
     private let buttonTitleLabel = UILabel.autolayoutView()
     private let button = UIButton.autolayoutView()
@@ -27,8 +30,9 @@ class LocationTableViewCell: UITableViewCell {
 }
 
 extension LocationTableViewCell {
-    func updateProperties(text: String) {
-        label.text = text
+    func updateProperties(viewModel: ViewModel) {
+        label.text = viewModel.text
+        didTapOnButton = viewModel.didTapOnButton
     }
 }
 

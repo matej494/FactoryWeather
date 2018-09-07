@@ -10,10 +10,10 @@ import Foundation
 
 class Box<T> {
     typealias Listener = (T) -> Void
-    var listener: Listener?
+    var listeners = [Listener]()
     
     var value: T {
-        didSet { listener?(value) }
+        didSet { listeners.forEach({ $0(value) }) }
     }
     
     init(_ value: T) {
@@ -22,12 +22,12 @@ class Box<T> {
 }
 
 extension Box {
-    func bind(_ listener: Listener?) {
-        self.listener = listener
+    func bind(_ listener: @escaping Listener) {
+        self.listeners.append(listener)
     }
     
-    func bindAndFire(_ listener: Listener?) {
-        self.listener = listener
-        listener?(value)
+    func bindAndFire(_ listener: @escaping Listener) {
+        self.listeners.append(listener)
+        listener(value)
     }
 }

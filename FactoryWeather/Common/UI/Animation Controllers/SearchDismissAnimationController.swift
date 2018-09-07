@@ -26,8 +26,7 @@ extension SearchDismissAnimationController: UIViewControllerAnimatedTransitionin
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let fromVC = transitionContext.viewController(forKey: .from),
-            let searchTransitionable = transitionContext.viewController(forKey: .from) as? SearchTransitionable
+        guard let fromVC = transitionContext.viewController(forKey: .from) as? UIViewController & SearchTransitionable
             else { return }
         let containerView = transitionContext.containerView
         self.containerView = containerView
@@ -38,7 +37,7 @@ extension SearchDismissAnimationController: UIViewControllerAnimatedTransitionin
         containerView.addSubview(coloredBackgroundView)
         containerView.addSubview(blurredView)
         containerView.addSubview(searchTextField)
-        let keyboardHeight = searchTransitionable.dismissKeyboard()
+        let keyboardHeight = fromVC.dismissKeyboard()
         setupSearchTextFieldConstraints(withView: containerView, keyboardHeight: keyboardHeight)
         containerView.layoutIfNeeded()
         fromVC.view.isHidden = true
@@ -48,7 +47,7 @@ extension SearchDismissAnimationController: UIViewControllerAnimatedTransitionin
         }
         UIView.animate(withDuration: duration,
                        animations: { [weak self] in
-                        searchTransitionable.searchTextFieldIsHidden(true)
+                        fromVC.searchTextFieldIsHidden(true)
                         self?.blurredView.alpha = 0
                         self?.coloredBackgroundView.alpha = 0
                         containerView.layoutIfNeeded() },
@@ -56,7 +55,7 @@ extension SearchDismissAnimationController: UIViewControllerAnimatedTransitionin
                         self?.coloredBackgroundView.removeFromSuperview()
                         self?.blurredView.removeFromSuperview()
                         self?.searchTextField.removeFromSuperview()
-                        searchTransitionable.searchTextFieldIsHidden(false)
+                        fromVC.searchTextFieldIsHidden(false)
                         transitionContext.completeTransition(finished)
         })
     }

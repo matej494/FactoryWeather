@@ -99,12 +99,21 @@ private extension HomeViewController {
         homeView.didTapOnSettingsButton = { [weak self] in
             guard let strongSelf = self
                 else { return }
-            let settingsViewController = SettingsViewController(location: strongSelf.location)
-            settingsViewController.settingsChanged = { [weak self] newLocation, weather in
-                self?.settings = DataManager.getSettings()
-                self?.location = newLocation
+            let settingsViewModel = SettingsViewModelImpl(oldLocation: strongSelf.location)
+            settingsViewModel.selectedLocation.bind { [weak self] location in
+                guard let location = location
+                    else { return }
+                self?.location = location
+            }
+            settingsViewModel.weather.bind { [weak self] weather in
+                guard let weather = weather
+                    else { return }
                 self?.updateHomeViewProperties(withWeatherData: weather)
             }
+            settingsViewModel.settings.bind { [weak self] settings in
+                self?.settings = settings
+            }
+            let settingsViewController = SettingsViewController(viewModel: settingsViewModel)
             settingsViewController.modalPresentationStyle = .overCurrentContext
             strongSelf.present(settingsViewController, animated: true, completion: nil)
         }

@@ -9,8 +9,11 @@
 import SnapKit
 
 class UnitTableViewCell: UITableViewCell {
-    var didTapOnButton: (() -> Void)?
+    static let identifier = "UnitTableViewCell"
 
+    typealias ViewModel = (unitName: String?, buttonIsSelected: Bool, didTapOnButton: (() -> Void))
+
+    private var didTapOnButton: (() -> Void)?
     private let button = UIButton.autolayoutView()
     private let label = UILabel.autolayoutView()
 
@@ -25,9 +28,10 @@ class UnitTableViewCell: UITableViewCell {
 }
 
 extension UnitTableViewCell {
-    func updateProperties(unitName: String?, isSelected: Bool) {
-        label.text = unitName
-        button.isSelected = isSelected
+    func updateProperties(viewModel: ViewModel) {
+        label.text = viewModel.unitName
+        button.isSelected = viewModel.buttonIsSelected
+        didTapOnButton = viewModel.didTapOnButton
     }
 }
 

@@ -10,6 +10,8 @@
 		F3AC08DD490A5F4262B58C69 /* Pods_FactoryWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327CDBAB4C564A2B8C96DB0E /* Pods_FactoryWeather.framework */; };
 		F50C3A94212D7FBC00EFFBEA /* RealmSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50C3A93212D7FBC00EFFBEA /* RealmSettings.swift */; };
 		F50C3A96212EA6CA00EFFBEA /* RealmLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */; };
+		F517110F214273D100D0E667 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F517110E214273D100D0E667 /* SettingsViewModel.swift */; };
+		F51711112142781800D0E667 /* SettingsViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51711102142781800D0E667 /* SettingsViewModelImpl.swift */; };
 		F51ECA21213D46910062D8A6 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA20213D46910062D8A6 /* Box.swift */; };
 		F51ECA24213D5DB70062D8A6 /* SearchViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA23213D5DB70062D8A6 /* SearchViewModelImpl.swift */; };
 		F51ECA26213E89F80062D8A6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA25213E89F80062D8A6 /* SearchViewModel.swift */; };
@@ -68,6 +70,8 @@
 		CFA1E443EBB6665D81F7015A /* Pods-FactoryWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FactoryWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather.release.xcconfig"; sourceTree = "<group>"; };
 		F50C3A93212D7FBC00EFFBEA /* RealmSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSettings.swift; sourceTree = "<group>"; };
 		F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLocation.swift; sourceTree = "<group>"; };
+		F517110E214273D100D0E667 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		F51711102142781800D0E667 /* SettingsViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelImpl.swift; sourceTree = "<group>"; };
 		F51ECA20213D46910062D8A6 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		F51ECA23213D5DB70062D8A6 /* SearchViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelImpl.swift; sourceTree = "<group>"; };
 		F51ECA25213E89F80062D8A6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +153,15 @@
 				CFA1E443EBB6665D81F7015A /* Pods-FactoryWeather.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F517110D214273A500D0E667 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				F51711102142781800D0E667 /* SettingsViewModelImpl.swift */,
+				F517110E214273D100D0E667 /* SettingsViewModel.swift */,
+			);
+			path = "View Model";
 			sourceTree = "<group>";
 		};
 		F51ECA22213D5D8F0062D8A6 /* View Model */ = {
@@ -308,6 +321,7 @@
 				F5AF0F1D212C108F007AD67C /* SettingsViewController.swift */,
 				F5AF0F1F212C10A4007AD67C /* SettingsView.swift */,
 				F5AF0F21212C1392007AD67C /* Views */,
+				F517110D214273A500D0E667 /* View Model */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -562,6 +576,7 @@
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
 				F51ECA21213D46910062D8A6 /* Box.swift in Sources */,
 				F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */,
+				F51711112142781800D0E667 /* SettingsViewModelImpl.swift in Sources */,
 				F5B54A8F213025C100D1F573 /* SearchPresentAnimationController.swift in Sources */,
 				F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */,
 				F58FAAAF212D4E720001EDE4 /* Conditions.swift in Sources */,
@@ -574,6 +589,7 @@
 				F5ECA0FD2134258A00432A07 /* SearchDismissAnimationController.swift in Sources */,
 				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
 				F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */,
+				F517110F214273D100D0E667 /* SettingsViewModel.swift in Sources */,
 				F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */,
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
 				F51ECA24213D5DB70062D8A6 /* SearchViewModelImpl.swift in Sources */,
