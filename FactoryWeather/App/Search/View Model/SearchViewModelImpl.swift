@@ -41,6 +41,19 @@ class SearchViewModelImpl: SearchViewModel {
         filterLocations(forText: text)
     }
     
+    func numberOfSections() -> Int {
+        return 1
+    }
+    
+    func numberOfRowsInSection(_ section: Int) -> Int {
+        return filteredLocations.value.count
+    }
+    
+    func cellViewModel(atIndexPath indexPath: IndexPath) -> SearchTableViewCell.ViewModel {
+        let viewModel = SearchTableViewCell.ViewModel(filteredLocations.value[indexPath.row].fullName)
+        return viewModel
+    }
+    
     func didSelectRow(withIndexPath indexPath: IndexPath) {
         waitingResponse.value = true
         let location = filteredLocations.value[indexPath.row]

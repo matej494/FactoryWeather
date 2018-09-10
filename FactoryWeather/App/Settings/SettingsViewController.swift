@@ -35,7 +35,25 @@ extension SettingsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.cellForRowAtIndexPath(tableView, indexPath: indexPath)
+        if indexPath.section == SettingsSection.locations.rawValue {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationTableViewCell.identifier, for: indexPath) as? LocationTableViewCell,
+                let cellViewModel: LocationTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
+                else { return UITableViewCell() }
+            cell.updateProperties(viewModel: cellViewModel)
+            return cell
+        } else if indexPath.section == SettingsSection.units.rawValue {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: UnitTableViewCell.identifier, for: indexPath) as? UnitTableViewCell,
+                let cellViewModel: UnitTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
+                else { return UITableViewCell() }
+            cell.updateProperties(viewModel: cellViewModel)
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConditionsTableViewCell.identifier, for: indexPath) as? ConditionsTableViewCell,
+                let cellViewModel: ConditionsTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
+                else { return UITableViewCell() }
+            cell.updateProperties(viewModel: cellViewModel)
+            return cell
+        }
     }
 }
 

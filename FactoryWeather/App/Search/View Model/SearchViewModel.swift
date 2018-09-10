@@ -16,5 +16,8 @@ protocol SearchViewModel {
 
     func getLocations(forText text: String)
     func textFieldTextChanged(newValue text: String)
+    func numberOfSections() -> Int
+    func numberOfRowsInSection(_ section: Int) -> Int
+    func cellViewModel(atIndexPath indexPath: IndexPath) -> SearchTableViewCell.ViewModel
     func didSelectRow(withIndexPath indexPath: IndexPath)
 }

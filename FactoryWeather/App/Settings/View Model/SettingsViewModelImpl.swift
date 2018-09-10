@@ -6,7 +6,7 @@
 //  Copyright © 2018 Matej Korman. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class SettingsViewModelImpl: SettingsViewModel {
     private(set) var locations = Box<[Location]>(DataManager.getLocations())
@@ -32,10 +32,8 @@ class SettingsViewModelImpl: SettingsViewModel {
         return SettingsSection(rawValue: section)?.count ?? 0
     }
     
-    func cellForRowAtIndexPath(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == SettingsSection.locations.rawValue {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationTableViewCell.identifier, for: indexPath) as? LocationTableViewCell
-                else { return UITableViewCell() }
+    func cellViewModel<T>(atIndexPath indexPath: IndexPath) -> T? {
+        if T.self is LocationTableViewCell.ViewModel.Type {
             let viewModel = LocationTableViewCell.ViewModel(text: locations.value[indexPath.row].fullName,
                                                             didTapOnButton: { [weak self] in
                                                                 guard let strongSelf = self
@@ -43,27 +41,20 @@ class SettingsViewModelImpl: SettingsViewModel {
                                                                 DataManager.deleteLocation(strongSelf.locations.value[indexPath.row])
                                                                 strongSelf.locations.value = DataManager.getLocations()
             })
-            cell.updateProperties(viewModel: viewModel)
-            return cell
-        } else if indexPath.section == SettingsSection.units.rawValue {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: UnitTableViewCell.identifier, for: indexPath) as? UnitTableViewCell
-                else { return UITableViewCell() }
+            return viewModel as? T
+        } else if T.self is UnitTableViewCell.ViewModel.Type {
             let viewModel = UnitTableViewCell.ViewModel(unitName: Unit(rawValue: indexPath.row)?.localizedName,
                                                         buttonIsSelected: settings.value.unit == Unit(rawValue: indexPath.row),
                                                         didTapOnButton: { [weak self] in
                                                             self?.settings.value.unit = Unit(rawValue: indexPath.row) ?? .metric
             })
-            cell.updateProperties(viewModel: viewModel)
-            return cell
+            return viewModel as? T
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConditionsTableViewCell.identifier, for: indexPath) as? ConditionsTableViewCell
-                else { return UITableViewCell() }
             let viewModel = ConditionsTableViewCell.ViewModel(conditions: settings.value.conditions,
                                                               didTapOnButton: {[weak self] condition in
                                                                 self?.settings.value.conditions.toggle(condition: condition)
             })
-            cell.updateProperties(viewModel: viewModel)
-            return cell
+            return viewModel as? T
         }
     }
     

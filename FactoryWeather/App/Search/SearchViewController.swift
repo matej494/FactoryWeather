@@ -45,17 +45,17 @@ extension SearchViewController: SearchTransitionable {
 
 extension SearchViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.filteredLocations.value.count
+        return viewModel.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "SearchTableViewCell", for: indexPath) as? SearchTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as? SearchTableViewCell
             else { return UITableViewCell() }
-        cell.nameLabelText = viewModel.filteredLocations.value[indexPath.row].fullName
+        cell.updateProperties(viewModel: viewModel.cellViewModel(atIndexPath: indexPath))
         return cell
     }
 }

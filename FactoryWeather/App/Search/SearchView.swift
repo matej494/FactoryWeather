@@ -121,7 +121,7 @@ private extension SearchView {
     func setupTableView() {
         tableView.backgroundColor = .none
         tableView.separatorStyle = .none
-        tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: "SearchTableViewCell")
+        tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         safeAreaLayoutView.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
