@@ -9,7 +9,7 @@
 import Foundation
 
 struct DarkSkyApiManager {
-    static func getForecast(forLocation location: Location, success: @escaping (Weather) -> Void, failure: @escaping (LocalizedError) -> Void) {
+    static func getWeather(forLocation location: Location, success: @escaping (Weather) -> Void, failure: @escaping (LocalizedError) -> Void) {
         guard let url = createUrl(forLocation: location)
             else { return DispatchQueue.main.async { failure(NetworkManagerError.urlCreationFailure) } }
         var request = URLRequest(url: url)

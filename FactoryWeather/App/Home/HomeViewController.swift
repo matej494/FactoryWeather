@@ -7,55 +7,20 @@
 //
 
 import SnapKit
-import CoreLocation
 
 class HomeViewController: UIViewController {
-    // NOTE: Fixed location. Will be used if device location isn't authorised or fails.
-    private var location = Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819)
-    private var settings = DataManager.getSettings()
+    private let viewModel: HomeViewModel
     private let homeView = HomeView.autolayoutView()
-    private let locationManager = CLLocationManager()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     
-    init() {
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setupView()
-        setupLocationManager()
-        locationManager.requestWhenInUseAuthorization()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension HomeViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = manager.location
-            else { return getWeatherAndUpdateView() }
-        locationManager.stopUpdatingLocation()
-        CLGeocoder().reverseGeocodeLocation(location, completionHandler: { [weak self] placemarks, error in
-            if let error = error {
-                self?.getWeatherAndUpdateView()
-                return print("Reverse geocoder failed with error" + error.localizedDescription)
-            }
-            let newLocation = Location(name: placemarks?.first?.locality ?? LocalizationKey.Home.deviceLocationUnknown.localized(),
-                                       country: "",
-                                       latitude: location.coordinate.latitude,
-                                       longitude: location.coordinate.longitude)
-            if newLocation != self?.location {
-                self?.location = newLocation
-            }
-            self?.getWeatherAndUpdateView()
-        })
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .denied {
-            getWeatherAndUpdateView()
-        } else {
-            locationManager.startUpdatingLocation()
-        }
     }
 }
 
@@ -84,11 +49,18 @@ private extension HomeViewController {
         homeView.didSelectSearchTextField = { [weak self] in
             guard let strongSelf = self
                 else { return }
-            let searchViewController = SearchViewController(viewModel: SearchViewModelImpl(), safeAreaInsets: strongSelf.view.safeAreaInsets)
-            searchViewController.didSelectLocation = { [weak self] weather, location in
-                self?.location = location
-                self?.updateHomeViewProperties(withWeatherData: weather)
-            }
+            let searchViewModelImpl = SearchViewModelImpl()
+            searchViewModelImpl.selectedLocation.bind({ [weak self] location in
+                guard let location = location
+                    else { return }
+                self?.viewModel.dataChanged(location)
+            })
+            searchViewModelImpl.weather.bind({ [weak self] weather in
+                guard let weather = weather
+                    else { return }
+                self?.viewModel.dataChanged(weather)
+            })
+            let searchViewController = SearchViewController(viewModel: searchViewModelImpl, safeAreaInsets: strongSelf.view.safeAreaInsets)
             searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
                 self?.searchTextFieldIsHidden(isHidden)
             }
@@ -99,45 +71,38 @@ private extension HomeViewController {
         homeView.didTapOnSettingsButton = { [weak self] in
             guard let strongSelf = self
                 else { return }
-            let settingsViewModel = SettingsViewModelImpl(oldLocation: strongSelf.location)
+            let settingsViewModel = SettingsViewModelImpl(oldLocation: strongSelf.viewModel.location)
             settingsViewModel.selectedLocation.bind { [weak self] location in
                 guard let location = location
                     else { return }
-                self?.location = location
+                self?.viewModel.dataChanged(location)
             }
             settingsViewModel.weather.bind { [weak self] weather in
                 guard let weather = weather
                     else { return }
-                self?.updateHomeViewProperties(withWeatherData: weather)
+                self?.viewModel.dataChanged(weather)
             }
             settingsViewModel.settings.bind { [weak self] settings in
-                self?.settings = settings
+                self?.viewModel.dataChanged(settings)
             }
             let settingsViewController = SettingsViewController(viewModel: settingsViewModel)
             settingsViewController.modalPresentationStyle = .overCurrentContext
             strongSelf.present(settingsViewController, animated: true, completion: nil)
         }
-    }
-    
-    func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-    }
-    
-    func updateHomeViewProperties(withWeatherData weather: Weather) {
-        let homeViewModel = HomeViewModel(weatherData: weather, settings: settings)
-        homeView.updateProperties(withData: homeViewModel)
-    }
-    
-    func getWeatherAndUpdateView() {
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { [weak self] weather in
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.updateHomeViewProperties(withWeatherData: weather) },
-                                      failure: { [weak self] error in
-                                        self?.activityIndicatorView.stopAnimating()
-                                        print(error.localizedDescription)
-        })
+        viewModel.weather.bind { [weak self] weather in
+            guard let weather = weather,
+                let settings = self?.viewModel.settings
+                else { return }
+            let homeViewViewModel = HomeView.ViewModel(weatherData: weather, settings: settings)
+            self?.homeView.updateProperties(withData: homeViewViewModel)
+        }
+        viewModel.waitingResponse.bind { [weak self] isWaiting in
+            if isWaiting {
+                self?.activityIndicatorView.startAnimating()
+            } else {
+                self?.activityIndicatorView.stopAnimating()
+            }
+        }
     }
     
     func searchTextFieldIsHidden(_ isHidden: Bool) {

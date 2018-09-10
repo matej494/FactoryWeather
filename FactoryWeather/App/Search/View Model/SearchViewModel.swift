@@ -12,7 +12,8 @@ protocol SearchViewModel {
     var filteredLocations: Box<[Location]> { get }
     var weather: Box<Weather?> { get }
     var waitingResponse: Box<Bool> { get }
-    var selectedLocation: Location? { get }
+    var selectedLocation: Box<Location?> { get }
+    var dismissViewController: Box<Bool> { get }
 
     func getLocations(forText text: String)
     func textFieldTextChanged(newValue text: String)

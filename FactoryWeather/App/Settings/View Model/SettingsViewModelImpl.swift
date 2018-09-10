@@ -14,7 +14,7 @@ class SettingsViewModelImpl: SettingsViewModel {
     private(set) var weather = Box<Weather?>(nil)
     private(set) var waitingResponse = Box<Bool>(false)
     private(set) var selectedLocation = Box<Location?>(nil)
-    private(set) var shouldDismissVC = Box<Bool>(false)
+    private(set) var dismissViewController = Box<Bool>(false)
     private var oldLocation: Location
     
     init(oldLocation: Location) {
@@ -67,21 +67,21 @@ class SettingsViewModelImpl: SettingsViewModel {
     func doneButtonTapped() {
         let oldSettings = DataManager.getSettings()
         guard selectedLocation.value != nil || settings.value != oldSettings
-            else { return shouldDismissVC.value = true }
+            else { return dismissViewController.value = true }
         waitingResponse.value = true
         if settings.value != oldSettings {
             DataManager.saveSettings(settings.value)
         }
         let location = selectedLocation.value ?? oldLocation
-        DarkSkyApiManager.getForecast(forLocation: location,
+        DarkSkyApiManager.getWeather(forLocation: location,
                                       success: { [weak self] weather in
                                         self?.weather.value = weather
                                         self?.waitingResponse.value = false
-                                        self?.shouldDismissVC.value = true },
+                                        self?.dismissViewController.value = true },
                                       failure: { [weak self] error in
                                         print(error.localizedDescription)
                                         self?.waitingResponse.value = false
-                                        self?.shouldDismissVC.value = true
+                                        self?.dismissViewController.value = true
         })
     }
 }

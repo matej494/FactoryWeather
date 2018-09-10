@@ -14,7 +14,7 @@ protocol SettingsViewModel {
     var weather: Box<Weather?> { get }
     var waitingResponse: Box<Bool> { get }
     var selectedLocation: Box<Location?> { get }
-    var shouldDismissVC: Box<Bool> { get }
+    var dismissViewController: Box<Bool> { get }
     
     func numberOfSections() -> Int
     func numberOfRowsInSection(_ section: Int) -> Int

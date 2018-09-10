@@ -39,7 +39,7 @@ class BodyView: UIView {
 }
 
 extension BodyView {
-    func updateProperties(withData data: HomeViewModel) {
+    func updateProperties(withData data: HomeView.ViewModel) {
         backgroundImageView.image = data.bodyImage
         cityLabel.text = data.cityName
         lowTemperatureView.titleText = data.lowTemperature

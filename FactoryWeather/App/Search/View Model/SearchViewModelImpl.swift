@@ -12,7 +12,8 @@ class SearchViewModelImpl: SearchViewModel {
     private(set) var filteredLocations = Box([Location]())
     private(set) var weather = Box<Weather?>(nil)
     private(set) var waitingResponse = Box<Bool>(false)
-    private(set) var selectedLocation: Location?
+    private(set) var selectedLocation = Box<Location?>(nil)
+    private(set) var dismissViewController = Box<Bool>(false)
 
     private var locations = [Location]()
     private var searchLocationsWorkItem = DispatchWorkItem(block: {})
@@ -57,15 +58,17 @@ class SearchViewModelImpl: SearchViewModel {
     func didSelectRow(withIndexPath indexPath: IndexPath) {
         waitingResponse.value = true
         let location = filteredLocations.value[indexPath.row]
-        selectedLocation = location
+        selectedLocation.value = location
         DataManager.saveLocation(location)
-        DarkSkyApiManager.getForecast(forLocation: location,
+        DarkSkyApiManager.getWeather(forLocation: location,
                                       success: { [weak self] weather in
                                         self?.weather.value = weather
-                                        self?.waitingResponse.value = false },
+                                        self?.waitingResponse.value = false
+                                        self?.dismissViewController.value = true },
                                       failure: { [weak self] error in
                                         print(error.localizedDescription)
                                         self?.waitingResponse.value = false
+                                        self?.dismissViewController.value = true
         })
     }
 }

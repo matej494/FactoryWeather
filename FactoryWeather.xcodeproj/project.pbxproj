@@ -12,6 +12,8 @@
 		F50C3A96212EA6CA00EFFBEA /* RealmLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */; };
 		F517110F214273D100D0E667 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F517110E214273D100D0E667 /* SettingsViewModel.swift */; };
 		F51711112142781800D0E667 /* SettingsViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51711102142781800D0E667 /* SettingsViewModelImpl.swift */; };
+		F51711162146828100D0E667 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51711152146828100D0E667 /* HomeViewModel.swift */; };
+		F51711182146829400D0E667 /* HomeViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51711172146829400D0E667 /* HomeViewModelImpl.swift */; };
 		F51ECA21213D46910062D8A6 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA20213D46910062D8A6 /* Box.swift */; };
 		F51ECA24213D5DB70062D8A6 /* SearchViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA23213D5DB70062D8A6 /* SearchViewModelImpl.swift */; };
 		F51ECA26213E89F80062D8A6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51ECA25213E89F80062D8A6 /* SearchViewModel.swift */; };
@@ -27,7 +29,6 @@
 		F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E792122D415001714FF /* SearchTextField.swift */; };
 		F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */; };
 		F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */; };
-		F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8021255B7D001714FF /* HomeViewModel.swift */; };
 		F55C5E8321256495001714FF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8221256495001714FF /* Weather.swift */; };
 		F55C5E8621256700001714FF /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8521256700001714FF /* Unit.swift */; };
 		F58FAAA9212D33600001EDE4 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58FAAA8212D33600001EDE4 /* SettingsSection.swift */; };
@@ -72,6 +73,8 @@
 		F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLocation.swift; sourceTree = "<group>"; };
 		F517110E214273D100D0E667 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		F51711102142781800D0E667 /* SettingsViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelImpl.swift; sourceTree = "<group>"; };
+		F51711152146828100D0E667 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F51711172146829400D0E667 /* HomeViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelImpl.swift; sourceTree = "<group>"; };
 		F51ECA20213D46910062D8A6 /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		F51ECA23213D5DB70062D8A6 /* SearchViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModelImpl.swift; sourceTree = "<group>"; };
 		F51ECA25213E89F80062D8A6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
@@ -89,7 +92,6 @@
 		F55C5E792122D415001714FF /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor-FactoryWeather.swift"; sourceTree = "<group>"; };
 		F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyWeatherCondition.swift; sourceTree = "<group>"; };
-		F55C5E8021255B7D001714FF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F55C5E8221256495001714FF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F55C5E8521256700001714FF /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		F58FAAA8212D33600001EDE4 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
@@ -164,6 +166,15 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		F51711142146820900D0E667 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				F51711152146828100D0E667 /* HomeViewModel.swift */,
+				F51711172146829400D0E667 /* HomeViewModelImpl.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
 		F51ECA22213D5D8F0062D8A6 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,7 +220,7 @@
 				F55C5E652121A710001714FF /* HomeViewController.swift */,
 				F55C5E6C2121A8CC001714FF /* HomeView.swift */,
 				F55C5E8821259C4C001714FF /* Views */,
-				F55C5E8721259C17001714FF /* ViewModels */,
+				F51711142146820900D0E667 /* View Model */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -286,14 +297,6 @@
 				F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F55C5E8721259C17001714FF /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				F55C5E8021255B7D001714FF /* HomeViewModel.swift */,
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		F55C5E8821259C4C001714FF /* Views */ = {
@@ -574,6 +577,7 @@
 				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
 				F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */,
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
+				F51711182146829400D0E667 /* HomeViewModelImpl.swift in Sources */,
 				F51ECA21213D46910062D8A6 /* Box.swift in Sources */,
 				F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */,
 				F51711112142781800D0E667 /* SettingsViewModelImpl.swift in Sources */,
@@ -595,13 +599,13 @@
 				F51ECA24213D5DB70062D8A6 /* SearchViewModelImpl.swift in Sources */,
 				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,
 				F58FAAA9212D33600001EDE4 /* SettingsSection.swift in Sources */,
+				F51711162146828100D0E667 /* HomeViewModel.swift in Sources */,
 				F5AF0F1E212C108F007AD67C /* SettingsViewController.swift in Sources */,
 				F5C9FF8021282D51000956FB /* SearchViewController.swift in Sources */,
 				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F50C3A94212D7FBC00EFFBEA /* RealmSettings.swift in Sources */,
 				F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */,
 				F5B7009021352ABC00D5CE43 /* SearchTransitionable.swift in Sources */,
-				F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */,
 				F5AF0F27212C1BB8007AD67C /* ConditionsTableViewCell.swift in Sources */,
 				F5AF0F20212C10A4007AD67C /* SettingsView.swift in Sources */,
 				F55C5E8321256495001714FF /* Weather.swift in Sources */,

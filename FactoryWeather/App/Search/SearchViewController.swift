@@ -9,7 +9,6 @@
 import SnapKit
 
 class SearchViewController: UIViewController {
-    var didSelectLocation: ((Weather, Location) -> Void)?
     var searchTextFieldIsHidden: ((Bool) -> Void)?
     
     private let viewModel: SearchViewModel
@@ -84,20 +83,15 @@ private extension SearchViewController {
         viewModel.filteredLocations.bind { [weak self] _ in
             self?.searchView.tableView.reloadData()
         }
-        viewModel.weather.bind { [weak self] weather in
-            guard let strongSelf = self,
-                let weather = weather,
-                let location = self?.viewModel.selectedLocation
-                else { return }
-            strongSelf.didSelectLocation?(weather, location)
-            strongSelf.dismiss(animated: true, completion: nil)
-        }
         viewModel.waitingResponse.bind { [weak self] isWaiting in
             if isWaiting {
                 self?.activityIndicatorView.startAnimating()
             } else {
                 self?.activityIndicatorView.stopAnimating()
             }
+        }
+        viewModel.dismissViewController.bind { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     

@@ -102,8 +102,8 @@ private extension SettingsViewController {
                 self?.activityIndicatorView.stopAnimating()
             }
         }
-        viewModel.shouldDismissVC.bind { [weak self] shouldDismiss in
-            self?.dismiss(animated: shouldDismiss, completion: nil)
+        viewModel.dismissViewController.bind { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     
