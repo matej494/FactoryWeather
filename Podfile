@@ -9,5 +9,7 @@ target 'FactoryWeather' do
   pod 'SnapKit', '~> 4.0.0'
   pod 'SwiftLint'
   pod 'RealmSwift'
+  pod 'RxSwift',    '~> 4.0'
+  pod 'RxCocoa',    '~> 4.0'
 
 end
