@@ -9,8 +9,11 @@
 import SnapKit
 
 class ConditionsTableViewCell: UITableViewCell {
-    var didTapOnButton: ((Conditions) -> Void)?
+    static let identifier = "ConditionsTableViewCell"
 
+    typealias ViewModel = (conditions: Conditions, didTapOnButton: ((Conditions) -> Void))
+
+    private var didTapOnButton: ((Conditions) -> Void)?
     private let stackView = UIStackView.autolayoutView()
     private let humidityView = ConditionIconAndCheckBoxView.autolayoutView()
     private let windView = ConditionIconAndCheckBoxView.autolayoutView()
@@ -27,10 +30,11 @@ class ConditionsTableViewCell: UITableViewCell {
 }
 
 extension ConditionsTableViewCell {
-    func updateProperties(conditions: Conditions) {
-        humidityView.isSelected = conditions.contains(.humidity)
-        windView.isSelected = conditions.contains(.windSpeed)
-        pressureView.isSelected = conditions.contains(.pressure)
+    func updateProperties(viewModel: ViewModel) {
+        humidityView.isSelected = viewModel.conditions.contains(.humidity)
+        windView.isSelected = viewModel.conditions.contains(.windSpeed)
+        pressureView.isSelected = viewModel.conditions.contains(.pressure)
+        didTapOnButton = viewModel.didTapOnButton
     }
 }
 

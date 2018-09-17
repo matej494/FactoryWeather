@@ -50,9 +50,9 @@ private extension SettingsView {
         tableView.backgroundColor = .none
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
-        tableView.register(LocationTableViewCell.self, forCellReuseIdentifier: "LocationTableViewCell")
-        tableView.register(UnitTableViewCell.self, forCellReuseIdentifier: "UnitTableViewCell")
-        tableView.register(ConditionsTableViewCell.self, forCellReuseIdentifier: "ConditionsTableViewCell")
+        tableView.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.identifier)
+        tableView.register(UnitTableViewCell.self, forCellReuseIdentifier: UnitTableViewCell.identifier)
+        tableView.register(ConditionsTableViewCell.self, forCellReuseIdentifier: ConditionsTableViewCell.identifier)
         safeAreaLayoutView.addSubview(tableView)
         tableView.snp.makeConstraints { $0.leading.trailing.top.equalToSuperview().inset(10) }
     }

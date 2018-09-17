@@ -9,18 +9,15 @@
 import SnapKit
 
 class SettingsViewController: UIViewController {
-    var settingsChanged: ((Location, Weather) -> Void)?
-    private var selectedLocation: Location?
-    private let oldLocation: Location
-    private var locations = DataManager.getLocations()
-    private var settings = DataManager.getSettings()
+    private let viewModel: SettingsViewModel
     private let settingsView = SettingsView.autolayoutView()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     
-    init(location: Location) {
-        self.oldLocation = location
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         setupView()
+        setupCallbacks()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,46 +27,31 @@ class SettingsViewController: UIViewController {
 
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return SettingsSection.allValuesCount
+        return viewModel.numberOfSections()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == SettingsSection.locations.rawValue {
-            return min(SettingsSection.locations.count, locations.count)
-        }
-        return SettingsSection(rawValue: section)?.count ?? 0
+        return viewModel.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == SettingsSection.locations.rawValue {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "LocationTableViewCell", for: indexPath) as? LocationTableViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: LocationTableViewCell.identifier, for: indexPath) as? LocationTableViewCell,
+                let cellViewModel: LocationTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
                 else { return UITableViewCell() }
-            cell.updateProperties(text: locations[indexPath.row].fullName)
-            cell.didTapOnButton = { [weak self] in
-                guard let strongSelf = self
-                    else { return }
-                DataManager.deleteLocation(strongSelf.locations[indexPath.row])
-                strongSelf.locations = DataManager.getLocations()
-                tableView.reloadSections([indexPath.section], with: .none)
-            }
+            cell.updateProperties(viewModel: cellViewModel)
             return cell
         } else if indexPath.section == SettingsSection.units.rawValue {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "UnitTableViewCell", for: indexPath) as? UnitTableViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: UnitTableViewCell.identifier, for: indexPath) as? UnitTableViewCell,
+                let cellViewModel: UnitTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
                 else { return UITableViewCell() }
-            cell.updateProperties(unitName: Unit(rawValue: indexPath.row)?.localizedName, isSelected: settings.unit == Unit(rawValue: indexPath.row))
-            cell.didTapOnButton = { [weak self] in
-                self?.settings.unit = Unit(rawValue: indexPath.row) ?? .metric
-                tableView.reloadSections([indexPath.section], with: .none)
-            }
+            cell.updateProperties(viewModel: cellViewModel)
             return cell
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ConditionsTableViewCell", for: indexPath) as? ConditionsTableViewCell
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ConditionsTableViewCell.identifier, for: indexPath) as? ConditionsTableViewCell,
+                let cellViewModel: ConditionsTableViewCell.ViewModel = viewModel.cellViewModel(atIndexPath: indexPath)
                 else { return UITableViewCell() }
-            cell.updateProperties(conditions: settings.conditions)
-            cell.didTapOnButton = { [weak self] condition in
-                self?.settings.conditions.toggle(condition: condition)
-                tableView.reloadSections([indexPath.section], with: .none)
-            }
+            cell.updateProperties(viewModel: cellViewModel)
             return cell
         }
     }
@@ -77,9 +59,7 @@ extension SettingsViewController: UITableViewDataSource {
 
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == SettingsSection.locations.rawValue {
-            selectedLocation = locations[indexPath.row]
-        }
+        viewModel.didSelectRowAtIndexPath(indexPath)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -108,27 +88,26 @@ private extension SettingsViewController {
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }
     
+    func setupCallbacks() {
+        viewModel.locations.bind { [weak self] _ in
+            self?.settingsView.tableView.reloadSections([SettingsSection.locations.rawValue], with: .automatic)
+        }
+        viewModel.settings.bind { [weak self] _ in
+            self?.settingsView.tableView.reloadSections([SettingsSection.units.rawValue, SettingsSection.conditions.rawValue], with: .automatic)
+        }
+        viewModel.waitingResponse.bind { [weak self] isWaiting in
+            if isWaiting {
+                self?.activityIndicatorView.startAnimating()
+            } else {
+                self?.activityIndicatorView.stopAnimating()
+            }
+        }
+        viewModel.dismissViewController.bind { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     @objc func doneButtonTapped() {
-        activityIndicatorView.startAnimating()
-        guard selectedLocation != nil || settings != DataManager.getSettings()
-            else { return dismiss(animated: true, completion: nil) }
-        let location = selectedLocation ?? oldLocation
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { [weak self] weather in
-                                        guard let strongSelf = self
-                                            else { return }
-                                        DataManager.saveSettings(strongSelf.settings)
-                                        strongSelf.settingsChanged?(location, weather)
-                                        strongSelf.activityIndicatorView.stopAnimating()
-                                        strongSelf.dismiss(animated: true, completion: nil) },
-                                      failure: { [weak self] error in
-                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
-                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.stayHereActionTitle.localized(), style: .cancel, handler: nil))
-                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.goBackActionTitle.localized(), style: .default) { [weak self] action in
-                                            self?.dismiss(animated: true, completion: nil)
-                                        })
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.present(alert, animated: true, completion: nil)
-        })
+        viewModel.doneButtonTapped()
     }
 }

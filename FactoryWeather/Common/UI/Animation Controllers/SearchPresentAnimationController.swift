@@ -26,8 +26,7 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let toVC = transitionContext.viewController(forKey: .to),
-            let searchTransitionable = transitionContext.viewController(forKey: .to) as? SearchTransitionable
+        guard let toVC = transitionContext.viewController(forKey: .to) as? UIViewController & SearchTransitionable
             else { return }
         let duration = transitionDuration(using: transitionContext)
         let containerView = transitionContext.containerView
@@ -45,8 +44,8 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
         searchTextField.snp.updateConstraints { $0.leading.trailing.equalTo(containerView.safeAreaLayoutGuide).inset(10) }
         UIView.animate(withDuration: duration,
                        animations: { [weak self] in
-                        searchTransitionable.presentKeyboard()
-                        searchTransitionable.searchTextFieldIsHidden(true)
+                        toVC.presentKeyboard()
+                        toVC.searchTextFieldIsHidden(true)
                         self?.blurredView.alpha = 1
                         self?.coloredBackgroundView.alpha = 1
                         containerView.layoutIfNeeded() },
@@ -55,7 +54,7 @@ extension SearchPresentAnimationController: UIViewControllerAnimatedTransitionin
                         self?.coloredBackgroundView.removeFromSuperview()
                         self?.blurredView.removeFromSuperview()
                         self?.searchTextField.removeFromSuperview()
-                        searchTransitionable.searchTextFieldIsHidden(false)
+                        toVC.searchTextFieldIsHidden(false)
                         transitionContext.completeTransition(finished)
         })
     }
