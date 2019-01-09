@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-struct HomeViewModel {
+struct HomeDataSource {
     let currentTemperature: String
     let lowTemperature: String
     let highTemperature: String
@@ -23,7 +23,8 @@ struct HomeViewModel {
     let bodyImage: UIImage
     let visibleConditions: Conditions
     
-    init(weatherData data: Weather, settings: Settings) {
+    init(weatherData data: Weather) {
+        let settings = DataManager.getSettings()
         currentTemperature = settings.unit.temperature(imperialValue: Int(data.temperature))
         lowTemperature = settings.unit.temperature(imperialValue: data.temperatureLow)
         highTemperature = settings.unit.temperature(imperialValue: data.temperatureHigh)

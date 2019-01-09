@@ -1,14 +1,14 @@
 //
-//  HomeView.swift
+//  HomeContentView.swift
 //  FactoryWeather
 //
-//  Created by Matej Korman on 13/08/2018.
-//  Copyright © 2018 Matej Korman. All rights reserved.
+//  Created by Matej Korman on 08/01/2019.
+//  Copyright © 2019 Matej Korman. All rights reserved.
 //
 
 import SnapKit
 
-class HomeView: UIView {
+class HomeContentView: UIView {
     var didTapOnSettingsButton: (() -> Void)? {
         didSet { bodyView.didTapOnSettingsButton = didTapOnSettingsButton }
     }
@@ -31,8 +31,8 @@ class HomeView: UIView {
     }
 }
 
-extension HomeView {
-    func updateProperties(withData data: HomeViewModel) {
+extension HomeContentView {
+    func updateProperties(withData data: HomeDataSource) {
         skyView.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
         skyView.layer.addSublayer(data.skyGradient)
         headerView.updateProperties(withData: data)
@@ -44,7 +44,7 @@ extension HomeView {
     }
 }
 
-private extension HomeView {
+private extension HomeContentView {
     func setupViews() {
         setupSkyView()
         setupBodyView()
@@ -66,7 +66,7 @@ private extension HomeView {
             $0.height.equalTo(UIScreen.main.bounds.height * 0.6)
         }
     }
-
+    
     func setupHeaderView() {
         addSubview(headerView)
         headerView.snp.makeConstraints {

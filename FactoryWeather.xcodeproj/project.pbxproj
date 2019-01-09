@@ -10,11 +10,16 @@
 		F3AC08DD490A5F4262B58C69 /* Pods_FactoryWeather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 327CDBAB4C564A2B8C96DB0E /* Pods_FactoryWeather.framework */; };
 		F50C3A94212D7FBC00EFFBEA /* RealmSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50C3A93212D7FBC00EFFBEA /* RealmSettings.swift */; };
 		F50C3A96212EA6CA00EFFBEA /* RealmLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */; };
+		F51DC03621E4B828003E59FC /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03121E4B828003E59FC /* HomeContentView.swift */; };
+		F51DC03721E4B828003E59FC /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03221E4B828003E59FC /* HomePresenter.swift */; };
+		F51DC03821E4B828003E59FC /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03321E4B828003E59FC /* HomeRouter.swift */; };
+		F51DC03921E4B828003E59FC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03421E4B828003E59FC /* HomeViewController.swift */; };
+		F51DC03A21E4B828003E59FC /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03521E4B828003E59FC /* HomeInteractor.swift */; };
+		F51DC03E21E4C756003E59FC /* WeatherWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC03D21E4C756003E59FC /* WeatherWorker.swift */; };
+		F51DC04321E4E54C003E59FC /* DeviceLocationWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51DC04221E4E54C003E59FC /* DeviceLocationWorker.swift */; };
 		F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54694D3212194ED00919F64 /* AppDelegate.swift */; };
 		F54694DB212194EE00919F64 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F54694DA212194EE00919F64 /* Assets.xcassets */; };
-		F55C5E662121A710001714FF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E652121A710001714FF /* HomeViewController.swift */; };
 		F55C5E6B2121A843001714FF /* UIView-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */; };
-		F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6C2121A8CC001714FF /* HomeView.swift */; };
 		F55C5E6F2121AAE8001714FF /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E6E2121AAE8001714FF /* HeaderView.swift */; };
 		F55C5E712121AFE3001714FF /* BodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E702121AFE3001714FF /* BodyView.swift */; };
 		F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E732121C17D001714FF /* TitleAndBodyView.swift */; };
@@ -22,7 +27,7 @@
 		F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E792122D415001714FF /* SearchTextField.swift */; };
 		F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */; };
 		F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */; };
-		F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8021255B7D001714FF /* HomeViewModel.swift */; };
+		F55C5E8121255B7D001714FF /* HomeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8021255B7D001714FF /* HomeDataSource.swift */; };
 		F55C5E8321256495001714FF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8221256495001714FF /* Weather.swift */; };
 		F55C5E8621256700001714FF /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F55C5E8521256700001714FF /* Unit.swift */; };
 		F58FAAA9212D33600001EDE4 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F58FAAA8212D33600001EDE4 /* SettingsSection.swift */; };
@@ -65,13 +70,18 @@
 		CFA1E443EBB6665D81F7015A /* Pods-FactoryWeather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FactoryWeather.release.xcconfig"; path = "Pods/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather.release.xcconfig"; sourceTree = "<group>"; };
 		F50C3A93212D7FBC00EFFBEA /* RealmSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmSettings.swift; sourceTree = "<group>"; };
 		F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmLocation.swift; sourceTree = "<group>"; };
+		F51DC03121E4B828003E59FC /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
+		F51DC03221E4B828003E59FC /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		F51DC03321E4B828003E59FC /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		F51DC03421E4B828003E59FC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		F51DC03521E4B828003E59FC /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		F51DC03D21E4C756003E59FC /* WeatherWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWorker.swift; sourceTree = "<group>"; };
+		F51DC04221E4E54C003E59FC /* DeviceLocationWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceLocationWorker.swift; sourceTree = "<group>"; };
 		F54694D0212194ED00919F64 /* FactoryWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FactoryWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F54694D3212194ED00919F64 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F54694DA212194EE00919F64 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F54694DF212194EE00919F64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F55C5E652121A710001714FF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F55C5E6A2121A843001714FF /* UIView-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView-FactoryWeather.swift"; sourceTree = "<group>"; };
-		F55C5E6C2121A8CC001714FF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F55C5E6E2121AAE8001714FF /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		F55C5E702121AFE3001714FF /* BodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyView.swift; sourceTree = "<group>"; };
 		F55C5E732121C17D001714FF /* TitleAndBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleAndBodyView.swift; sourceTree = "<group>"; };
@@ -79,7 +89,7 @@
 		F55C5E792122D415001714FF /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		F55C5E7B21231286001714FF /* UIColor-FactoryWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor-FactoryWeather.swift"; sourceTree = "<group>"; };
 		F55C5E7E21231CB3001714FF /* SkyWeatherCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyWeatherCondition.swift; sourceTree = "<group>"; };
-		F55C5E8021255B7D001714FF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F55C5E8021255B7D001714FF /* HomeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataSource.swift; sourceTree = "<group>"; };
 		F55C5E8221256495001714FF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		F55C5E8521256700001714FF /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		F58FAAA8212D33600001EDE4 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
@@ -145,6 +155,49 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F51DC03021E4B7FF003E59FC /* VIP Home */ = {
+			isa = PBXGroup;
+			children = (
+				F51DC03F21E4DA3C003E59FC /* Data source */,
+				F51DC03B21E4BAFA003E59FC /* Views */,
+				F51DC03C21E4C711003E59FC /* Workers */,
+				F51DC03221E4B828003E59FC /* HomePresenter.swift */,
+				F51DC03321E4B828003E59FC /* HomeRouter.swift */,
+				F51DC03421E4B828003E59FC /* HomeViewController.swift */,
+				F51DC03521E4B828003E59FC /* HomeInteractor.swift */,
+			);
+			path = "VIP Home";
+			sourceTree = "<group>";
+		};
+		F51DC03B21E4BAFA003E59FC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F51DC03121E4B828003E59FC /* HomeContentView.swift */,
+				F55C5E6E2121AAE8001714FF /* HeaderView.swift */,
+				F55C5E702121AFE3001714FF /* BodyView.swift */,
+				F55C5E732121C17D001714FF /* TitleAndBodyView.swift */,
+				F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F51DC03C21E4C711003E59FC /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				F51DC03D21E4C756003E59FC /* WeatherWorker.swift */,
+				F51DC04221E4E54C003E59FC /* DeviceLocationWorker.swift */,
+			);
+			path = Workers;
+			sourceTree = "<group>";
+		};
+		F51DC03F21E4DA3C003E59FC /* Data source */ = {
+			isa = PBXGroup;
+			children = (
+				F55C5E8021255B7D001714FF /* HomeDataSource.swift */,
+			);
+			path = "Data source";
+			sourceTree = "<group>";
+		};
 		F54694C7212194ED00919F64 = {
 			isa = PBXGroup;
 			children = (
@@ -175,22 +228,11 @@
 			path = FactoryWeather;
 			sourceTree = "<group>";
 		};
-		F55C5E642121A6F9001714FF /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				F55C5E652121A710001714FF /* HomeViewController.swift */,
-				F55C5E6C2121A8CC001714FF /* HomeView.swift */,
-				F55C5E8821259C4C001714FF /* Views */,
-				F55C5E8721259C17001714FF /* ViewModels */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 		F55C5E672121A7DF001714FF /* App */ = {
 			isa = PBXGroup;
 			children = (
 				F54694D3212194ED00919F64 /* AppDelegate.swift */,
-				F55C5E642121A6F9001714FF /* Home */,
+				F51DC03021E4B7FF003E59FC /* VIP Home */,
 				F5C9FF7E21282D25000956FB /* Search */,
 				F5AF0F1C212C106F007AD67C /* Settings */,
 			);
@@ -257,25 +299,6 @@
 				F50C3A95212EA6CA00EFFBEA /* RealmLocation.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		F55C5E8721259C17001714FF /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				F55C5E8021255B7D001714FF /* HomeViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		F55C5E8821259C4C001714FF /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				F55C5E6E2121AAE8001714FF /* HeaderView.swift */,
-				F55C5E702121AFE3001714FF /* BodyView.swift */,
-				F55C5E732121C17D001714FF /* TitleAndBodyView.swift */,
-				F55C5E752121C4D9001714FF /* ConditionIconAndValueView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		F58FAAB5212D64800001EDE4 /* Persistence */ = {
@@ -476,7 +499,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -489,7 +512,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FactoryWeather/Pods-FactoryWeather-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5AC11B9EECFCA0975D6FC460 /* [CP] Check Pods Manifest.lock */ = {
@@ -539,11 +562,13 @@
 				F54694D4212194ED00919F64 /* AppDelegate.swift in Sources */,
 				F58FAAB7212D64A50001EDE4 /* DataManager.swift in Sources */,
 				F5C9FF6021281FB2000956FB /* DarkSkyApi.swift in Sources */,
+				F51DC03E21E4C756003E59FC /* WeatherWorker.swift in Sources */,
 				F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */,
 				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
 				F5E5541F212AF44E00A42490 /* GeoNamesApiManager.swift in Sources */,
 				F5C9FF5521270598000956FB /* UIFont-FactoryWeather.swift in Sources */,
 				F5C9FF8221282D6E000956FB /* SearchView.swift in Sources */,
+				F51DC03721E4B828003E59FC /* HomePresenter.swift in Sources */,
 				F5B54A8F213025C100D1F573 /* SearchPresentAnimationController.swift in Sources */,
 				F5C9FF85212950AE000956FB /* SearchTableViewCell.swift in Sources */,
 				F58FAAAF212D4E720001EDE4 /* Conditions.swift in Sources */,
@@ -553,25 +578,28 @@
 				F5C9FF5E21281FB2000956FB /* NetworkManagerError.swift in Sources */,
 				F5E55423212AF7B500A42490 /* GeoNamesApi.swift in Sources */,
 				F5ECA0FD2134258A00432A07 /* SearchDismissAnimationController.swift in Sources */,
-				F55C5E6D2121A8CC001714FF /* HomeView.swift in Sources */,
 				F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */,
+				F51DC03621E4B828003E59FC /* HomeContentView.swift in Sources */,
 				F5C9FF5D21281FB2000956FB /* HTTPRequestMethod.swift in Sources */,
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
 				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,
 				F58FAAA9212D33600001EDE4 /* SettingsSection.swift in Sources */,
 				F5AF0F1E212C108F007AD67C /* SettingsViewController.swift in Sources */,
 				F5C9FF8021282D51000956FB /* SearchViewController.swift in Sources */,
+				F51DC03A21E4B828003E59FC /* HomeInteractor.swift in Sources */,
 				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F50C3A94212D7FBC00EFFBEA /* RealmSettings.swift in Sources */,
 				F55C5E7A2122D415001714FF /* SearchTextField.swift in Sources */,
 				F5B7009021352ABC00D5CE43 /* SearchTransitionable.swift in Sources */,
-				F55C5E8121255B7D001714FF /* HomeViewModel.swift in Sources */,
+				F51DC03821E4B828003E59FC /* HomeRouter.swift in Sources */,
+				F55C5E8121255B7D001714FF /* HomeDataSource.swift in Sources */,
 				F5AF0F27212C1BB8007AD67C /* ConditionsTableViewCell.swift in Sources */,
+				F51DC03921E4B828003E59FC /* HomeViewController.swift in Sources */,
 				F5AF0F20212C10A4007AD67C /* SettingsView.swift in Sources */,
 				F55C5E8321256495001714FF /* Weather.swift in Sources */,
 				F55C5E742121C17D001714FF /* TitleAndBodyView.swift in Sources */,
 				F55C5E6B2121A843001714FF /* UIView-FactoryWeather.swift in Sources */,
-				F55C5E662121A710001714FF /* HomeViewController.swift in Sources */,
+				F51DC04321E4E54C003E59FC /* DeviceLocationWorker.swift in Sources */,
 				F5AF0F23212C1B9B007AD67C /* LocationTableViewCell.swift in Sources */,
 				F5C9FF6421281FC7000956FB /* Forecast.swift in Sources */,
 				F55C5E7F21231CB3001714FF /* SkyWeatherCondition.swift in Sources */,

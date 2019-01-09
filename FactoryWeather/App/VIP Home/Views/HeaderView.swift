@@ -24,7 +24,7 @@ class HeaderView: UIView {
 }
 
 extension HeaderView {
-    func updateProperties(withData data: HomeViewModel) {
+    func updateProperties(withData data: HomeDataSource) {
         backgroundImageView.image = data.headerImage
         temperatureAndDescriptionView.titleText = data.currentTemperature
         temperatureAndDescriptionView.bodyText = data.summary

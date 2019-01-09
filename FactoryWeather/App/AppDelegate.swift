@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !FileManager.default.fileExists(atPath: (documentsURL)) {
             DataManager.saveSettings(Settings(unit: .metric, conditions: Conditions.all))
         }
-        window.rootViewController = HomeViewController()
+        window.rootViewController = HomeViewController(delegate: nil)
         window.makeKeyAndVisible()
         return true
     }
