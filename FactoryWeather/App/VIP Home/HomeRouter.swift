@@ -13,9 +13,7 @@ protocol HomeRoutingLogic {
     func openSearch()
 }
 
-protocol HomeRouterDelegate: class {
-    
-}
+protocol HomeRouterDelegate: class { }
 
 class HomeRouter {
     weak var viewController: HomeViewController?
@@ -27,7 +25,7 @@ extension HomeRouter: HomeRoutingLogic {
     func openSettings(oldLocation location: Location) {
         let settingsViewController = SettingsViewController(location: location)
         settingsViewController.settingsChanged = { [weak self] newLocation, weather in
-            self?.viewController?.interactor?.getWeather(forLocation: newLocation)
+            self?.viewController?.getWeather(forLocation: newLocation)
             //Notify settingsViewController if the getWeather was successfull ??
         }
         settingsViewController.modalPresentationStyle = .overCurrentContext
@@ -38,10 +36,10 @@ extension HomeRouter: HomeRoutingLogic {
         guard let viewController = viewController else { return }
         let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets)
         searchViewController.didSelectLocation = { [weak self] weather, location in
-            self?.viewController?.interactor?.getWeather(forLocation: location)
+            self?.viewController?.getWeather(forLocation: location)
         }
         searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
-            self?.viewController?.searchTextFieldIsHidden(isHidden)
+            self?.viewController?.setSearchTextFieldHidden(isHidden)
         }
         searchViewController.transitioningDelegate = viewController
         searchViewController.modalPresentationStyle = .custom
