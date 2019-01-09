@@ -9,6 +9,15 @@
 import SnapKit
 
 class BodyView: UIView {
+    typealias ViewModel = (bodyImage: UIImage,
+        cityName: String,
+        lowTemperature: String,
+        highTemperature: String,
+        humidity: String,
+        windSpeed: String,
+        pressure: String,
+        visibleConditions: Conditions)
+    
     var didSelectSearchTextField: (() -> Void)?
     var didTapOnSettingsButton: (() -> Void)?
     
@@ -39,7 +48,7 @@ class BodyView: UIView {
 }
 
 extension BodyView {
-    func updateProperties(withData data: HomeDataSource) {
+    func updateProperties(withData data: ViewModel) {
         backgroundImageView.image = data.bodyImage
         cityLabel.text = data.cityName
         lowTemperatureView.titleText = data.lowTemperature
