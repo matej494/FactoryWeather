@@ -9,6 +9,7 @@
 import SnapKit
 
 class HeaderView: UIView {
+    typealias ViewModel = (headerImage: UIImage, currentTemperature: String, summary: String)
     private let safeAreaLayoutView = UIView.autolayoutView()
     private let backgroundImageView = UIImageView.autolayoutView()
     private let temperatureAndDescriptionView = TitleAndBodyView.autolayoutView()
@@ -24,7 +25,7 @@ class HeaderView: UIView {
 }
 
 extension HeaderView {
-    func updateProperties(withData data: HomeDataSource) {
+    func updateProperties(withData data: ViewModel) {
         backgroundImageView.image = data.headerImage
         temperatureAndDescriptionView.titleText = data.currentTemperature
         temperatureAndDescriptionView.bodyText = data.summary

@@ -9,6 +9,7 @@
 import SnapKit
 
 class HomeContentView: UIView {
+    typealias ViewModel = (skyGradient: CAGradientLayer, headerViewModel: HeaderView.ViewModel, bodyViewModel: BodyView.ViewModel)
     var didTapOnSettingsButton: (() -> Void)? {
         didSet { bodyView.didTapOnSettingsButton = didTapOnSettingsButton }
     }
@@ -32,11 +33,11 @@ class HomeContentView: UIView {
 }
 
 extension HomeContentView {
-    func updateProperties(withData data: HomeDataSource) {
+    func updateProperties(withData data: ViewModel) {
         skyView.layer.sublayers?.forEach({ $0.removeFromSuperlayer() })
         skyView.layer.addSublayer(data.skyGradient)
-        headerView.updateProperties(withData: data)
-        bodyView.updateProperties(withData: data)
+        headerView.updateProperties(withData: data.headerViewModel)
+        bodyView.updateProperties(withData: data.bodyViewModel)
     }
     
     func searchTextFieldIsHidden(_ isHidden: Bool) {

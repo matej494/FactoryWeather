@@ -9,8 +9,7 @@
 import SnapKit
 
 protocol HomeDisplayLogic: class {
-    func displayWeather(_ weather: HomeDataSource, forLocation location: Location)
-    func searchTextFieldIsHidden(_ isHidden: Bool)
+    func displayWeather(_ weather: HomeContentView.ViewModel, forLocation location: Location)
 }
 
 protocol HomeSceneLogic: class {
@@ -20,12 +19,12 @@ protocol HomeSceneLogic: class {
         - completion: Called when weather is successfully received
      */
     func getWeather(forLocation location: Location?, completion: @escaping () -> Void)
+    func setSearchTextFieldHidden(_ hidden: Bool)
 }
 
 class HomeViewController: UIViewController {
     var interactor: HomeBusinessLogic?
     var router: HomeRoutingLogic?
-    
     private let contentView = HomeContentView.autolayoutView()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     private var location = Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819)
@@ -41,7 +40,6 @@ class HomeViewController: UIViewController {
         router.delegate = delegate
         self.interactor = interactor
         self.router = router
-        setupCallbacks()
         setupViews()
     }
     
@@ -57,14 +55,10 @@ class HomeViewController: UIViewController {
 
 // MARK: - Display Logic
 extension HomeViewController: HomeDisplayLogic {
-    func displayWeather(_ weather: HomeDataSource, forLocation location: Location) {
+    func displayWeather(_ weather: HomeContentView.ViewModel, forLocation location: Location) {
         self.location = location
         contentView.updateProperties(withData: weather)
         activityIndicatorView.stopAnimating()
-    }
-    
-    func searchTextFieldIsHidden(_ isHidden: Bool) {
-        contentView.searchTextFieldIsHidden(isHidden)
     }
 }
 
@@ -72,6 +66,10 @@ extension HomeViewController: HomeDisplayLogic {
 extension HomeViewController: HomeSceneLogic {
     func getWeather(forLocation location: Location?, completion: @escaping () -> Void) {
         interactor?.getWeather(forLocation: location ?? self.location, completion: completion)
+    }
+    
+    func setSearchTextFieldHidden(_ hidden: Bool) {
+        contentView.searchTextFieldIsHidden(hidden)
     }
 }
 
@@ -89,27 +87,23 @@ extension HomeViewController: UIViewControllerTransitioningDelegate {
 private extension HomeViewController {
     func setupViews() {
         view.backgroundColor = .white
-        // setup title, background, navigation buttons, etc
         setupContentView()
         setupActivityIndicatorView()
     }
     
     func setupContentView() {
+        contentView.didTapOnSettingsButton = { [weak self] in
+            guard let strongSelf = self else { return }
+            self?.router?.openSettings(oldLocation: strongSelf.location)
+        }
+        contentView.didSelectSearchTextField = { [weak self] in self?.router?.openSearch() }
         view.addSubview(contentView)
         contentView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     func setupActivityIndicatorView() {
         view.addSubview(activityIndicatorView)
-        contentView.snp.makeConstraints { $0.center.equalToSuperview() }
-    }
-    
-    func setupCallbacks() {
-        contentView.didTapOnSettingsButton = { [weak self] in
-            guard let strongSelf = self else { return }
-            self?.router?.openSettings(oldLocation: strongSelf.location)
-        }
-        contentView.didSelectSearchTextField = { [weak self] in self?.router?.openSearch() }
+        activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
     }
     
     func getWeatherForDeviceLocation() {

@@ -35,7 +35,7 @@ extension HomeRouter: HomeRoutingLogic {
             self?.viewController?.getWeather(forLocation: location, completion: { })
         }
         searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
-            self?.viewController?.searchTextFieldIsHidden(isHidden)
+            self?.viewController?.setSearchTextFieldHidden(isHidden)
         }
         searchViewController.transitioningDelegate = viewController
         searchViewController.modalPresentationStyle = .custom
