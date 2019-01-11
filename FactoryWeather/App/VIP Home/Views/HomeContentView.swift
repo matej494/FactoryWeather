@@ -10,7 +10,6 @@ import SnapKit
 
 class HomeContentView: UIView {
     typealias ViewModel = (skyGradient: CAGradientLayer, headerViewModel: HeaderView.ViewModel, bodyViewModel: BodyView.ViewModel)
-    
     var didTapOnSettingsButton: (() -> Void)? {
         didSet { bodyView.didTapOnSettingsButton = didTapOnSettingsButton }
     }

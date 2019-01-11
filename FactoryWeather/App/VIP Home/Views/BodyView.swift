@@ -17,7 +17,6 @@ class BodyView: UIView {
         windSpeed: String,
         pressure: String,
         visibleConditions: Conditions)
-    
     var didSelectSearchTextField: (() -> Void)?
     var didTapOnSettingsButton: (() -> Void)?
     
