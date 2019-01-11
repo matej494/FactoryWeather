@@ -9,5 +9,6 @@ target 'FactoryWeather' do
   pod 'SnapKit', '~> 4.0.0'
   pod 'SwiftLint'
   pod 'RealmSwift'
+  pod 'PromisesSwift', '~> 1.2.4'
 
 end
