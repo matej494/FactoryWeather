@@ -1,5 +1,5 @@
 //
-//  LocationTableViewCell.swift
+//  UnitTableViewCell.swift
 //  FactoryWeather
 //
 //  Created by Matej Korman on 21/08/2018.
@@ -8,14 +8,14 @@
 
 import SnapKit
 
-class LocationTableViewCell: UITableViewCell {
-    var didTapOnButton: (() -> Void)?
+class UnitTableViewCell: UITableViewCell {
+    typealias ViewModel = (unitName: String, isSelected: Bool)
     
-    // NOTE: "buttonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
-    private let buttonTitleLabel = UILabel.autolayoutView()
+    var didTapOnButton: (() -> Void)?
+
     private let button = UIButton.autolayoutView()
     private let label = UILabel.autolayoutView()
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -26,27 +26,29 @@ class LocationTableViewCell: UITableViewCell {
     }
 }
 
-extension LocationTableViewCell {
-    func updateProperties(text: String) {
-        label.text = text
+extension UnitTableViewCell {
+    func updateProperties(data: ViewModel) {
+        label.text = data.unitName
+        button.isSelected = data.isSelected
     }
 }
 
-private extension LocationTableViewCell {
+private extension UnitTableViewCell {
     @objc func tappedOnButton() {
         didTapOnButton?()
     }
 }
 
-private extension LocationTableViewCell {
+private extension UnitTableViewCell {
     func setupViews() {
         backgroundColor = .none
+        selectionStyle = .none
         setupButton()
-        setupButtonTitleLabel()
         setupLabel()
     }
     
     func setupButton() {
+        button.setImage(#imageLiteral(resourceName: "square_checkmark_check"), for: .selected)
         button.setImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
         button.addTarget(self, action: #selector(tappedOnButton), for: .touchDown)
         button.setContentHuggingPriority(.required, for: .horizontal)
@@ -55,13 +57,6 @@ private extension LocationTableViewCell {
             $0.leading.top.bottom.equalToSuperview()
             $0.height.width.equalTo(35)
         }
-    }
-    
-    func setupButtonTitleLabel() {
-        buttonTitleLabel.text = "X"
-        buttonTitleLabel.textColor = .factoryPaleCyan
-        contentView.addSubview(buttonTitleLabel)
-        buttonTitleLabel.snp.makeConstraints { $0.center.equalTo(button.snp.center) }
     }
     
     func setupLabel() {

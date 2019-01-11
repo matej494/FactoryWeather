@@ -1,5 +1,5 @@
 //
-//  UnitTableViewCell.swift
+//  LocationTableViewCell.swift
 //  FactoryWeather
 //
 //  Created by Matej Korman on 21/08/2018.
@@ -8,12 +8,16 @@
 
 import SnapKit
 
-class UnitTableViewCell: UITableViewCell {
+class LocationTableViewCell: UITableViewCell {
+    typealias ViewModel = String
+    
     var didTapOnButton: (() -> Void)?
-
+    
+    // NOTE: "buttonTitleLabel" is just temporary. Until appropriate asset for button image is acquired.
+    private let buttonTitleLabel = UILabel.autolayoutView()
     private let button = UIButton.autolayoutView()
     private let label = UILabel.autolayoutView()
-
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -24,29 +28,27 @@ class UnitTableViewCell: UITableViewCell {
     }
 }
 
-extension UnitTableViewCell {
-    func updateProperties(unitName: String?, isSelected: Bool) {
-        label.text = unitName
-        button.isSelected = isSelected
+extension LocationTableViewCell {
+    func updateProperties(text: ViewModel) {
+        label.text = text
     }
 }
 
-private extension UnitTableViewCell {
+private extension LocationTableViewCell {
     @objc func tappedOnButton() {
         didTapOnButton?()
     }
 }
 
-private extension UnitTableViewCell {
+private extension LocationTableViewCell {
     func setupViews() {
         backgroundColor = .none
-        selectionStyle = .none
         setupButton()
+        setupButtonTitleLabel()
         setupLabel()
     }
     
     func setupButton() {
-        button.setImage(#imageLiteral(resourceName: "square_checkmark_check"), for: .selected)
         button.setImage(#imageLiteral(resourceName: "square_checkmark_uncheck"), for: .normal)
         button.addTarget(self, action: #selector(tappedOnButton), for: .touchDown)
         button.setContentHuggingPriority(.required, for: .horizontal)
@@ -55,6 +57,13 @@ private extension UnitTableViewCell {
             $0.leading.top.bottom.equalToSuperview()
             $0.height.width.equalTo(35)
         }
+    }
+    
+    func setupButtonTitleLabel() {
+        buttonTitleLabel.text = "X"
+        buttonTitleLabel.textColor = .factoryPaleCyan
+        contentView.addSubview(buttonTitleLabel)
+        buttonTitleLabel.snp.makeConstraints { $0.center.equalTo(button.snp.center) }
     }
     
     func setupLabel() {

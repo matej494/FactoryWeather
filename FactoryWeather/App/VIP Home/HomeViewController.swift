@@ -13,6 +13,15 @@ protocol HomeDisplayLogic: class {
     func searchTextFieldIsHidden(_ isHidden: Bool)
 }
 
+protocol HomeSceneLogic: class {
+    /**
+     - Parameters:
+        - forLocation: If this parameter is `nil`, current location will be used
+        - completion: Called when weather is successfully received
+     */
+    func getWeather(forLocation location: Location?, completion: @escaping () -> Void)
+}
+
 class HomeViewController: UIViewController {
     var interactor: HomeBusinessLogic?
     var router: HomeRoutingLogic?
@@ -56,6 +65,13 @@ extension HomeViewController: HomeDisplayLogic {
     
     func searchTextFieldIsHidden(_ isHidden: Bool) {
         contentView.searchTextFieldIsHidden(isHidden)
+    }
+}
+
+// MARK: - Scene Logic
+extension HomeViewController: HomeSceneLogic {
+    func getWeather(forLocation location: Location?, completion: @escaping () -> Void) {
+        interactor?.getWeather(forLocation: location ?? self.location, completion: completion)
     }
 }
 

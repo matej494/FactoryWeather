@@ -9,7 +9,11 @@
 import Foundation
 
 protocol HomeBusinessLogic {
-    func getWeather(forLocation location: Location)
+    /**
+     - Parameters:
+        - completion: Called when weather is successfully received
+     */
+    func getWeather(forLocation location: Location, completion: (() -> Void)?)
     //Maybe change name of function so it's obvious that it will get weather for Zagreb if device location is not available
     func getWeatherForDeviceLocation()
 }
@@ -22,20 +26,22 @@ class HomeInteractor {
 
 // MARK: - Business Logic
 extension HomeInteractor: HomeBusinessLogic {
-    func getWeather(forLocation location: Location) {
+    func getWeather(forLocation location: Location, completion: (() -> Void)?) {
         weatherWorker.getWeather(forLocation: location,
-                                 success: { [weak self] weather in self?.presenter?.presentWeather(weather, forLocation: location) },
-                                 failure: { print($0.localizedDescription) })
+            success: { [weak self] weather in
+                self?.presenter?.presentWeather(weather, forLocation: location)
+                completion?()
+            }, failure: { print($0.localizedDescription) })
     }
     
     func getWeatherForDeviceLocation() {
         deviceLocationWorker.getDeviceLocation { [weak self] location in
             guard let location = location else {
                 //Maybe notify user that device location is unavailable
-                self?.getWeather(forLocation: Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819))
+                self?.getWeather(forLocation: Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819), completion: nil)
                 return
             }
-            self?.getWeather(forLocation: location)
+            self?.getWeather(forLocation: location, completion: nil)
         }
     }
 }
