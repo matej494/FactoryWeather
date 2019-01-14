@@ -63,7 +63,7 @@ extension SettingsInteractor: SettingsBusinessLogic {
                 return promise
             }
             .then { didSettingsChange in
-                completion(didSettingsChange || selectedLocation =! nil)
+                completion(didSettingsChange || selectedLocation != nil)
             }
             .catch { print($0) }
     }
