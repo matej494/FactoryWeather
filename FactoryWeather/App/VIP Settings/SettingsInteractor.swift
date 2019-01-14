@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Promises
 
 protocol SettingsBusinessLogic {
     func deleteLocation(_ location: Location)
@@ -18,7 +19,7 @@ protocol SettingsBusinessLogic {
      - Parameters:
         - completion: Completion receives bollean if new weather should be requested
      */
-    func doneTapped(selectedLocation: Location?, settings: Settings, completion: ((Bool) -> Void))
+    func doneTapped(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void))
 }
 
 class SettingsInteractor {
@@ -31,28 +32,40 @@ class SettingsInteractor {
 extension SettingsInteractor: SettingsBusinessLogic {
     func deleteLocation(_ location: Location) {
         savedLocationsWorker.deleteLocation(location)
-        // We need to get new locations so we can update the view
-        getSavedLocations()
+            .then { [weak self] _ in self?.getSavedLocations() }
+            .catch { print($0) }
     }
     
     func getSavedLocations() {
-        let locations = savedLocationsWorker.getSavedLocations()
-        presenter?.presentLocations(locations)
+        savedLocationsWorker.getSavedLocations()
+            .then { [weak self] locations in self?.presenter?.presentLocations(locations) }
+            .catch { error in print("Error geting saved locations: \(error)") }
     }
     
     func getInitailData() {
-        let locations = savedLocationsWorker.getSavedLocations()
-        let settings = settingsWorker.getSettings()
-        presenter?.presentInitialData(locations: locations, settings: settings)
+        all(on: DispatchQueue.global(qos: .background), savedLocationsWorker.getSavedLocations(), settingsWorker.getSettings())
+            .then { [weak self] locations, settings in
+                self?.presenter?.presentInitialData(locations: locations, settings: settings)
+            }
+            .catch { error in print("Error geting initial data: \(error)") }
     }
     
-    func doneTapped(selectedLocation: Location?, settings: Settings, completion: ((Bool) -> Void)) {
-        let oldSettings = settingsWorker.getSettings()
-        if settings == oldSettings && selectedLocation == nil {
-            return completion(false)
-        }
-        if settings != oldSettings { settingsWorker.saveSettings(settings) }
-        completion(true)
+    func doneTapped(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void)) {
+        settingsWorker.getSettings()
+            .then { [weak self] oldSettings -> Promise<Bool> in
+                let promise = Promise<Bool>.pending()
+                if let strongSelf = self,
+                    settings != oldSettings {
+                    strongSelf.settingsWorker.saveSettings(settings)
+                        .then { _ in promise.fulfill(true) }
+                        .catch { print("Error saving settings: \($0)") }
+                } else { promise.fulfill(false) }
+                return promise
+            }
+            .then { didSettingsChange in
+                completion(didSettingsChange || selectedLocation =! nil)
+            }
+            .catch { print($0) }
     }
 }
 

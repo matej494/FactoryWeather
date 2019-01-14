@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Promises
 
 protocol HomePresentationLogic {
     func presentWeather(_ weather: Weather, forLocation location: Location)
@@ -19,8 +20,11 @@ class HomePresenter {
 // MARK: - Presentation Logic
 extension HomePresenter: HomePresentationLogic {
     func presentWeather(_ weather: Weather, forLocation location: Location) {
-        let homeContentViewModel = createHomeContentViewModel(withWeather: weather)
-        viewController?.displayWeather(homeContentViewModel, forLocation: location)
+        createHomeContentViewModel(withWeather: weather)
+            .then { [weak self] viewModel in
+                self?.viewController?.displayWeather(viewModel, forLocation: location)
+            }
+            .catch { print($0) }
     }
 }
 
@@ -42,12 +46,19 @@ private extension HomePresenter {
                                   visibleConditions: settings.conditions)
     }
     
-    func createHomeContentViewModel(withWeather weather: Weather) -> HomeContentView.ViewModel {
-        let settings = DataManager.getSettings()
-        let headerViewModel = createHeaderViewModel(withWeather: weather, usingSettings: settings)
-        let bodyViewModel = createBodyViewModel(withWeather: weather, usingSettings: settings)
-        return HomeContentView.ViewModel(skyGradient: SkyWeatherCondition.forIcon(weather.icon).gradient,
-                                         headerViewModel: headerViewModel,
-                                         bodyViewModel: bodyViewModel)
+    func createHomeContentViewModel(withWeather weather: Weather) -> Promise<HomeContentView.ViewModel> {
+        return DataManager.getSettings()
+            .then { [weak self] settings in
+                guard let strongSelf = self else { return Promise(CustomError()) }
+                let headerViewModel = strongSelf.createHeaderViewModel(withWeather: weather, usingSettings: settings)
+                let bodyViewModel = strongSelf.createBodyViewModel(withWeather: weather, usingSettings: settings)
+                return Promise(HomeContentView.ViewModel(skyGradient: SkyWeatherCondition.forIcon(weather.icon).gradient,
+                                                 headerViewModel: headerViewModel,
+                                                 bodyViewModel: bodyViewModel))
+            }
     }
+}
+
+struct CustomError: LocalizedError {
+    var generalError = "generalError"
 }

@@ -49,7 +49,6 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: SettingsDisplayLogic {
     func displayLocations(_ locations: [Location]) {
         dataSource.setLocations(locations)
-        //TODO: Reload section with data received from Realm
         if let index = dataSource.sections.firstIndex(where: { $0 == SettingsSection.locations(rows: []) }) {
             contentView.tableView.reloadSections([index], with: .automatic)
         }

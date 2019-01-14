@@ -7,14 +7,14 @@
 //
 
 import Foundation
+import Promises
 
 class SettingsWorker {
-    func saveSettings(_ settings: Settings) {
-        DataManager.saveSettings(settings)
+    func saveSettings(_ settings: Settings) -> Promise<Bool> {
+        return DataManager.saveSettings(settings)
     }
     
-    //TODO: Implement promises
-    func getSettings() -> Settings {
+    func getSettings() -> Promise<Settings> {
         return DataManager.getSettings()
     }
 }

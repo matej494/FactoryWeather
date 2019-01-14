@@ -7,14 +7,14 @@
 //
 
 import Foundation
+import Promises
 
 class SavedLocationsWorker {
-    //TODO: Implement promises
-    func getSavedLocations() -> [Location] {
+    func getSavedLocations() -> Promise<[Location]> {
         return DataManager.getLocations()
     }
     
-    func deleteLocation(_ location: Location) {
-        DataManager.deleteLocation(location)
+    func deleteLocation(_ location: Location) -> Promise<Bool> {
+        return DataManager.deleteLocation(location)
     }
 }
