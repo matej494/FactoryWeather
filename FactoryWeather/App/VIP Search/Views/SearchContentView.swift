@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  SearchContentView.swift
 //  FactoryWeather
 //
 //  Created by Matej Korman on 18/08/2018.
@@ -8,7 +8,7 @@
 
 import SnapKit
 
-class SearchView: UIView {
+class SearchContentView: UIView {
     let tableView = UITableView.autolayoutView()
     var textFieldTextChanged: ((String) -> Void)?
     var didTapOnDismissButton: (() -> Void)?
@@ -37,7 +37,7 @@ class SearchView: UIView {
     }
 }
 
-extension SearchView {
+extension SearchContentView {
     func dismissKeyboard() -> CGFloat {
         let keyboardHeight = keyboardSizedView.frame.size.height
         searchTextField.resignFirstResponder()
@@ -49,7 +49,7 @@ extension SearchView {
     }
 }
 
-private extension SearchView {
+private extension SearchContentView {
     func setupObservers() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -94,7 +94,7 @@ private extension SearchView {
     }
 }
 
-private extension SearchView {
+private extension SearchContentView {
     func setupViews() {
         backgroundColor = UIColor(red: 80, green: 80, blue: 80, alpha: 0.5)
         setupBluredView()

@@ -7,28 +7,27 @@
 //
 
 import Foundation
+import Promises
 
 struct GeoNamesApiManager {
-    static func getLocations(forText text: String, success: @escaping ([Location]) -> Void, failure: @escaping (LocalizedError) -> Void) {
-        guard let url = createUrl(forText: text)
-            else { return DispatchQueue.main.async { failure(NetworkManagerError.urlCreationFailure) } }
-        var request = URLRequest(url: url)
-        request.httpMethod = HTTPRequestMethod.get.rawValue
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                return DispatchQueue.main.async { failure(NetworkManagerError.generic(error)) }
-            }
-            do {
-                guard let unwrappedData = data
-                    else { return DispatchQueue.main.async { failure(NetworkManagerError.dataUnwrappingFailure) } }
-                let geoName = try JSONDecoder().decode(GeoName.self, from: unwrappedData)
-                return DispatchQueue.main.async { success(geoName.locations) }
-            } catch {
-                return DispatchQueue.main.async { failure(NetworkManagerError.parsingDataFailure) }
-            }
+    static func getLocations(forText text: String) -> Promise<[Location]> {
+        return Promise(on: DispatchQueue.global(qos: .background)) { fulfill, reject in
+            guard let url = createUrl(forText: text)
+                else { return reject(NetworkManagerError.urlCreationFailure) }
+            var request = URLRequest(url: url)
+            request.httpMethod = HTTPRequestMethod.get.rawValue
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error { return reject(NetworkManagerError.generic(error)) }
+                do {
+                    guard let unwrappedData = data
+                        else { return reject(NetworkManagerError.dataUnwrappingFailure) }
+                    let geoName = try JSONDecoder().decode(GeoName.self, from: unwrappedData)
+                    return fulfill(geoName.locations)
+                } catch {
+                    return reject(NetworkManagerError.parsingDataFailure)
+                }
+            }.resume()
         }
-        task.resume()
     }
 }
 

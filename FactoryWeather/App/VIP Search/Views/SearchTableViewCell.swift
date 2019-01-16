@@ -9,15 +9,7 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
-    var nameLabelText: String? {
-        didSet {
-            nameLabel.text = nameLabelText
-            guard let firstLetter = nameLabelText?.first
-                else { return firstLetterLabel.text = nil }
-            firstLetterLabel.text = String(firstLetter)
-        }
-    }
-    
+    typealias ViewModel = (firstLetter: String?, title: String)
     private let firstLetterView = UIImageView.autolayoutView()
     private let firstLetterLabel = UILabel.autolayoutView()
     private let nameLabel = UILabel.autolayoutView()
@@ -29,6 +21,11 @@ class SearchTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateProperties(withData data: ViewModel) {
+        firstLetterLabel.text = data.firstLetter
+        nameLabel.text = data.title
     }
 }
 
