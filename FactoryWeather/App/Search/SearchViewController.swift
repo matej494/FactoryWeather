@@ -7,6 +7,7 @@
 //
 
 import SnapKit
+import Promises
 
 class SearchViewController: UIViewController {
     var didSelectLocation: ((Weather, Location) -> Void)?
@@ -64,17 +65,18 @@ extension SearchViewController: UITableViewDelegate {
         activityIndicatorView.startAnimating()
         let location = filteredLocations[indexPath.row]
         DataManager.saveLocation(location)
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { [weak self] weather in
-                                        self?.didSelectLocation?(weather, location)
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.dismiss(animated: true, completion: nil) },
-                                      failure: { [weak self] error in
-                                        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
-                                        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
-                                        self?.activityIndicatorView.stopAnimating()
-                                        self?.present(alert, animated: true, completion: nil)
-        })
+        DarkSkyApiManager.getForecast(forLocation: location)
+            .then { [weak self] weather in
+                self?.didSelectLocation?(weather, location)
+                self?.activityIndicatorView.stopAnimating()
+                self?.dismiss(animated: true, completion: nil)
+            }
+            .catch {[weak self] error in
+                let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
+                self?.activityIndicatorView.stopAnimating()
+                self?.present(alert, animated: true, completion: nil)
+            }
     }
 }
 

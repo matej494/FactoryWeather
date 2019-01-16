@@ -32,7 +32,7 @@ extension HomeRouter: HomeRoutingLogic {
         guard let viewController = viewController else { return }
         let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets)
         searchViewController.didSelectLocation = { [weak self] weather, location in
-            self?.viewController?.getWeather(forLocation: location, completion: { })
+            self?.viewController?.getWeather(forLocation: location, completion: nil)
         }
         searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
             self?.viewController?.setSearchTextFieldHidden(isHidden)
@@ -44,11 +44,11 @@ extension HomeRouter: HomeRoutingLogic {
 }
 
 extension HomeRouter: SettingsRouterDelegate {
-    func getNewWeather(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.dismissSettingsScene() })
+    func requestNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.unwindBack() })
     }
     
-    func dismissSettingsScene() {
+    func unwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }

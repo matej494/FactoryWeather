@@ -35,6 +35,10 @@ extension SettingsDataSource {
         self.settings = settings
         buildSections()
     }
+    
+    func sectionIndex(forCase caseType: SettingsSection) -> Int? {
+        return sections.firstIndex { $0 == caseType }
+    }
 }
 
 private extension SettingsDataSource {

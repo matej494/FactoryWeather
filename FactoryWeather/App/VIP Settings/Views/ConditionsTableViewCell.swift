@@ -10,9 +10,7 @@ import SnapKit
 
 class ConditionsTableViewCell: UITableViewCell {
     typealias ViewModel = Conditions
-    
     var didTapOnButton: ((Conditions) -> Void)?
-
     private let stackView = UIStackView.autolayoutView()
     private let humidityView = ConditionIconAndCheckBoxView.autolayoutView()
     private let windView = ConditionIconAndCheckBoxView.autolayoutView()

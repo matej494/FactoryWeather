@@ -21,15 +21,12 @@ class SettingsPresenter {
 // MARK: - Presentation Logic
 extension SettingsPresenter: SettingsPresentationLogic {
     func presentLocations(_ locations: [Location]) {
-        let max3Locations = locations.enumerated().compactMap { $0.offset < MAX_NUMBER_OF_LOCATIONS ? $0.element : nil }
-        //NOTE: Check which solution is better
-//        let max3Locations = locations.count <= MAX_NUMBER_OF_LOCATIONS ?
-//            locations : Array(locations.dropLast(locations.count - MAX_NUMBER_OF_LOCATIONS))
+        let max3Locations = Array(locations[0...min(MAX_NUMBER_OF_LOCATIONS, locations.count)])
         viewController?.displayLocations(max3Locations)
     }
     
     func presentInitialData(locations: [Location], settings: Settings) {
-        let max3Locations = locations.enumerated().compactMap { $0.offset < MAX_NUMBER_OF_LOCATIONS ? $0.element : nil }
-        viewController?.initializeDisplay(locations: max3Locations, settings: settings)
+        let max3Locations = Array(locations[0...min(MAX_NUMBER_OF_LOCATIONS, locations.count)])
+        viewController?.displayInitialData(locations: max3Locations, settings: settings)
     }
 }

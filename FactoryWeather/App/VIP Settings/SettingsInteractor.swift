@@ -12,14 +12,14 @@ import Promises
 protocol SettingsBusinessLogic {
     func deleteLocation(_ location: Location)
     func getSavedLocations()
-    func getInitailData()
+    func getInitialData()
     
     /**
      Evaluates parameters and according to their state saves settings and calls completion
      - Parameters:
-        - completion: Completion receives bollean if new weather should be requested
+        - completion: Completion receives boolean if settings or location changed
      */
-    func doneTapped(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void))
+    func saveSettingsIfNeeded(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void))
 }
 
 class SettingsInteractor {
@@ -42,7 +42,7 @@ extension SettingsInteractor: SettingsBusinessLogic {
             .catch { error in print("Error geting saved locations: \(error)") }
     }
     
-    func getInitailData() {
+    func getInitialData() {
         all(on: DispatchQueue.global(qos: .background), savedLocationsWorker.getSavedLocations(), settingsWorker.getSettings())
             .then { [weak self] locations, settings in
                 self?.presenter?.presentInitialData(locations: locations, settings: settings)
@@ -50,7 +50,7 @@ extension SettingsInteractor: SettingsBusinessLogic {
             .catch { error in print("Error geting initial data: \(error)") }
     }
     
-    func doneTapped(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void)) {
+    func saveSettingsIfNeeded(selectedLocation: Location?, settings: Settings, completion: @escaping ((Bool) -> Void)) {
         settingsWorker.getSettings()
             .then { [weak self] oldSettings -> Promise<Bool> in
                 let promise = Promise<Bool>.pending()

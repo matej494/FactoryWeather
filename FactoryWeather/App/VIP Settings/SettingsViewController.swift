@@ -10,13 +10,12 @@ import SnapKit
 
 protocol SettingsDisplayLogic: class {
     func displayLocations(_ locations: [Location])
-    func initializeDisplay(locations: [Location], settings: Settings)
+    func displayInitialData(locations: [Location], settings: Settings)
 }
 
 class SettingsViewController: UIViewController {
     var interactor: SettingsBusinessLogic?
     var router: SettingsRoutingLogic?
-    
     private let contentView = SettingsContentView.autolayoutView()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     private var dataSource = SettingsDataSource()
@@ -41,7 +40,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor?.getInitailData()
+        interactor?.getInitialData()
     }
 }
 
@@ -49,12 +48,12 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: SettingsDisplayLogic {
     func displayLocations(_ locations: [Location]) {
         dataSource.setLocations(locations)
-        if let index = dataSource.sections.firstIndex(where: { $0 == SettingsSection.locations(rows: []) }) {
+        if let index = dataSource.sectionIndex(forCase: .locations(rows: [])) {
             contentView.tableView.reloadSections([index], with: .automatic)
         }
     }
     
-    func initializeDisplay(locations: [Location], settings: Settings) {
+    func displayInitialData(locations: [Location], settings: Settings) {
         dataSource.setNewValues(locations: locations, settings: settings)
         contentView.tableView.reloadData()
     }
@@ -187,11 +186,11 @@ private extension SettingsViewController {
 private extension SettingsViewController {
     @objc func doneButtonTapped() {
         guard let settings = dataSource.settings else { return }
-        interactor?.doneTapped(selectedLocation: dataSource.selectedLocation, settings: settings) { [weak self] shouldUpdateWeather in
+        interactor?.saveSettingsIfNeeded(selectedLocation: dataSource.selectedLocation, settings: settings) { [weak self] shouldUpdateWeather in
             if shouldUpdateWeather {
-                self?.router?.getNewWeather(selectedLocation: self?.dataSource.selectedLocation)
+                self?.router?.requestNewWeatherData(selectedLocation: self?.dataSource.selectedLocation)
             }
-            self?.router?.dismissSettingsScene()
+            self?.router?.unwindBack()
         }
     }
 }

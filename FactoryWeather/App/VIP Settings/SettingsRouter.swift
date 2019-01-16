@@ -9,13 +9,13 @@
 import Foundation
 
 protocol SettingsRoutingLogic {
-    func getNewWeather(selectedLocation: Location?)
-    func dismissSettingsScene()
+    func requestNewWeatherData(selectedLocation: Location?)
+    func unwindBack()
 }
 
 protocol SettingsRouterDelegate: class {
-    func getNewWeather(selectedLocation: Location?)
-    func dismissSettingsScene()
+    func requestNewWeatherData(selectedLocation: Location?)
+    func unwindBack()
 }
 
 class SettingsRouter {
@@ -25,11 +25,11 @@ class SettingsRouter {
 
 // MARK: - Routing Logic
 extension SettingsRouter: SettingsRoutingLogic {
-    func getNewWeather(selectedLocation: Location?) {
-        delegate?.getNewWeather(selectedLocation: selectedLocation)
+    func requestNewWeatherData(selectedLocation: Location?) {
+        delegate?.requestNewWeatherData(selectedLocation: selectedLocation)
     }
     
-    func dismissSettingsScene() {
-        delegate?.dismissSettingsScene()
+    func unwindBack() {
+        delegate?.unwindBack()
     }
 }

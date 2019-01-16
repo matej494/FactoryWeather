@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Promises
 
 protocol HomePresentationLogic {
-    func presentWeather(_ weather: Weather, forLocation location: Location)
+    func presentWeather(_ weather: Weather, usingSettings settings: Settings, forLocation location: Location)
 }
 
 class HomePresenter {
@@ -19,12 +18,9 @@ class HomePresenter {
 
 // MARK: - Presentation Logic
 extension HomePresenter: HomePresentationLogic {
-    func presentWeather(_ weather: Weather, forLocation location: Location) {
-        createHomeContentViewModel(withWeather: weather)
-            .then { [weak self] viewModel in
-                self?.viewController?.displayWeather(viewModel, forLocation: location)
-            }
-            .catch { print($0) }
+    func presentWeather(_ weather: Weather, usingSettings settings: Settings, forLocation location: Location) {
+        let viewModel = createHomeContentViewModel(withWeather: weather, usingSettings: settings)
+        viewController?.displayWeather(viewModel, forLocation: location)
     }
 }
 
@@ -46,16 +42,12 @@ private extension HomePresenter {
                                   visibleConditions: settings.conditions)
     }
     
-    func createHomeContentViewModel(withWeather weather: Weather) -> Promise<HomeContentView.ViewModel> {
-        return DataManager.getSettings()
-            .then { [weak self] settings in
-                guard let strongSelf = self else { return Promise(CustomError()) }
-                let headerViewModel = strongSelf.createHeaderViewModel(withWeather: weather, usingSettings: settings)
-                let bodyViewModel = strongSelf.createBodyViewModel(withWeather: weather, usingSettings: settings)
-                return Promise(HomeContentView.ViewModel(skyGradient: SkyWeatherCondition.forIcon(weather.icon).gradient,
-                                                 headerViewModel: headerViewModel,
-                                                 bodyViewModel: bodyViewModel))
-            }
+    func createHomeContentViewModel(withWeather weather: Weather, usingSettings settings: Settings) -> HomeContentView.ViewModel {
+        let headerViewModel = createHeaderViewModel(withWeather: weather, usingSettings: settings)
+        let bodyViewModel = createBodyViewModel(withWeather: weather, usingSettings: settings)
+        return HomeContentView.ViewModel(skyGradient: SkyWeatherCondition.forIcon(weather.icon).gradient,
+                                         headerViewModel: headerViewModel,
+                                         bodyViewModel: bodyViewModel)
     }
 }
 
