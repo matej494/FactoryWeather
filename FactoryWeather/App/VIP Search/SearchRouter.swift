@@ -10,14 +10,14 @@ import Foundation
 
 protocol SearchRoutingLogic {
     func setSearchTextFieldHidden(_ hidden: Bool)
-    func locationSelected(_ location: Location)
-    func dismiss()
+    func requestNewWeatherData(forLocation location: Location)
+    func unwindBack()
 }
 
 protocol SearchRouterDelegate: class {
     func setSearchTextFieldHidden(_ hidden: Bool)
-    func getNewWeather(selectedLocation: Location?)
-    func dismissSearchScene()
+    func requestNewWeatherData(selectedLocation: Location?)
+    func unwindBack()
 }
 
 class SearchRouter {
@@ -31,11 +31,11 @@ extension SearchRouter: SearchRoutingLogic {
         delegate?.setSearchTextFieldHidden(hidden)
     }
     
-    func locationSelected(_ location: Location) {
-        delegate?.getNewWeather(selectedLocation: location)
+    func requestNewWeatherData(forLocation location: Location) {
+        delegate?.requestNewWeatherData(selectedLocation: location)
     }
     
-    func dismiss() {
-        delegate?.dismissSearchScene()
+    func unwindBack() {
+        delegate?.unwindBack()
     }
 }

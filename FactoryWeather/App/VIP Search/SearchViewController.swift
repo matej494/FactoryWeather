@@ -103,7 +103,7 @@ extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let location = dataSource.section(at: indexPath.section)?.row(at: indexPath.row)?.location else { return }
         activityIndicatorView.startAnimating()
-        router?.locationSelected(location)
+        router?.requestNewWeatherData(forLocation: location)
     }
 }
 
@@ -119,7 +119,7 @@ private extension SearchViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.defaultReuseIdentifier)
-        contentView.didTapOnDismissButton = { [weak self] in self?.router?.dismiss() }
+        contentView.didTapOnDismissButton = { [weak self] in self?.router?.unwindBack() }
         contentView.didTapOnSearchButton = { [weak self] text in self?.searchButtonTapped(withText: text) }
         contentView.textFieldTextChanged = { [weak self] text in self?.textFieldTextChanged(text: text) }
         view.addSubview(contentView)

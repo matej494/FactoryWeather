@@ -10,9 +10,7 @@ import SnapKit
 
 class UnitTableViewCell: UITableViewCell {
     typealias ViewModel = (unitName: String, isSelected: Bool)
-    
     var didTapOnButton: (() -> Void)?
-
     private let button = UIButton.autolayoutView()
     private let label = UILabel.autolayoutView()
 

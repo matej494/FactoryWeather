@@ -38,11 +38,11 @@ extension HomeRouter: HomeRoutingLogic {
 }
 
 extension HomeRouter: SettingsRouterDelegate {
-    func getNewWeather(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.dismissSettingsScene() })
+    func requestNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.unwindBack() })
     }
     
-    func dismissSettingsScene() {
+    func unwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }

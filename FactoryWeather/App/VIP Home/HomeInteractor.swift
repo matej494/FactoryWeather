@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Promises
 
 protocol HomeBusinessLogic {
     /**
@@ -15,6 +16,10 @@ protocol HomeBusinessLogic {
      */
     func getWeather(forLocation location: Location, completion: (() -> Void)?)
     //Maybe change name of function so it's obvious that it will get weather for Zagreb if device location is not available
+    /**
+     This function will get weather for device location if device
+     location is available and if not, it will get weather for Zagreb.
+     */
     func getWeatherForDeviceLocation()
 }
 
@@ -22,16 +27,18 @@ class HomeInteractor {
     var presenter: HomePresentationLogic?
     lazy var weatherWorker = WeatherWorker()
     lazy var deviceLocationWorker = DeviceLocationWorker()
+    lazy var settingsWorker = SettingsWorker()
 }
 
 // MARK: - Business Logic
 extension HomeInteractor: HomeBusinessLogic {
     func getWeather(forLocation location: Location, completion: (() -> Void)?) {
-        weatherWorker.getWeather(forLocation: location,
-            success: { [weak self] weather in
-                self?.presenter?.presentWeather(weather, forLocation: location)
+        all(weatherWorker.getWeather(forLocation: location), settingsWorker.getSettings())
+            .then { [weak self] weather, settings in
+                self?.presenter?.presentWeather(weather, usingSettings: settings, forLocation: location)
                 completion?()
-            }, failure: { print($0.localizedDescription) })
+            }
+            .catch { print($0.localizedDescription) }
     }
     
     func getWeatherForDeviceLocation() {
