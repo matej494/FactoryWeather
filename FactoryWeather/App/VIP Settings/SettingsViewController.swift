@@ -48,7 +48,7 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: SettingsDisplayLogic {
     func displayLocations(_ locations: [Location]) {
         dataSource.setLocations(locations)
-        if let index = dataSource.sectionIndex(forCase: .locations(rows: [])) {
+        if let index = dataSource.index(for: .locations(rows: [])) {
             contentView.tableView.reloadSections([index], with: .automatic)
         }
     }
