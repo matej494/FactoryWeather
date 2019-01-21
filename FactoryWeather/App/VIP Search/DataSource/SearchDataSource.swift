@@ -12,7 +12,9 @@ class SearchDataSource: DataSourceProtocol {
     var sections = [SearchSection]()
     private var locations = [Location]()
     private var filterText: String?
-    
+}
+
+extension SearchDataSource {
     func addLocations(_ locations: [Location]) {
         locations.reversed().forEach { location in
             if !self.locations.contains(where: { $0 == location }) {
@@ -32,8 +34,7 @@ private extension SearchDataSource {
     func buildSections(forText text: String?) {
         sections.removeAll()
         var rows = [SearchRow]()
-        if let text = text,
-            !text.isEmpty {
+        if let text = text, !text.isEmpty {
             let filteredLocations = locations.filter { $0.fullName.lowercased().contains(text.lowercased()) }
             rows = createRows(withLocations: filteredLocations)
         } else {

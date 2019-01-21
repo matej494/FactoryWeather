@@ -22,7 +22,7 @@ class SearchInteractor {
 extension SearchInteractor: SearchBusinessLogic {
     func getLocations(forText text: String) {
         locationsWorker.getLocations(forText: text)
-            .then { [weak self] locations in self?.presenter?.presentLocations(locations) }
-            .catch { [weak self] error in self?.presenter?.presentError(error) }
+            .then { [weak self] in self?.presenter?.presentLocations($0) }
+            .catch { [weak self] in self?.presenter?.presentError($0) }
     }
 }
