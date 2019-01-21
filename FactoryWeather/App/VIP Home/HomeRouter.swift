@@ -38,17 +38,17 @@ extension HomeRouter: HomeRoutingLogic {
 }
 
 extension HomeRouter: SettingsRouterDelegate {
-    func requestNewWeatherData(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.unwindBack() })
+    func searchRouterRequestNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.searchRouterUnwindBack() })
     }
     
-    func unwindBack() {
+    func searchRouterUnwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }
 
 extension HomeRouter: SearchRouterDelegate {
-    func setSearchTextFieldHidden(_ hidden: Bool) {
+    func searchRouterSetSearchTextFieldHidden(_ hidden: Bool) {
         viewController?.setSearchTextFieldHidden(hidden)
     }
     

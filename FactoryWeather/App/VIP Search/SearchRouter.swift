@@ -15,9 +15,9 @@ protocol SearchRoutingLogic {
 }
 
 protocol SearchRouterDelegate: class {
-    func setSearchTextFieldHidden(_ hidden: Bool)
-    func requestNewWeatherData(selectedLocation: Location?)
-    func unwindBack()
+    func searchRouterSetSearchTextFieldHidden(_ hidden: Bool)
+    func searchRouterRequestNewWeatherData(selectedLocation: Location?)
+    func searchRouterUnwindBack()
 }
 
 class SearchRouter {
@@ -28,14 +28,14 @@ class SearchRouter {
 // MARK: - Routing Logic
 extension SearchRouter: SearchRoutingLogic {
     func setSearchTextFieldHidden(_ hidden: Bool) {
-        delegate?.setSearchTextFieldHidden(hidden)
+        delegate?.searchRouterSetSearchTextFieldHidden(hidden)
     }
     
     func requestNewWeatherData(forLocation location: Location) {
-        delegate?.requestNewWeatherData(selectedLocation: location)
+        delegate?.searchRouterRequestNewWeatherData(selectedLocation: location)
     }
     
     func unwindBack() {
-        delegate?.unwindBack()
+        delegate?.searchRouterUnwindBack()
     }
 }
