@@ -679,6 +679,7 @@
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
 				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,
 				F51DC04A21E5EBC2003E59FC /* SettingsContentView.swift in Sources */,
+				F5C9FF8021282D51000956FB /* SearchViewController.swift in Sources */,
 				F51DC03A21E4B828003E59FC /* HomeInteractor.swift in Sources */,
 				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F51DC04E21E5EBC2003E59FC /* SettingsInteractor.swift in Sources */,

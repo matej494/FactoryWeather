@@ -14,8 +14,8 @@ protocol SettingsRoutingLogic {
 }
 
 protocol SettingsRouterDelegate: class {
-    func requestNewWeatherData(selectedLocation: Location?)
-    func unwindBack()
+    func settingsRouterRequestedNewWeatherData(selectedLocation: Location?)
+    func settingRouterUnwindBack()
 }
 
 class SettingsRouter {
@@ -26,10 +26,10 @@ class SettingsRouter {
 // MARK: - Routing Logic
 extension SettingsRouter: SettingsRoutingLogic {
     func requestNewWeatherData(selectedLocation: Location?) {
-        delegate?.requestNewWeatherData(selectedLocation: selectedLocation)
+        delegate?.settingsRouterRequestedNewWeatherData(selectedLocation: selectedLocation)
     }
     
     func unwindBack() {
-        delegate?.unwindBack()
+        delegate?.settingRouterUnwindBack()
     }
 }

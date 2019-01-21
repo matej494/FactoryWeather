@@ -38,11 +38,11 @@ extension HomeRouter: HomeRoutingLogic {
 }
 
 extension HomeRouter: SettingsRouterDelegate {
-    func searchRouterRequestNewWeatherData(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.searchRouterUnwindBack() })
+    func settingsRouterRequestedNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.settingRouterUnwindBack() })
     }
     
-    func searchRouterUnwindBack() {
+    func settingRouterUnwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }
@@ -52,7 +52,11 @@ extension HomeRouter: SearchRouterDelegate {
         viewController?.setSearchTextFieldHidden(hidden)
     }
     
-    func dismissSearchScene() {
+    func searchRouterRequestNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.searchRouterUnwindBack() })
+    }
+    
+    func searchRouterUnwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }

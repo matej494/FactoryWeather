@@ -36,8 +36,11 @@ extension SettingsDataSource {
         buildSections()
     }
     
-    func sectionIndex(forCase caseType: SettingsSection) -> Int? {
-        return sections.firstIndex { $0 == caseType }
+    /**
+     Returns index of first section of that type if it exists or nil if it doesn't.
+     */
+    func index(for section: SettingsSection) -> Int? {
+        return sections.firstIndex { $0 == section }
     }
 }
 
