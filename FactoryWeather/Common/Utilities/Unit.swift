@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Unit: Int {
+enum Unit: CaseIterable {
     case metric
     case imperial
     
@@ -19,12 +19,6 @@ enum Unit: Int {
         case .imperial:
             return LocalizationKey.Settings.imperialLabel.localized()
         }
-    }
-    
-    static var allValuesCount: Int {
-        var counter = 0
-        while let _ = Unit(rawValue: counter) { counter += 1 }
-        return counter
     }
     
     func temperature(imperialValue value: Int) -> String {
@@ -62,5 +56,14 @@ enum Unit: Int {
     
     func pressure(value: Float) -> String {
         return String(format: "%.1f hPa", value)
+    }
+    
+    mutating func toggle() {
+        switch self {
+        case .metric:
+            self = .imperial
+        case .imperial:
+            self = .metric
+        }
     }
 }

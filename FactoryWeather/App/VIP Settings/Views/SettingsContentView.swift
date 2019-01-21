@@ -1,14 +1,14 @@
 //
-//  SettingsView.swift
+//  SettingsContentView.swift
 //  FactoryWeather
 //
-//  Created by Matej Korman on 21/08/2018.
-//  Copyright © 2018 Matej Korman. All rights reserved.
+//  Created by Matej Korman on 09/01/2019.
+//  Copyright © 2019 Matej Korman. All rights reserved.
 //
 
 import SnapKit
 
-class SettingsView: UIView {
+class SettingsContentView: UIView {
     let tableView = UITableView.autolayoutView()
     let doneButton = UIButton(type: .roundedRect).autolayoutView()
     
@@ -25,7 +25,7 @@ class SettingsView: UIView {
     }
 }
 
-private extension SettingsView {
+private extension SettingsContentView {
     func setupViews() {
         backgroundColor = UIColor(red: 80, green: 80, blue: 80, alpha: 0.5)
         setupBluredView()

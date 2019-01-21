@@ -7,11 +7,10 @@
 //
 
 import Foundation
+import Promises
 
 class WeatherWorker {
-    func getWeather(forLocation location: Location, success: @escaping (Weather) -> Void, failure: @escaping (LocalizedError) -> Void) {
-        DarkSkyApiManager.getForecast(forLocation: location,
-                                      success: { success($0) },
-                                      failure: { failure($0) })
+    func getWeather(forLocation location: Location) -> Promise<Weather> {
+        return DarkSkyApiManager.getForecast(forLocation: location)
     }
 }

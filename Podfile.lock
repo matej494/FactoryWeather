@@ -1,4 +1,7 @@
 PODS:
+  - PromisesObjC (1.2.4)
+  - PromisesSwift (1.2.4):
+    - PromisesObjC (= 1.2.4)
   - Realm (3.13.1):
     - Realm/Headers (= 3.13.1)
   - Realm/Headers (3.13.1)
@@ -8,23 +11,28 @@ PODS:
   - SwiftLint (0.29.3)
 
 DEPENDENCIES:
+  - PromisesSwift (~> 1.2.4)
   - RealmSwift
   - SnapKit (~> 4.0.0)
   - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - PromisesObjC
+    - PromisesSwift
     - Realm
     - RealmSwift
     - SnapKit
     - SwiftLint
 
 SPEC CHECKSUMS:
+  PromisesObjC: 4a3f2e30a0eb793e9bbb32cd367b625d4a14de5a
+  PromisesSwift: 8e1d2cdbc3cafb4f09d4b82df12f645bc19ab64e
   Realm: 50071da38fe079e0735e47c9f2eae738c68c5996
   RealmSwift: 8a1e6a02b7a08cd17a31e3115143fb69fe5f3fb9
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SwiftLint: bfa7ca7b4d170cfaf0d236ca3ffd969e88a2f002
 
-PODFILE CHECKSUM: 35bd76fa71070ae2b2cb0740d72a70a8f470f92d
+PODFILE CHECKSUM: a41d691ac52763af4b810b646b606c284f022dfe
 
 COCOAPODS: 1.6.0.beta.2
