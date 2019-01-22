@@ -30,13 +30,7 @@ extension HomeRouter: HomeRoutingLogic {
     
     func openSearch() {
         guard let viewController = viewController else { return }
-        let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets)
-        searchViewController.didSelectLocation = { [weak self] weather, location in
-            self?.viewController?.getWeather(forLocation: location, completion: nil)
-        }
-        searchViewController.searchTextFieldIsHidden = { [weak self] isHidden in
-            self?.viewController?.setSearchTextFieldHidden(isHidden)
-        }
+        let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets, delegate: self)
         searchViewController.transitioningDelegate = viewController
         searchViewController.modalPresentationStyle = .custom
         viewController.present(searchViewController, animated: true, completion: nil)
@@ -49,6 +43,20 @@ extension HomeRouter: SettingsRouterDelegate {
     }
     
     func settingRouterUnwindBack() {
+        viewController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension HomeRouter: SearchRouterDelegate {
+    func searchRouterSetSearchTextFieldHidden(_ hidden: Bool) {
+        viewController?.setSearchTextFieldHidden(hidden)
+    }
+    
+    func searchRouterRequestNewWeatherData(selectedLocation: Location?) {
+        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.searchRouterUnwindBack() })
+    }
+    
+    func searchRouterUnwindBack() {
         viewController?.dismiss(animated: true, completion: nil)
     }
 }
