@@ -8,55 +8,60 @@
 
 import Foundation
 
-protocol HomeRoutingLogic {
-    func openSettings(oldLocation location: Location)
-    func openSearch()
+enum HomeNavigationOption {
+    case settings
+    case search
+    case thisScene
+}
+
+protocol HomeRoutingLogic: class {
+    func navigate(to option: HomeNavigationOption)
 }
 
 protocol HomeRouterDelegate: class { }
 
 class HomeRouter {
-    weak var viewController: HomeViewController?
     weak var delegate: HomeRouterDelegate?
+    private var presenter: HomePresenter?
+    private var viewController: HomeViewController?
+    
+    init(delegate: HomeRouterDelegate?) {
+        self.delegate = delegate
+    }
+}
+
+extension HomeRouter {
+    func buildScene() -> HomeViewController {
+        let viewController = HomeViewController()
+        //TODO: Inject workers for testability
+        let interactor = HomeInteractor()
+        let presenter = HomePresenter(viewController: viewController, interactor: interactor)
+        viewController.presenter = presenter
+        presenter.router = self
+        self.presenter = presenter
+        self.viewController = viewController
+        return viewController
+    }
 }
 
 // MARK: - Routing Logic
 extension HomeRouter: HomeRoutingLogic {
-    func openSettings(oldLocation location: Location) {
-        let settingsViewController = SettingsViewController(delegate: self)
-        settingsViewController.modalPresentationStyle = .overCurrentContext
-        viewController?.present(settingsViewController, animated: true, completion: nil)
-    }
-    
-    func openSearch() {
-        guard let viewController = viewController else { return }
-        let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets, delegate: self)
-        searchViewController.transitioningDelegate = viewController
-        searchViewController.modalPresentationStyle = .custom
-        viewController.present(searchViewController, animated: true, completion: nil)
-    }
-}
-
-extension HomeRouter: SettingsRouterDelegate {
-    func settingsRouterRequestedNewWeatherData(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.settingRouterUnwindBack() })
-    }
-    
-    func settingRouterUnwindBack() {
-        viewController?.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension HomeRouter: SearchRouterDelegate {
-    func searchRouterSetSearchTextFieldHidden(_ hidden: Bool) {
-        viewController?.setSearchTextFieldHidden(hidden)
-    }
-    
-    func searchRouterRequestNewWeatherData(selectedLocation: Location?) {
-        viewController?.getWeather(forLocation: selectedLocation, completion: { [weak self] in self?.searchRouterUnwindBack() })
-    }
-    
-    func searchRouterUnwindBack() {
-        viewController?.dismiss(animated: true, completion: nil)
+    func navigate(to option: HomeNavigationOption) {
+        switch option {
+        case .settings:
+            let settingsViewController = SettingsViewController(delegate: presenter)
+            settingsViewController.modalPresentationStyle = .overCurrentContext
+            viewController?.present(settingsViewController, animated: true, completion: nil)
+        case .search:
+            guard let viewController = viewController else { return }
+            let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets, delegate: presenter)
+            searchViewController.transitioningDelegate = viewController
+            searchViewController.modalPresentationStyle = .custom
+            viewController.present(searchViewController, animated: true, completion: nil)
+        case .thisScene:
+            guard let viewController = viewController else { return }
+            viewController.dismiss(animated: true, completion: nil)
+            viewController.navigationController?.popToViewController(viewController, animated: true)
+        }
     }
 }

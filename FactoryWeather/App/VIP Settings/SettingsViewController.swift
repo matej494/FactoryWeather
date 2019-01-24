@@ -20,7 +20,7 @@ class SettingsViewController: UIViewController {
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
     private var dataSource = SettingsDataSource()
     
-    init(delegate: SettingsRouterDelegate?) {
+    init(delegate: SettingsSceneDelegate?) {
         super.init(nibName: nil, bundle: nil)
         let interactor = SettingsInteractor()
         let presenter = SettingsPresenter()

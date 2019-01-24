@@ -23,7 +23,7 @@ class SearchViewController: UIViewController {
     private var dataSource = SearchDataSource()
     private var searchLocationsWorkItem = DispatchWorkItem(block: {})
     
-    init(safeAreaInsets: UIEdgeInsets, delegate: SearchRouterDelegate?) {
+    init(safeAreaInsets: UIEdgeInsets, delegate: SearchSceneDelegate?) {
         contentView = SearchContentView(bottomSafeAreaInset: safeAreaInsets.bottom).autolayoutView()
         super.init(nibName: nil, bundle: nil)
         let interactor = SearchInteractor()

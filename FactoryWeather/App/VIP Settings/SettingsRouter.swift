@@ -13,23 +13,23 @@ protocol SettingsRoutingLogic {
     func unwindBack()
 }
 
-protocol SettingsRouterDelegate: class {
-    func settingsRouterRequestedNewWeatherData(selectedLocation: Location?)
-    func settingRouterUnwindBack()
+protocol SettingsSceneDelegate: class {
+    func settingsRouterRequestedWeatherUpdate(selectedLocation: Location?)
+    func settingRouterRequestedUnwindBack()
 }
 
 class SettingsRouter {
     weak var viewController: SettingsViewController?
-    weak var delegate: SettingsRouterDelegate?
+    weak var delegate: SettingsSceneDelegate?
 }
 
 // MARK: - Routing Logic
 extension SettingsRouter: SettingsRoutingLogic {
     func requestNewWeatherData(selectedLocation: Location?) {
-        delegate?.settingsRouterRequestedNewWeatherData(selectedLocation: selectedLocation)
+        delegate?.settingsRouterRequestedWeatherUpdate(selectedLocation: selectedLocation)
     }
     
     func unwindBack() {
-        delegate?.settingRouterUnwindBack()
+        delegate?.settingRouterRequestedUnwindBack()
     }
 }

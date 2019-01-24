@@ -14,28 +14,28 @@ protocol SearchRoutingLogic {
     func unwindBack()
 }
 
-protocol SearchRouterDelegate: class {
-    func searchRouterSetSearchTextFieldHidden(_ hidden: Bool)
-    func searchRouterRequestNewWeatherData(selectedLocation: Location?)
-    func searchRouterUnwindBack()
+protocol SearchSceneDelegate: class {
+    func searchRouterRequestedToSetSearchTextFieldHidden(_ hidden: Bool)
+    func searchRouterRequestWeatherUpdate(selectedLocation: Location?)
+    func searchRouterRequestedUnwindBack()
 }
 
 class SearchRouter {
     weak var viewController: SearchViewController?
-    weak var delegate: SearchRouterDelegate?
+    weak var delegate: SearchSceneDelegate?
 }
 
 // MARK: - Routing Logic
 extension SearchRouter: SearchRoutingLogic {
     func setSearchTextFieldHidden(_ hidden: Bool) {
-        delegate?.searchRouterSetSearchTextFieldHidden(hidden)
+        delegate?.searchRouterRequestedToSetSearchTextFieldHidden(hidden)
     }
     
     func requestNewWeatherData(forLocation location: Location) {
-        delegate?.searchRouterRequestNewWeatherData(selectedLocation: location)
+        delegate?.searchRouterRequestWeatherUpdate(selectedLocation: location)
     }
     
     func unwindBack() {
-        delegate?.searchRouterUnwindBack()
+        delegate?.searchRouterRequestedUnwindBack()
     }
 }

@@ -11,13 +11,15 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let window = UIWindow(frame: UIScreen.main.bounds)
+    var homeRouter: HomeRouter?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("UserData.realm").path
         if !FileManager.default.fileExists(atPath: (documentsURL)) {
             DataManager.saveSettings(Settings(unit: .metric, conditions: Conditions.all))
         }
-        window.rootViewController = HomeViewController(delegate: nil)
+        homeRouter = HomeRouter(delegate: nil)
+        window.rootViewController = homeRouter?.buildScene()
         window.makeKeyAndVisible()
         return true
     }

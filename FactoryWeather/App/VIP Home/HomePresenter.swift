@@ -6,51 +6,88 @@
 //  Copyright © 2019 Matej Korman. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-protocol HomePresentationLogic {
-    func presentWeather(_ weather: Weather, usingSettings settings: Settings, forLocation location: Location)
+protocol HomePresenterProtocol: class {
+    func viewWillAppear()
+    func settingsButtonTapped()
+    func searchTextFieldSelected()
 }
 
 class HomePresenter {
-    weak var viewController: HomeDisplayLogic?
+    weak var router: HomeRoutingLogic?
+    private let dataSource = HomeDataSource()
+    private let viewController: HomeDisplayLogic
+    private let interactor: HomeBusinessLogic
+    
+    init(viewController: HomeDisplayLogic, interactor: HomeBusinessLogic) {
+        self.viewController = viewController
+        self.interactor = interactor
+    }
 }
 
-// MARK: - Presentation Logic
-extension HomePresenter: HomePresentationLogic {
-    func presentWeather(_ weather: Weather, usingSettings settings: Settings, forLocation location: Location) {
-        let viewModel = createHomeContentViewModel(withWeather: weather, usingSettings: settings)
-        viewController?.displayWeather(viewModel, forLocation: location)
+extension HomePresenter: HomePresenterProtocol {
+    func viewWillAppear() {
+        viewController.showActivityIndicator(true)
+        interactor.getDeviceLocation()
+            .recover { error -> Location in
+                print(error.localizedDescription)
+                return Location(name: "Zagreb", country: "HR", latitude: 45.8150, longitude: 15.9819)
+            }
+            .then { [weak self] location in
+                self?.dataSource.location = location
+                self?.interactor.getWeather(forLocation: location)
+                    .then { [weak self] (weather, settings) in self?.presentWeather(weather, usingSettings: settings, forLocation: location) }
+            }
+            .catch { print($0.localizedDescription) }
+    }
+    
+    func settingsButtonTapped() {
+        router?.navigate(to: .settings)
+    }
+    
+    func searchTextFieldSelected() {
+        router?.navigate(to: .search)
+    }
+}
+
+extension HomePresenter: SettingsSceneDelegate {
+    func settingsRouterRequestedWeatherUpdate(selectedLocation: Location?) {
+        getWeatherAndDismissPresentedScene(selectedLocation: selectedLocation ?? dataSource.location)
+    }
+    
+    func settingRouterRequestedUnwindBack() {
+        router?.navigate(to: .thisScene)
+    }
+}
+
+extension HomePresenter: SearchSceneDelegate {
+    func searchRouterRequestedToSetSearchTextFieldHidden(_ hidden: Bool) {
+        viewController.setSearchTextFieldHidden(hidden)
+    }
+    
+    func searchRouterRequestWeatherUpdate(selectedLocation: Location?) {
+        getWeatherAndDismissPresentedScene(selectedLocation: selectedLocation ?? dataSource.location)
+    }
+    
+    func searchRouterRequestedUnwindBack() {
+        router?.navigate(to: .thisScene)
     }
 }
 
 private extension HomePresenter {
-    func createHeaderViewModel(withWeather weather: Weather, usingSettings settings: Settings) -> HeaderView.ViewModel {
-        return HeaderView.ViewModel(headerImage: UIImage(named: "header_image-\(weather.icon)") ?? #imageLiteral(resourceName: "header_image-clear-day"),
-                                    currentTemperature: settings.unit.temperature(imperialValue: Int(weather.temperature)),
-                                    summary: weather.summary)
-    }
-
-    func createBodyViewModel(withWeather weather: Weather, usingSettings settings: Settings) -> BodyView.ViewModel {
-        return BodyView.ViewModel(bodyImage: UIImage(named: "body_image-\(weather.icon)") ?? #imageLiteral(resourceName: "body_image-clear-day"),
-                                  cityName: weather.locationName,
-                                  lowTemperature: settings.unit.temperature(imperialValue: weather.temperatureLow),
-                                  highTemperature: settings.unit.temperature(imperialValue: weather.temperatureHigh),
-                                  humidity: settings.unit.humidity(value: weather.humidity),
-                                  windSpeed: settings.unit.windSpeed(imperialValue: weather.windSpeed),
-                                  pressure: settings.unit.pressure(value: weather.pressure),
-                                  visibleConditions: settings.conditions)
+    func presentWeather(_ weather: Weather, usingSettings settings: Settings, forLocation location: Location) {
+        let viewModel = dataSource.createHomeContentViewModel(withWeather: weather, usingSettings: settings)
+        viewController.displayWeather(viewModel, forLocation: location)
+        viewController.showActivityIndicator(false)
     }
     
-    func createHomeContentViewModel(withWeather weather: Weather, usingSettings settings: Settings) -> HomeContentView.ViewModel {
-        let headerViewModel = createHeaderViewModel(withWeather: weather, usingSettings: settings)
-        let bodyViewModel = createBodyViewModel(withWeather: weather, usingSettings: settings)
-        return HomeContentView.ViewModel(skyGradient: SkyWeatherCondition.forIcon(weather.icon).gradient,
-                                         headerViewModel: headerViewModel,
-                                         bodyViewModel: bodyViewModel)
+    func getWeatherAndDismissPresentedScene(selectedLocation location: Location) {
+        interactor.getWeather(forLocation: location)
+            .then { [weak self] (weather, settings) in
+                self?.presentWeather(weather, usingSettings: settings, forLocation: location)
+                self?.router?.navigate(to: .thisScene)
+            }
+            .catch { print($0.localizedDescription) }
     }
-}
-
-struct CustomError: LocalizedError {
-    var generalError = "generalError"
 }

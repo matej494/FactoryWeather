@@ -53,6 +53,7 @@
 		F5A7BE4C21EDCB4500EC1DF5 /* LocationsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A7BE4B21EDCB4500EC1DF5 /* LocationsWorker.swift */; };
 		F5A7BE4E21EDCF0E00EC1DF5 /* SearchSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A7BE4D21EDCF0E00EC1DF5 /* SearchSection.swift */; };
 		F5A7BE5021EDCF2700EC1DF5 /* SearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A7BE4F21EDCF2700EC1DF5 /* SearchRow.swift */; };
+		F5A7BE5421F87EAD00EC1DF5 /* HomeDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A7BE5321F87EAD00EC1DF5 /* HomeDataSource.swift */; };
 		F5AF0F1B212B0F89007AD67C /* GeoName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F1A212B0F89007AD67C /* GeoName.swift */; };
 		F5AF0F23212C1B9B007AD67C /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F22212C1B9B007AD67C /* LocationTableViewCell.swift */; };
 		F5AF0F25212C1BA7007AD67C /* UnitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AF0F24212C1BA7007AD67C /* UnitTableViewCell.swift */; };
@@ -131,6 +132,7 @@
 		F5A7BE4B21EDCB4500EC1DF5 /* LocationsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsWorker.swift; sourceTree = "<group>"; };
 		F5A7BE4D21EDCF0E00EC1DF5 /* SearchSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSection.swift; sourceTree = "<group>"; };
 		F5A7BE4F21EDCF2700EC1DF5 /* SearchRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRow.swift; sourceTree = "<group>"; };
+		F5A7BE5321F87EAD00EC1DF5 /* HomeDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataSource.swift; sourceTree = "<group>"; };
 		F5AF0F1A212B0F89007AD67C /* GeoName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoName.swift; sourceTree = "<group>"; };
 		F5AF0F22212C1B9B007AD67C /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		F5AF0F24212C1BA7007AD67C /* UnitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitTableViewCell.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 		F51DC03021E4B7FF003E59FC /* VIP Home */ = {
 			isa = PBXGroup;
 			children = (
+				F5A7BE5221F87E9400EC1DF5 /* DataSource */,
 				F51DC03B21E4BAFA003E59FC /* Views */,
 				F51DC03C21E4C711003E59FC /* Workers */,
 				F51DC03221E4B828003E59FC /* HomePresenter.swift */,
@@ -417,6 +420,14 @@
 				F5A7BE4B21EDCB4500EC1DF5 /* LocationsWorker.swift */,
 			);
 			path = Workers;
+			sourceTree = "<group>";
+		};
+		F5A7BE5221F87E9400EC1DF5 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				F5A7BE5321F87EAD00EC1DF5 /* HomeDataSource.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		F5B54A8D2130258A00D1F573 /* Animation Controllers */ = {
@@ -653,6 +664,7 @@
 				F51DC05221E5EC99003E59FC /* SettingsWorker.swift in Sources */,
 				F5C9FF57212706C0000956FB /* GothamFont.swift in Sources */,
 				F51DC05421E5F0BC003E59FC /* SavedLocationsWorker.swift in Sources */,
+				F5A7BE5421F87EAD00EC1DF5 /* HomeDataSource.swift in Sources */,
 				F55C5E762121C4D9001714FF /* ConditionIconAndValueView.swift in Sources */,
 				F5A7BE4321ECCC1E00EC1DF5 /* SearchPresenter.swift in Sources */,
 				F51DC06221E636B4003E59FC /* SettingsRow.swift in Sources */,
@@ -679,7 +691,6 @@
 				F55C5E7C21231286001714FF /* UIColor-FactoryWeather.swift in Sources */,
 				F5C9FF5F21281FB2000956FB /* DarkSkyApiManager.swift in Sources */,
 				F51DC04A21E5EBC2003E59FC /* SettingsContentView.swift in Sources */,
-				F5C9FF8021282D51000956FB /* SearchViewController.swift in Sources */,
 				F51DC03A21E4B828003E59FC /* HomeInteractor.swift in Sources */,
 				F5C9FF6321281FC7000956FB /* Location.swift in Sources */,
 				F51DC04E21E5EBC2003E59FC /* SettingsInteractor.swift in Sources */,
