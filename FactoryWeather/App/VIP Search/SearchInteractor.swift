@@ -10,19 +10,16 @@ import Foundation
 import Promises
 
 protocol SearchBusinessLogic {
-    func getLocations(forText text: String)
+    func getLocations(forText text: String) -> Promise<[Location]>
 }
 
 class SearchInteractor {
-    var presenter: SearchPresentationLogic?
     lazy var locationsWorker = LocationsWorker()
 }
 
 // MARK: - Business Logic
 extension SearchInteractor: SearchBusinessLogic {
-    func getLocations(forText text: String) {
-        locationsWorker.getLocations(forText: text)
-            .then { [weak self] in self?.presenter?.presentLocations($0) }
-            .catch { [weak self] in self?.presenter?.presentError($0) }
+    func getLocations(forText text: String) -> Promise<[Location]> {
+        return locationsWorker.getLocations(forText: text)
     }
 }

@@ -25,6 +25,7 @@ class HomeRouter {
     private var presenter: HomePresenter?
     private var viewController: HomeViewController?
     private var settingsRouter: SettingsRouter?
+    private var searchRouter: SearchRouter?
     
     init(delegate: HomeSceneDelegate?) {
         self.delegate = delegate
@@ -57,7 +58,9 @@ extension HomeRouter: HomeRoutingLogic {
             viewController?.present(settingsViewController, animated: true, completion: nil)
         case .search:
             guard let viewController = viewController else { return }
-            let searchViewController = SearchViewController(safeAreaInsets: viewController.view.safeAreaInsets, delegate: presenter)
+            let searchRouter = SearchRouter(delegate: presenter)
+            let searchViewController = searchRouter.buildScene(safeAreaInsets: viewController.view.safeAreaInsets)
+            self.searchRouter = searchRouter
             searchViewController.transitioningDelegate = viewController
             searchViewController.modalPresentationStyle = .custom
             viewController.present(searchViewController, animated: true, completion: nil)

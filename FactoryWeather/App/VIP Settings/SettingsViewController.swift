@@ -17,6 +17,8 @@ enum TableRefresh {
 
 protocol SettingsDisplayLogic: class {
     func reloadTableView(with option: TableRefresh)
+    func showActivityIndicator(_ shouldShow: Bool)
+    func displayError(_ error: Error)
 }
 
 class SettingsViewController: UIViewController {
@@ -51,6 +53,17 @@ extension SettingsViewController: SettingsDisplayLogic {
         case .reloadRows(let rows):
             tableView.reloadRows(at: rows, with: .automatic)
         }
+    }
+    
+    func showActivityIndicator(_ shouldShow: Bool) {
+        shouldShow ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
+    }
+    
+    func displayError(_ error: Error) {
+        let alert = UIAlertController(title: LocalizationKey.Alert.errorAlertTitle.localized(), message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
+        activityIndicatorView.stopAnimating()
+        present(alert, animated: true, completion: nil)
     }
 }
 

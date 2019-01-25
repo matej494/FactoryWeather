@@ -11,30 +11,19 @@ import SnapKit
 import Promises
 
 protocol SearchDisplayLogic: class {
-    func displayLocations(_ locations: [Location])
+    func reloadTableView(with option: TableRefresh)
     func displayError(_ error: Error)
+    func showActivityIndicator(_ shouldShow: Bool)
 }
 
 class SearchViewController: UIViewController {
-    var interactor: SearchBusinessLogic?
-    var router: SearchRoutingLogic?
+    weak var presenter: SearchPresenterProtocol?
     private let contentView: SearchContentView
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
-    private var dataSource = SearchDataSource()
-    private var searchLocationsWorkItem = DispatchWorkItem(block: {})
     
-    init(safeAreaInsets: UIEdgeInsets, delegate: SearchSceneDelegate?) {
+    init(safeAreaInsets: UIEdgeInsets) {
         contentView = SearchContentView(bottomSafeAreaInset: safeAreaInsets.bottom).autolayoutView()
         super.init(nibName: nil, bundle: nil)
-        let interactor = SearchInteractor()
-        let presenter = SearchPresenter()
-        let router = SearchRouter()
-        interactor.presenter = presenter
-        presenter.viewController = self
-        router.viewController = self
-        router.delegate = delegate
-        self.interactor = interactor
-        self.router = router
         setupViews()
     }
     
@@ -45,10 +34,16 @@ class SearchViewController: UIViewController {
 
 // MARK: - Display Logic
 extension SearchViewController: SearchDisplayLogic {
-    func displayLocations(_ locations: [Location]) {
-        dataSource.addLocations(locations)
-        activityIndicatorView.stopAnimating()
-        contentView.tableView.reloadData()
+    func reloadTableView(with option: TableRefresh) {
+        let tableView = contentView.tableView
+        switch option {
+        case .reloadData:
+            tableView.reloadData()
+        case .reloadSections(let sections):
+            tableView.reloadSections(sections, with: .automatic)
+        case .reloadRows(let rows):
+            tableView.reloadRows(at: rows, with: .automatic)
+        }
     }
     
     func displayError(_ error: Error) {
@@ -56,6 +51,10 @@ extension SearchViewController: SearchDisplayLogic {
         alert.addAction(UIAlertAction(title: LocalizationKey.Alert.okActionTitle.localized(), style: .cancel, handler: nil))
         activityIndicatorView.stopAnimating()
         present(alert, animated: true, completion: nil)
+    }
+    
+    func showActivityIndicator(_ shouldShow: Bool) {
+        shouldShow ? activityIndicatorView.startAnimating() : activityIndicatorView.stopAnimating()
     }
 }
 
@@ -66,7 +65,7 @@ extension SearchViewController: SearchTransitionable {
     }
     
     func searchTextFieldIsHidden(_ isHidden: Bool) {
-        router?.setSearchTextFieldHidden(isHidden)
+        presenter?.setSearchTextFieldHidden(isHidden)
     }
     
     func presentKeyboard() {
@@ -77,15 +76,15 @@ extension SearchViewController: SearchTransitionable {
 // MARK: - TableView datasource mathods
 extension SearchViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return presenter?.dataSource.numberOfSections() ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfRows(in: section)
+        return presenter?.dataSource.numberOfRows(in: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let row = dataSource.section(at: indexPath.section)?.row(at: indexPath.row) else {
+        guard let row = presenter?.dataSource.section(at: indexPath.section)?.row(at: indexPath.row) else {
             return UITableViewCell()
         }
         switch row {
@@ -101,9 +100,7 @@ extension SearchViewController: UITableViewDataSource {
 // MARK: - TableView delegate methods
 extension SearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let location = dataSource.section(at: indexPath.section)?.row(at: indexPath.row)?.location else { return }
-        activityIndicatorView.startAnimating()
-        router?.requestNewWeatherData(forLocation: location)
+        presenter?.didSelectRow(atIndexPath: indexPath)
     }
 }
 
@@ -119,9 +116,9 @@ private extension SearchViewController {
         contentView.tableView.dataSource = self
         contentView.tableView.delegate = self
         contentView.tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.defaultReuseIdentifier)
-        contentView.didTapOnDismissButton = { [weak self] in self?.router?.unwindBack() }
-        contentView.didTapOnSearchButton = { [weak self] text in self?.searchButtonTapped(withText: text) }
-        contentView.textFieldTextChanged = { [weak self] text in self?.textFieldTextChanged(text: text) }
+        contentView.didTapOnDismissButton = { [weak self] in self?.presenter?.closeButtonTapped() }
+        contentView.didTapOnSearchButton = { [weak self] text in self?.presenter?.searchButtonTapped(withText: text) }
+        contentView.textFieldTextChanged = { [weak self] text in self?.presenter?.textFieldTextChanged(text) }
         view.addSubview(contentView)
         contentView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
@@ -129,24 +126,5 @@ private extension SearchViewController {
     func setupAcitivityIndicatorView() {
         view.addSubview(activityIndicatorView)
         activityIndicatorView.snp.makeConstraints { $0.center.equalToSuperview() }
-    }
-    
-    func searchButtonTapped(withText text: String) {
-        activityIndicatorView.startAnimating()
-        searchLocationsWorkItem.cancel()
-        interactor?.getLocations(forText: text)
-    }
-    
-    func textFieldTextChanged(text: String) {
-        dataSource.filterLocations(forText: text)
-        contentView.tableView.reloadData()
-        searchLocationsWorkItem.cancel()
-        if !text.isEmpty {
-            searchLocationsWorkItem = DispatchWorkItem { [weak self] in
-                self?.activityIndicatorView.startAnimating()
-                self?.interactor?.getLocations(forText: text)
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75, execute: searchLocationsWorkItem)
-        }
     }
 }

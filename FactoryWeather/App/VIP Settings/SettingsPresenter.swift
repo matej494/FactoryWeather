@@ -33,13 +33,15 @@ class SettingsPresenter {
 
 extension SettingsPresenter: SettingsPresenterProtocol {
     func viewWillAppear() {
+        viewController.showActivityIndicator(true)
         all(interactor.getSavedLocations(), interactor.getSettings())
             .then { [weak self] locations, settings in
                 let max3Locations = Array(locations[0...min(SettingsPresenter.MAX_NUMBER_OF_LOCATIONS - 1, locations.count)])
                 self?.dataSource.setNewValues(locations: max3Locations, settings: settings)
                 self?.viewController.reloadTableView(with: .reloadData)
+                self?.viewController.showActivityIndicator(false)
             }
-            .catch { print($0.localizedDescription) }
+            .catch(displayError)
     }
     
     func didSelectRow(atIndexPath indexPath: IndexPath) {
@@ -55,10 +57,11 @@ extension SettingsPresenter: SettingsPresenterProtocol {
     }
     
     func doneButtonTapped() {
+        viewController.showActivityIndicator(true)
         interactor.getSettings()
             .then(saveSettingsIfChanged)
             .then(requestWeatherUpdateIfNeeded)
-            .catch { print($0.localizedDescription) }
+            .catch(displayError)
     }
     
     func didTapButton(atIndexPath indexPath: IndexPath) {
@@ -68,7 +71,7 @@ extension SettingsPresenter: SettingsPresenterProtocol {
             if let location = dataSource.locations?[safe: indexPath.row] {
                 interactor.deleteLocation(location)
                     .then { [weak self] _ in self?.viewController.reloadTableView(with: .reloadSections([indexPath.section])) }
-                    .catch { print($0.localizedDescription) }
+                    .catch(displayError)
             }
         case .units:
             if var settings = dataSource.settings {
@@ -109,5 +112,9 @@ private extension SettingsPresenter {
         } else {
             router?.navigate(to: .unwindBack)
         }
+    }
+    
+    func displayError(_ error: Error) {
+        viewController.displayError(error)
     }
 }

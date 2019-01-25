@@ -7,11 +7,16 @@
 //
 
 import Foundation
+import UIKit
 
-protocol SearchRoutingLogic {
+enum SearchNavigationOption {
+    case unwindBack
+}
+
+protocol SearchRoutingLogic: class {
     func setSearchTextFieldHidden(_ hidden: Bool)
     func requestNewWeatherData(forLocation location: Location)
-    func unwindBack()
+    func navigate(to option: SearchNavigationOption)
 }
 
 protocol SearchSceneDelegate: class {
@@ -21,8 +26,27 @@ protocol SearchSceneDelegate: class {
 }
 
 class SearchRouter {
-    weak var viewController: SearchViewController?
     weak var delegate: SearchSceneDelegate?
+    private var presenter: SearchPresenter?
+    private var viewController: SearchViewController?
+    
+    init(delegate: SearchSceneDelegate?) {
+        self.delegate = delegate
+    }
+}
+
+extension SearchRouter {
+    func buildScene(safeAreaInsets: UIEdgeInsets) -> SearchViewController {
+        let viewController = SearchViewController(safeAreaInsets: safeAreaInsets)
+        //TODO: Inject workers for testability
+        let interactor = SearchInteractor()
+        let presenter = SearchPresenter(viewController: viewController, interactor: interactor)
+        viewController.presenter = presenter
+        presenter.router = self
+        self.presenter = presenter
+        self.viewController = viewController
+        return viewController
+    }
 }
 
 // MARK: - Routing Logic
@@ -35,7 +59,10 @@ extension SearchRouter: SearchRoutingLogic {
         delegate?.searchRouterRequestWeatherUpdate(selectedLocation: location)
     }
     
-    func unwindBack() {
-        delegate?.searchRouterRequestedUnwindBack()
+    func navigate(to option: SearchNavigationOption) {
+        switch option {
+        case .unwindBack:
+            delegate?.searchRouterRequestedUnwindBack()
+        }
     }
 }
