@@ -8,9 +8,13 @@
 
 import Foundation
 
-protocol SettingsRoutingLogic {
+enum SettingsNavigationOption {
+    case unwindBack
+}
+
+protocol SettingsRoutingLogic: class {
     func requestNewWeatherData(selectedLocation: Location?)
-    func unwindBack()
+    func navigate(to option: SettingsNavigationOption)
 }
 
 protocol SettingsSceneDelegate: class {
@@ -19,8 +23,27 @@ protocol SettingsSceneDelegate: class {
 }
 
 class SettingsRouter {
-    weak var viewController: SettingsViewController?
     weak var delegate: SettingsSceneDelegate?
+    private var presenter: SettingsPresenter?
+    private var viewController: SettingsViewController?
+    
+    init(delegate: SettingsSceneDelegate?) {
+        self.delegate = delegate
+    }
+}
+
+extension SettingsRouter {
+    func buildScene() -> SettingsViewController {
+        let viewController = SettingsViewController()
+        //TODO: Inject workers for testability
+        let interactor = SettingsInteractor()
+        let presenter = SettingsPresenter(viewController: viewController, interactor: interactor)
+        viewController.presenter = presenter
+        presenter.router = self
+        self.presenter = presenter
+        self.viewController = viewController
+        return viewController
+    }
 }
 
 // MARK: - Routing Logic
@@ -29,7 +52,10 @@ extension SettingsRouter: SettingsRoutingLogic {
         delegate?.settingsRouterRequestedWeatherUpdate(selectedLocation: selectedLocation)
     }
     
-    func unwindBack() {
-        delegate?.settingRouterRequestedUnwindBack()
+    func navigate(to option: SettingsNavigationOption) {
+        switch option {
+        case .unwindBack:
+            delegate?.settingRouterRequestedUnwindBack()
+        }
     }
 }

@@ -8,29 +8,24 @@
 
 import SnapKit
 
+//NOTE: This is just an example and needs to be expanded and extracted into a protocol.
+enum TableRefresh {
+    case reloadData
+    case reloadSections(IndexSet)
+    case reloadRows([IndexPath])
+}
+
 protocol SettingsDisplayLogic: class {
-    func displayLocations(_ locations: [Location])
-    func displayInitialData(locations: [Location], settings: Settings)
+    func reloadTableView(with option: TableRefresh)
 }
 
 class SettingsViewController: UIViewController {
-    var interactor: SettingsBusinessLogic?
-    var router: SettingsRoutingLogic?
+    weak var presenter: SettingsPresenterProtocol?
     private let contentView = SettingsContentView.autolayoutView()
     private let activityIndicatorView = UIActivityIndicatorView.autolayoutView()
-    private var dataSource = SettingsDataSource()
     
-    init(delegate: SettingsSceneDelegate?) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        let interactor = SettingsInteractor()
-        let presenter = SettingsPresenter()
-        let router = SettingsRouter()
-        interactor.presenter = presenter
-        presenter.viewController = self
-        router.viewController = self
-        router.delegate = delegate
-        self.interactor = interactor
-        self.router = router
         setupViews()
     }
     
@@ -38,39 +33,39 @@ class SettingsViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        interactor?.getInitialData()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter?.viewWillAppear()
     }
 }
 
 // MARK: - Display Logic
 extension SettingsViewController: SettingsDisplayLogic {
-    func displayLocations(_ locations: [Location]) {
-        dataSource.setLocations(locations)
-        if let index = dataSource.index(for: .locations(rows: [])) {
-            contentView.tableView.reloadSections([index], with: .automatic)
+    func reloadTableView(with option: TableRefresh) {
+        let tableView = contentView.tableView
+        switch option {
+        case .reloadData:
+            tableView.reloadData()
+        case .reloadSections(let sections):
+            tableView.reloadSections(sections, with: .automatic)
+        case .reloadRows(let rows):
+            tableView.reloadRows(at: rows, with: .automatic)
         }
-    }
-    
-    func displayInitialData(locations: [Location], settings: Settings) {
-        dataSource.setNewValues(locations: locations, settings: settings)
-        contentView.tableView.reloadData()
     }
 }
 
 // MARK: - TableView DataSource methods
 extension SettingsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.numberOfSections()
+        return presenter?.dataSource.numberOfSections() ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfRows(in: section)
+        return presenter?.dataSource.numberOfRows(in: section) ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let row = dataSource.section(at: indexPath.section)?.row(at: indexPath.row) else {
+        guard let row = presenter?.dataSource.section(at: indexPath.section)?.row(at: indexPath.row) else {
             return UITableViewCell()
         }
         switch row {
@@ -99,17 +94,7 @@ extension SettingsViewController: UITableViewDataSource {
 // MARK: - TableView Delegate methods
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = dataSource.section(at: indexPath.section) else {
-            return
-        }
-        switch section {
-        case .locations:
-            if let selectedLocation = dataSource.locations?[safe: indexPath.row] {
-                dataSource.selectedLocation = selectedLocation
-            }
-        case .units, .conditions:
-            break
-        }
+        presenter?.didSelectRow(atIndexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -117,7 +102,7 @@ extension SettingsViewController: UITableViewDelegate {
         label.textColor = .white
         label.textAlignment = .center
         label.font = .gothamRounded(type: .book, ofSize: 20)
-        label.text = dataSource.section(at: section)?.title
+        label.text = presenter?.dataSource.section(at: section)?.title
         return label
     }
     
@@ -129,31 +114,11 @@ extension SettingsViewController: UITableViewDelegate {
 // MARK: - Cell button tapped methods
 extension SettingsViewController {
     func didTapButton(atIndexPath indexPath: IndexPath) {
-        guard let section = dataSource.section(at: indexPath.section) else {
-            return
-        }
-        switch section {
-        case .locations:
-            if let location = dataSource.locations?[safe: indexPath.row] {
-                interactor?.deleteLocation(location)
-            }
-        case .units:
-            if var settings = dataSource.settings {
-                settings.unit.toggle()
-                dataSource.setSettings(settings: settings)
-                contentView.tableView.reloadSections([indexPath.section], with: .none)
-            }
-        case .conditions:
-            break
-        }
+        presenter?.didTapButton(atIndexPath: indexPath)
     }
     
     func didTapButton(forCondition condition: Conditions, atIndexPath indexPath: IndexPath) {
-        if var settings = dataSource.settings {
-            settings.conditions.toggle(condition: condition)
-            dataSource.setSettings(settings: settings)
-            contentView.tableView.reloadSections([indexPath.section], with: .none)
-        }
+        presenter?.didTapButton(forCondition: condition, atIndexPath: indexPath)
     }
 }
 
@@ -185,12 +150,6 @@ private extension SettingsViewController {
 // MARK: - Private @objc Methods
 private extension SettingsViewController {
     @objc func doneButtonTapped() {
-        guard let settings = dataSource.settings else { return }
-        interactor?.saveSettingsIfNeeded(selectedLocation: dataSource.selectedLocation, settings: settings) { [weak self] shouldUpdateWeather in
-            if shouldUpdateWeather {
-                self?.router?.requestNewWeatherData(selectedLocation: self?.dataSource.selectedLocation)
-            }
-            self?.router?.unwindBack()
-        }
+        presenter?.doneButtonTapped()
     }
 }

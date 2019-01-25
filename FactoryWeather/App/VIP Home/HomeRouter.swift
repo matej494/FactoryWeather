@@ -18,14 +18,15 @@ protocol HomeRoutingLogic: class {
     func navigate(to option: HomeNavigationOption)
 }
 
-protocol HomeRouterDelegate: class { }
+protocol HomeSceneDelegate: class { }
 
 class HomeRouter {
-    weak var delegate: HomeRouterDelegate?
+    weak var delegate: HomeSceneDelegate?
     private var presenter: HomePresenter?
     private var viewController: HomeViewController?
+    private var settingsRouter: SettingsRouter?
     
-    init(delegate: HomeRouterDelegate?) {
+    init(delegate: HomeSceneDelegate?) {
         self.delegate = delegate
     }
 }
@@ -49,7 +50,9 @@ extension HomeRouter: HomeRoutingLogic {
     func navigate(to option: HomeNavigationOption) {
         switch option {
         case .settings:
-            let settingsViewController = SettingsViewController(delegate: presenter)
+            let settingsRouter = SettingsRouter(delegate: presenter)
+            let settingsViewController = settingsRouter.buildScene()
+            self.settingsRouter = settingsRouter
             settingsViewController.modalPresentationStyle = .overCurrentContext
             viewController?.present(settingsViewController, animated: true, completion: nil)
         case .search:
